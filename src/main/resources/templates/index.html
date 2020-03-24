@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/mainLayout">
+
+<th:block layout:fragment="content">
+	<section id="intro" class="clearfix">
+		<div class="container">
+			<div class="intro-img">
+				<img th:src="@{/img/intro-img.svg}" alt="" class="img-fluid">
+			</div>
+
+			<div class="intro-info">
+				<h2>한국소액주주연구회<br>회원을<br>모집합니다!</h2>
+				<div>
+					<a href="#about" class="btn-get-started scrollto">회원가입</a>
+					<a href="#services" class="btn-services scrollto">연구회 소개</a>
+				</div>
+			</div>
+		</div>
+	</section>		  
+</th:block>
+</html>
