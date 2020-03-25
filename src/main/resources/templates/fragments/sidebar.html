@@ -6,14 +6,33 @@
 			<h4 class="title">
 				<span>Categories</span>
 			</h4>
-			<ul class="categories">
-				<li><a href="/menu2">Logo Design</a></li>
-				<li><a href="l#">Web Design</a></li>
-				<li><a href="#">WordPress</a></li>
-				<li><a href="#">HTML5 & CSS3</a></li>
-				<li><a href="#">Other Works</a></li>
-			</ul>
+			<ul class="categories"></ul>
 		</div>
 	</div>
+	<script type="text/javascript">
+		$(function(){
+			var gPathName = $(location).attr("pathname");
+			alert(gPathName);
+			
+			$.ajax({
+  				url: "/menu/sidebar"
+				, type : "post"
+				, data : {
+					url : '/activity/stock'
+				}
+  				, success : function(data){
+  					$(".title > span").text(data.title);
+  					$.each(data.side, function(index, item){
+  						if(item.level == '2'){
+	  						$(".categories").append('<li><a href="'+item.url+'">'+ item.name +'</a></li>');
+  						}
+  					});
+  				}, error : function(request, status, error){
+  					alert(request);
+  				}
+  			});
+	
+		});
+	</script>
 </th:block>
 </html>

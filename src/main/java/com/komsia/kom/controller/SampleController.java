@@ -11,10 +11,6 @@ public class SampleController {
 		return "index";
 	}
 	
-	@GetMapping(value = "/menu")
-	public String menu() {
-		return "/sample/index";
-	}
 	
 	@GetMapping(value = "/menu2")
 	public String menu2() {

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
+
+<th:block layout:fragment="content">
+	<div class="content pull-right col-lg-9 col-md-8 col-sm-9 col-xs-12 clearfix">
+		<h2>메뉴</h2>
+		<div>
+			<table id="menuTable" class="table table-hover">
+        		<thead>
+        			<tr>
+        				<th>NO.</th>
+        				<th>PID</th>
+        				<th>URL</th>
+        				<th>메뉴명</th>
+        				<th>설명</th>
+        				<th>순번</th>
+        				<th>메뉴타입</th>
+        				<th>사용여부</th>
+        			</tr>
+        		</thead>
+        	</table>
+        </div>
+		<div id="menuForm">
+			<form>
+				<fieldset>
+					<legend>메뉴등록</legend>
+					<div class="form-group">
+						<label for="pid">상위메뉴</label>
+						<select class="form-control" id="pid"></select>
+						<input type="hidden" id="level" name="level">
+					</div>
+					<div class="form-group">
+						<label for="url">URL</label>
+						<input type="text" class="form-control" id="url" name="url">
+					</div>
+					<div class="form-group">
+						<label for="name">메뉴명</label>
+						<input type="text" class="form-control" id="name" name="name">
+					</div>
+					<div class="form-group">
+						<label for="type">타입</label>
+						<select class="form-control" id="type">
+							<option value="M">메뉴</option>
+							<option value="A">Ajax</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="description">설명</label>
+						<input type="text" class="form-control" id="description" name="description">
+					</div>
+					<div class="form-group">
+						<label for="ordering">메뉴순번</label>
+						<input type="text" class="form-control" id="ordering" name="ordering">
+					</div>
+				</fieldset>
+				<button type="button" id="save" class="btn btn-primary">등록</button>
+			</form>
+		</div>
+	</div>
+      <!-- end content -->
+	<script>
+		$(function(){
+			fn_selPid();
+			fn_init();
+			
+			$("#pid").change(function(){
+				var url = $(this).find("option:selected").data("url");
+				var level = $(this).find("option:selected").data("level");
+				$("#url").val(url);
+				$("#level").val(level);
+			})
+			
+			var table = $("#menuTable").DataTable({
+				searching : false
+				, pageLength : 10
+				, ordering : false
+				, serverSide : true
+				, language : lang_kor
+				, dom : ''
+				, ajax : {
+					'url' : "/menu/list",
+					'type': 'POST'
+				}, columns : [
+					{
+						data : "menuId",
+						render : function(data, type, row, meta){
+							return meta.row + meta.settings._iDisplayStart + 1;
+						}
+					},{ data : "pid"}
+					,{ data : "url"}
+					,{ data : "name"}
+					,{ data : "description"}
+					,{ data : "ordering"}
+					,{ data : "type"}
+					,{ data : "useYn"}
+				]
+      		});
+	      		
+      		$("#save").click(function(){
+      			$.ajax({
+      				url: "/menu/save"
+					, type : "post"
+      				, data : {
+      					pid : $("#pid option:selected").val()
+      					, url : $("#url").val()
+      					, name : $("#name").val()
+      					, type : $("#type option:selected").val()
+      					, description : $("#description").val()
+      					, ordering : $("#ordering").val()
+      					, level : $("#level").val()
+      				}, success : function(data){
+      					if(data.resCode == "0000"){
+      						table.ajax.reload();
+      						fn_init();
+							alert(data.resMsg);
+      					}
+      				}, error : function(request, status, error){
+      					alert(request);
+      				}
+      			});
+      		})
+		});
+      	
+		function fn_selPid(){
+			$.ajax({
+  				url: "/menu/pid"
+				, type : "post"
+				, success : function(data){
+					$.each(data, function(index, item){
+  						$("#pid").append('<option value="'+item.menuId+'" data-url="'+ item.url +'" data-level="'+ item.level +'">'+ item.name +'</option>');
+					});
+  				}, error : function(request, status, error){
+  					alert(request);
+  				}
+  			});
+		}
+		
+      	function fn_init(){
+      		$("input").val('');
+      		$("select option:first").attr("selected", true);
+      		$("#url").val('/');
+      	}
+	</script>
+</th:block>
+</html>

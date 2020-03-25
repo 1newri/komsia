@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.komsia.kom.mapper.MenuMapper">
+	<select id="selectMenuList" resultType="MenuVO">
+		SELECT
+			*
+		FROM KS_MENU
+		ORDER BY PID, MENU_ID, ORDERING
+	</select>
+	
+	<select id="getParentMenuList" resultType="MenuVO">
+		SELECT 
+			MENU_ID
+			, LEVEL
+		    , NAME
+		    , URL
+		FROM KS_MENU
+		WHERE USE_YN = 'Y'
+	</select>
+	
+	<select id="selectTopMenu" resultType="MenuVO">
+		SELECT
+			*
+		FROM KOMSIA.KS_MENU
+		WHERE PID = #{pid} OR MENU_ID = #{pid}
+	</select>
+	
+	<select id="selectMenuTitle" resultType="String">
+		SELECT     
+			NAME
+		FROM KOMSIA.KS_MENU
+		WHERE MENU_ID = (
+			SELECT
+				PID
+			FROM KOMSIA.KS_MENU
+			WHERE URL = #{url}
+			AND USE_YN = 'Y'
+		)
+	</select>
+	
+	<select id="selectSideMenu" resultType="MenuVO" parameterType="String">
+		WITH RECURSIVE CTE (MENU_ID, LEVEL, NAME, PID, URL, ORDERING, USE_YN) AS
+		(
+			SELECT     
+				MENU_ID
+				, LEVEL
+				, NAME
+				, PID
+				, URL
+				, ORDERING
+		        , USE_YN
+			FROM KOMSIA.KS_MENU
+			WHERE PID = (
+				SELECT
+					PID
+				FROM KOMSIA.KS_MENU
+				WHERE URL = #{url}
+				AND USE_YN = 'Y'
+			)
+			UNION ALL
+			SELECT
+				M.MENU_ID
+				, M.LEVEL
+				, M.NAME
+				, M.PID
+				, M.URL
+				, M.ORDERING
+		        , M.USE_YN
+			FROM KOMSIA.KS_MENU M
+			INNER JOIN CTE
+				ON M.PID = CTE.MENU_ID
+		)
+		SELECT * FROM CTE
+		WHERE USE_YN = 'Y'
+	</select>
+	
+	
+	<insert id="insertMenu" parameterType="MenuVO">
+		INSERT INTO KS_MENU (
+			LEVEL
+			, URL
+			, PID
+			, NAME
+			, TYPE
+			, DESCRIPTION
+			, ORDERING
+			, REG_ID
+		) VALUES (
+			#{level}
+			, #{url}
+			, #{pid}
+			, #{name}
+			, #{type}
+			, #{description}
+			, #{ordering}
+			, #{regId}
+		)
+	</insert>
+</mapper>
