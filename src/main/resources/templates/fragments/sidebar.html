@@ -12,13 +12,11 @@
 	<script type="text/javascript">
 		$(function(){
 			var gPathName = $(location).attr("pathname");
-			alert(gPathName);
-			
 			$.ajax({
   				url: "/menu/sidebar"
 				, type : "post"
 				, data : {
-					url : '/activity/stock'
+					url : gPathName
 				}
   				, success : function(data){
   					$(".title > span").text(data.title);

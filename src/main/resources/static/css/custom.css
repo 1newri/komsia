@@ -1,4 +1,11 @@
-
+.navbar-nav{
+	font-weight: bold;
+	color: #000000;
+	
+}
+.navbar-light .navbar-nav .nav-link {
+    color: rgb(0, 0, 0);
+}
 /*--------------------------------------------------------------
 # Intro Section
 --------------------------------------------------------------*/
@@ -119,6 +126,53 @@
   padding: 120px 0 120px 0;
 }
 
+#default .breadcrumb {
+	border: 0px;
+	display: -webkit-box;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px 15px;
+    list-style: none;
+    background-color: #fff0;
+    text-align: right;
+    float: right;
+}
+
+#default .breadcrumb a{
+	color: #a60000;
+}
+
+/* custom table */
+#default #search_div {
+	width: 100%;
+	padding: 20px;
+	float: right;
+}
+
+/* custom table */
+#default #search_div input,select,button{
+	margin: 5px;
+}
+
+/* custom table */
+#default .content table {
+	padding-top: 20px;
+}
+
+#default .content table thead tr th {
+	padding: 10px;
+    font-weight: bold;
+    border-top : 2px solid #a60000;
+    border-bottom: 1px solid #cecece;
+    text-align: center;
+    background-color: #eeeeee
+}
+
+#default .content table tr td {
+    padding: 10px 5px;
+    vertical-align: top;
+    border-top: 1px solid #ccc;
+}
 
 /*--------------------------------------------------------------
 # Sidebar & Widgets

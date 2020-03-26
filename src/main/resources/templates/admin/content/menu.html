@@ -84,17 +84,17 @@
 					'type': 'POST'
 				}, columns : [
 					{
-						data : "menuId",
-						render : function(data, type, row, meta){
+						data : "menuId", className: 'text-center'
+						, render : function(data, type, row, meta){
 							return meta.row + meta.settings._iDisplayStart + 1;
 						}
-					},{ data : "pid"}
-					,{ data : "url"}
-					,{ data : "name"}
-					,{ data : "description"}
-					,{ data : "ordering"}
-					,{ data : "type"}
-					,{ data : "useYn"}
+					},{ data : "pid" , className: 'text-center'}
+					,{ data : "url" , className: 'text-left'}
+					,{ data : "name", className: 'text-left'}
+					,{ data : "description", className: 'text-left'}
+					,{ data : "ordering", className: 'text-center'}
+					,{ data : "type", className: 'text-center'}
+					,{ data : "useYn", className: 'text-center'}
 				]
       		});
 	      		

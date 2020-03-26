@@ -3,17 +3,14 @@ package com.komsia.kom.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
-public class SampleController {
+@Slf4j
+public class MainController {
 
 	@GetMapping(value = "/")
 	public String home() {
 		return "index";
-	}
-	
-	
-	@GetMapping(value = "/menu2")
-	public String menu2() {
-		return "/sample/index2";
 	}
 }

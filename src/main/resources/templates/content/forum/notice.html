@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
+
+<th:block layout:fragment="content">
+	<div class="content pull-right col-lg-9 col-md-8 col-sm-9 col-xs-12 clearfix">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/">Home</a></li>
+			<li class="breadcrumb-item"><a href="/forum">연구회포럼</a></li>
+			<li class="breadcrumb-item active">공지사항</li>
+		</ol>
+		<h2>공지사항</h2>
+		<div id="search_div" class="form-inline">
+			<select class="custom-select">
+				<option value="1">제목</option>
+				<option value="2">작성자</option>
+				<option value="3">내용</option>
+			</select>
+			<input type="email" class="form-control" id="" >
+			<button class="btn btn-outline-secondary" type="submit">Search</button>
+		</div>
+		<div>
+			<table id="noticeTable" class="table table-hover">
+        		<thead>
+        			<tr>
+        				<th>NO.</th>
+        				<th>제목</th>
+        				<th>등록자</th>
+        				<th>등록일</th>
+        				<th>조회수</th>
+        			</tr>
+        		</thead>
+        	</table>
+        	<div class="text-right">
+        		<button class="btn btn-outline-primary">등록</button>
+        	</div>
+        </div>
+	</div>
+      <!-- end content -->
+	<script>
+		$(function(){
+			var table = $("#notieTable").DataTable({
+				searching : false
+				, pageLength : 10
+				, ordering : false
+				, serverSide : true
+				, language : lang_kor
+				, dom : ''
+				, ajax : {
+					'url' : "/forum/notice/list",
+					'type': 'POST'
+				}, columns : [
+					{
+						data : "menuId", className: 'text-center'
+						, render : function(data, type, row, meta){
+							return meta.row + meta.settings._iDisplayStart + 1;
+						}
+					},{ data : "pid" , className: 'text-center'}
+					,{ data : "url" , className: 'text-left'}
+					,{ data : "name", className: 'text-left'}
+					,{ data : "description", className: 'text-left'}
+					,{ data : "ordering", className: 'text-center'}
+					,{ data : "type", className: 'text-center'}
+					,{ data : "useYn", className: 'text-center'}
+				]
+      		});
+		});
+	</script>
+</th:block>
+</html>
