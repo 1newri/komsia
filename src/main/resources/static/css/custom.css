@@ -1,8 +1,11 @@
+
 .navbar-nav{
 	font-weight: bold;
 	color: #000000;
-	
+	float: right;
+	margin: 0;
 }
+
 .navbar-light .navbar-nav .nav-link {
     color: rgb(0, 0, 0);
 }
@@ -144,8 +147,7 @@
 
 /* custom table */
 #default #search_div {
-	width: 100%;
-	padding: 20px;
+	margin: auto;
 	float: right;
 }
 
@@ -165,7 +167,6 @@
     border-top : 2px solid #a60000;
     border-bottom: 1px solid #cecece;
     text-align: center;
-    background-color: #eeeeee
 }
 
 #default .content table tr td {
@@ -174,6 +175,74 @@
     border-top: 1px solid #ccc;
 }
 
+.dataTables_paginate .pagination{
+    justify-content: center !important;
+}
+
+/* Custom 상세 화면 */
+.detail-box{
+	padding-top: 20px;
+}
+
+.detail-box .btn-box{
+	text-align: right;
+}
+
+.detail-box .title-box{
+	padding: 15px 10px 5px 10px;
+	border-top : 2px solid #a60000;
+	border-bottom: 1px solid #cecece;
+	font-weight: bold;
+	font-size: 18px;	    
+}
+
+.detail-box .info-box{
+	border-bottom: 1px solid #cecece;
+	font-size: 12px;
+	color: #747474;	    
+}
+
+.detail-box .info-box ul{
+	padding: 10px 0px 0px 10px;
+}
+
+.detail-box .info-box li{
+	padding-top : 10px;
+	list-style: none;
+}
+
+.detail-box .content-box{
+	padding: 20px;
+	border-bottom: 1px solid #cecece;
+}
+
+.detail-box .content-box .file-box{
+	text-align: right;
+	
+}
+.detail-box .list-box ul{
+	padding: 10px 0px 0px 10px;
+}
+
+.detail-box .list-box li{
+	padding-top : 10px;
+	list-style: none;
+	color: #747474;	    
+}
+
+.detail-box .list-box li span{
+	padding-left : 15px;
+}
+
+.glyphicon-paperclip:before {
+  content: url(../lib/iconic/svg/paperclip.svg);
+  background-size: cover;
+}
+
+/* Custom 등록 화면  */
+.regist-box{
+	padding-top: 20px;
+}
 /*--------------------------------------------------------------
 # Sidebar & Widgets
 --------------------------------------------------------------*/

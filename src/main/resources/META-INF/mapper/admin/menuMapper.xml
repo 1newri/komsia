@@ -18,6 +18,7 @@
 		    , URL
 		FROM KS_MENU
 		WHERE USE_YN = 'Y'
+		AND TYPE = 'M'
 	</select>
 	
 	<select id="selectTopMenu" resultType="MenuVO">
@@ -25,6 +26,7 @@
 			*
 		FROM KOMSIA.KS_MENU
 		WHERE PID = #{pid} OR MENU_ID = #{pid}
+		AND TYPE = 'M'
 	</select>
 	
 	<select id="selectMenuTitle" resultType="String">
@@ -36,6 +38,7 @@
 				PID
 			FROM KOMSIA.KS_MENU
 			WHERE URL = #{url}
+			AND TYPE = 'M'
 			AND USE_YN = 'Y'
 		)
 	</select>
@@ -57,6 +60,7 @@
 					PID
 				FROM KOMSIA.KS_MENU
 				WHERE URL = #{url}
+				AND TYPE = 'M'
 				AND USE_YN = 'Y'
 			)
 			UNION ALL
@@ -71,6 +75,7 @@
 			FROM KOMSIA.KS_MENU M
 			INNER JOIN CTE
 				ON M.PID = CTE.MENU_ID
+			WHERE TYPE = 'N'
 		)
 		SELECT * FROM CTE
 		WHERE USE_YN = 'Y'

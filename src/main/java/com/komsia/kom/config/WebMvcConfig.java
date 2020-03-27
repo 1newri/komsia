@@ -1,6 +1,7 @@
 package com.komsia.kom.config;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -9,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import lombok.AllArgsConstructor;
 
 @Configuration
+@Cacheable
 @AllArgsConstructor
 public class WebMvcConfig implements WebMvcConfigurer{
 	

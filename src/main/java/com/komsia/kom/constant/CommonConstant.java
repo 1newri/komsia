@@ -6,7 +6,7 @@ public class CommonConstant {
 	
 	// Board Type
 	public static final String BOARD_TYPE_N = "N";	// Notice 공지사항
-	public static final String BOARD_TYPE_A = "P";	// press 보도자료
+	public static final String BOARD_TYPE_P = "P";	// press 보도자료
 	public static final String BOARD_TYPE_R = "R";	// Reference 자료실
 	public static final String BOARD_TYPE_Q = "Q";	// Qna	질의응답
 	

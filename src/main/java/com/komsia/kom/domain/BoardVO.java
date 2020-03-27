@@ -12,7 +12,7 @@ public class BoardVO {
 	
 	private int fileNo;
 	private String title;
-	private String contents;
+	private String content;
 	
 	private int hit;
 	private String useYn;
@@ -21,6 +21,13 @@ public class BoardVO {
 	private String regDttm;
 	private String modId;
 	private String modeDttm;
+	
+	private String prevNoticeNo;
+	private String prevNoticeTitle;
+	
+	private String nextNoticeNo;
+	private String nextNoticeTitle;
+	
 	
 	@JsonIgnore
 	private int start;

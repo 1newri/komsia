@@ -11,12 +11,82 @@
 			<li class="breadcrumb-item active">QnA</li>
 		</ol>
 		<h2>QnA</h2>
+		<div id="search_div" class="form-inline">
+			<select class="custom-select">
+				<option value="1">제목</option>
+				<option value="2">작성자</option>
+				<option value="3">내용</option>
+			</select>
+			<input type="text" class="form-control" id="" >
+			<button class="btn btn-outline-secondary" type="submit">Search</button>
+		</div>
+		<div>
+			<table id="qnaTable" class="table table-hover">
+        		<thead>
+        			<tr>
+        				<th>NO.</th>
+        				<th>제목</th>
+        				<th>등록자</th>
+        				<th>등록일</th>
+        				<th>조회수</th>
+        			</tr>
+        		</thead>
+        	</table>
+        	<div class="text-right">
+        		<button class="btn btn-outline-primary">등록</button>
+        	</div>
+        </div>
 	</div>
       <!-- end content -->
 	<script>
 		$(function(){
+			var total = "";
+			var table = $("#qnaTable").DataTable({
+				searching : false
+				, pageLength : 10
+				, ordering : false
+				, serverSide : true
+				, language : lang_kor
+				, dom: '<<t><p>'
+			    , paging : true
+				, ajax : {
+					'url' : "/forum/qna/list",
+					'type': 'POST',
+					'dataSrc': function(data){
+						total = data.total;
+						return data.data;
+					}
+				}, columns : [
+					{
+						data : "boardNo", className: 'text-center'
+						, render : function(data, type, row, meta){
+							return meta.row + meta.settings._iDisplayStart + 1;
+						}
+					},{ data : "title" , className: 'text-left'}
+					,{ data : "regId" , className: 'text-center'}
+					,{ data : "regDttm", className: 'text-center'}
+					,{ data : "hit", className: 'text-center'}
+				]
+	  		});
 			
+			$(document).on('click', '#qnaTable td', function(e){
+				var click = $(this).closest('tr');
+				var boardNo = table.row(click).data()['boardNo'];
+				
+				post(boardNo);
+			});
 		});
+			
+		function post(boardNo){
+			var $form = $("<form></form>");
+			$form.attr("method", "post");
+			$form.attr("action", "/forum/qna/detail");
+			$form.attr("id", "frm");
+			$form.appendTo('body');
+			$form.appendTo('<input type="hidden" id="boardNo" name="boardNo" value="' + boardNo + '">');
+			
+			$("#frm").submit();
+		}
 	</script>
 </th:block>
 </html>

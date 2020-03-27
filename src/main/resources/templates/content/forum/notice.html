@@ -17,7 +17,7 @@
 				<option value="2">작성자</option>
 				<option value="3">내용</option>
 			</select>
-			<input type="email" class="form-control" id="" >
+			<input type="text" class="form-control" id="" >
 			<button class="btn btn-outline-secondary" type="submit">Search</button>
 		</div>
 		<div>
@@ -33,39 +33,64 @@
         		</thead>
         	</table>
         	<div class="text-right">
-        		<button class="btn btn-outline-primary">등록</button>
+        		<button class="btn btn-outline-primary" id="regist">등록</button>
         	</div>
         </div>
 	</div>
       <!-- end content -->
 	<script>
 		$(function(){
-			var table = $("#notieTable").DataTable({
+			var total = "";
+			var table = $("#noticeTable").DataTable({
 				searching : false
 				, pageLength : 10
 				, ordering : false
 				, serverSide : true
 				, language : lang_kor
-				, dom : ''
+				, dom: '<<t><p>'
+			    , paging : true
 				, ajax : {
 					'url' : "/forum/notice/list",
-					'type': 'POST'
+					'type': 'POST',
+					'dataSrc': function(data){
+						total = data.total;
+						return data.data;
+					}
 				}, columns : [
 					{
-						data : "menuId", className: 'text-center'
+						data : "boardNo", className: 'text-center'
 						, render : function(data, type, row, meta){
 							return meta.row + meta.settings._iDisplayStart + 1;
 						}
-					},{ data : "pid" , className: 'text-center'}
-					,{ data : "url" , className: 'text-left'}
-					,{ data : "name", className: 'text-left'}
-					,{ data : "description", className: 'text-left'}
-					,{ data : "ordering", className: 'text-center'}
-					,{ data : "type", className: 'text-center'}
-					,{ data : "useYn", className: 'text-center'}
+					},{ data : "title" , className: 'text-left'}
+					,{ data : "regId" , className: 'text-center'}
+					,{ data : "regDttm", className: 'text-center'}
+					,{ data : "hit", className: 'text-center'}
 				]
       		});
+			
+			$(document).on('click', '#noticeTable td', function(e){
+				var click = $(this).closest('tr');
+				var boardNo = table.row(click).data()['boardNo'];
+				
+				post(boardNo);
+			});
+			
+			$("#regist").on("click", function(){
+				$(location).attr("href", "/forum/notice/regist");
+			});
 		});
+			
+		function post(boardNo){
+			var $form = $("<form></form>");
+			$form.attr("method", "post");
+			$form.attr("action", "/forum/notice/detail");
+			$form.attr("id", "fm");
+			$form.appendTo('body');
+			$form.append('<input type="hidden" id="boardNo" name="boardNo" value="' + boardNo + '">');
+			
+			$("#fm").submit();
+		}
 	</script>
 </th:block>
 </html>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.komsia.kom.mapper.ForumMapper">
+
+	<select id="selectNoticeList" parameterType="NoticeVO" resultType="NoticeVO">
+		SELECT
+			*
+		FROM ks_board_notice
+		WHERE USE_YN = 'Y'
+		limit #{length} offset #{start}
+	</select>
+	
+	<select id="selectNoticeListTotalCnt" parameterType="NoticeVO" resultType="Integer">
+		SELECT
+			COUNT(*) CNT
+		FROM ks_board_notice
+		WHERE USE_YN = 'Y'
+	</select>
+	
+	<select id="selectNotice" parameterType="NoticeVO" resultType="NoticeVO">
+		SELECT
+			*
+		FROM ks_board_notice
+		WHERE BOARD_NO = #{boardNo}
+		AND USE_YN = 'Y'
+	</select>
+	
+	<select id="selectPrevNotice" parameterType="NoticeVO" resultType="NoticeVO">
+		SELECT
+			BOARD_NO AS prevNoticeNo
+			, TITLE AS prevNoticeTitle
+		FROM ks_board_notice
+		WHERE BOARD_NO = (
+			SELECT 
+				BOARD_NO 
+			FROM KS_BOARD_NOTICE 
+			WHERE BOARD_NO <![CDATA[ > ]]> #{boardNo}
+			AND USE_YN = 'Y' 
+			ORDER BY BOARD_NO DESC 
+			LIMIT 1 
+		) 
+	</select>
+	
+	<select id="selectNextNotice" parameterType="NoticeVO" resultType="NoticeVO">
+		SELECT
+			BOARD_NO AS nextNoticeNo
+			, TITLE AS nextNoticeTitle
+		FROM ks_board_notice
+		WHERE BOARD_NO = (
+			SELECT 
+				BOARD_NO 
+			FROM KS_BOARD_NOTICE 
+			WHERE BOARD_NO <![CDATA[ > ]]> #{boardNo}
+			AND USE_YN = 'Y' 
+			ORDER BY BOARD_NO DESC 
+			LIMIT 1 
+		) 
+	</select>
+	
+	<insert id="saveNotice" parameterType="NoticeVO">
+		INSERT INTO ks_board_notice(
+			TITLE
+			, CONTENT
+			, REG_ID
+		) VALUES (
+			#{noticeVO.title}
+			, #{noticeVO.content}
+			, 'SYSTEM'
+		)
+	</insert>
+	
+	<select id="selectBoardList" parameterType="BoardVO" resultType="BoardVO">
+		SELECT
+			*
+		FROM ks_board_forum
+		WHERE BOARD_TYPE = #{boardType}
+		AND USE_YN = 'Y'
+		limit #{length} offset #{start}
+	</select>
+	
+	<select id="selectBoardListTotalCnt" parameterType="BoardVO" resultType="Integer">
+		SELECT
+			COUNT(*) CNT
+		FROM ks_board_forum
+		WHERE BOARD_TYPE = #{boardType}
+		AND USE_YN = 'Y'
+	</select>
+	
+	<select id="selectBoard" parameterType="BoardVO" resultType="BoardVO">
+		SELECT
+			*
+		FROM ks_board_forum
+		WHERE BOARD_NO = #{boardNo} 
+		AND BOARD_TYPE = #{boardType}
+		AND USE_YN = 'Y'
+	</select>
+	
+	<select id="selectPrevBoard" parameterType="BoardVO" resultType="BoardVO">
+		SELECT
+			BOARD_NO AS prevBoardNo
+			, TITLE AS prevBoardTitle
+		FROM ks_board_forum
+		WHERE BOARD_NO = (
+			SELECT 
+				BOARD_NO 
+			FROM KS_BOARD_NOTICE 
+			WHERE BOARD_NO <![CDATA[ > ]]> #{boardNo}
+			AND BOARD_TYPE = #{boardType}
+			AND USE_YN = 'Y' 
+			ORDER BY BOARD_NO DESC 
+			LIMIT 1 
+		) 
+	</select>
+	
+	<select id="selectNextBoard" parameterType="BoardVO" resultType="BoardVO">
+		SELECT
+			BOARD_NO AS nextBoardNo
+			, TITLE AS nextBoardTitle
+		FROM ks_board_forum
+		WHERE BOARD_NO = (
+			SELECT 
+				BOARD_NO 
+			FROM KS_BOARD_NOTICE 
+			WHERE BOARD_NO <![CDATA[ > ]]> #{boardNo}
+			AND BOARD_TYPE = #{boardType}
+			AND USE_YN = 'Y' 
+			ORDER BY BOARD_NO DESC 
+			LIMIT 1 
+		) 
+	</select>
+	
+	<update id="updateHitByNotice" parameterType="NoticeVO">
+		UPDATE ks_board_notice SET
+			HIT = IFNULL(HIT, 0) + 1
+		WHERE BOARD_NO = #{boardNo}
+		AND USE_YN = 'Y'
+	</update>
+	
+	<update id="updateHitByBoard" parameterType="BoardVO">
+		UPDATE ks_board_notice SET
+			HIT = IFNULL(HIT, 0) + 1
+		WHERE BOARD_NO = #{boardNo}
+		AND BOARD_TYPE = #{boardType}
+		AND USE_YN = 'Y'			
+	</update>
+	
+</mapper>
