@@ -19,8 +19,10 @@ public interface MenuMapper {
 
 	List<MenuVO> getParentMenuList();
 
-	List<MenuVO> selectSideMenu(String url);
+	List<MenuVO> selectSideMenu(int pid);
 
 	String selectMenuTitle(String url);
+
+	MenuVO getMenuIdByUrl(String url);
 
 }

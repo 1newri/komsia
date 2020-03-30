@@ -21,6 +21,8 @@
 		                    <th:block layout:fragment="content"></th:block>
 	                    	</div>
 	                    </div>
+				        <!-- 공통 스크립트-->
+				        <th:block th:replace="fragments/script :: scriptFragment"></th:block>
 					</section>
                 </div>
                 <!-- 공통 하단-->
@@ -28,7 +30,5 @@
             </div>
         </div>
 
-        <!-- 공통 스크립트-->
-        <th:block th:replace="fragments/script :: scriptFragment"></th:block>
     </body>
 </html>

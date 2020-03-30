@@ -9,6 +9,7 @@
 			*
 		FROM ks_board_notice
 		WHERE USE_YN = 'Y'
+		ORDER BY REG_DTTM DESC
 		limit #{length} offset #{start}
 	</select>
 	
@@ -36,7 +37,7 @@
 			SELECT 
 				BOARD_NO 
 			FROM KS_BOARD_NOTICE 
-			WHERE BOARD_NO <![CDATA[ > ]]> #{boardNo}
+			WHERE BOARD_NO <![CDATA[ < ]]> #{boardNo}
 			AND USE_YN = 'Y' 
 			ORDER BY BOARD_NO DESC 
 			LIMIT 1 

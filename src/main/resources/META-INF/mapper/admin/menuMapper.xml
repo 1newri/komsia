@@ -21,29 +21,32 @@
 		AND TYPE = 'M'
 	</select>
 	
+	<select id="selectMenuTitle" resultType="String">
+		SELECT 
+			NAME
+		FROM KS_MENU
+		WHERE USE_YN = 'Y'
+		AND URL = #{url}
+		AND TYPE = 'M'
+	</select>
+	
 	<select id="selectTopMenu" resultType="MenuVO">
 		SELECT
 			*
 		FROM KOMSIA.KS_MENU
-		WHERE PID = #{pid} OR MENU_ID = #{pid}
-		AND TYPE = 'M'
+		WHERE PID = 1
+		AND USE_YN = 'Y'
+		ORDER BY ORDERING
 	</select>
 	
-	<select id="selectMenuTitle" resultType="String">
+	<select id="getMenuIdByUrl" resultType="MenuVO">
 		SELECT     
-			NAME
+			IFNULL(MENU_ID,0) MENU_ID
 		FROM KOMSIA.KS_MENU
-		WHERE MENU_ID = (
-			SELECT
-				PID
-			FROM KOMSIA.KS_MENU
-			WHERE URL = #{url}
-			AND TYPE = 'M'
-			AND USE_YN = 'Y'
-		)
+		WHERE URL = #{url}
 	</select>
 	
-	<select id="selectSideMenu" resultType="MenuVO" parameterType="String">
+	<select id="selectSideMenu" resultType="MenuVO" parameterType="Integer">
 		WITH RECURSIVE CTE (MENU_ID, LEVEL, NAME, PID, URL, ORDERING, USE_YN) AS
 		(
 			SELECT     
@@ -55,14 +58,8 @@
 				, ORDERING
 		        , USE_YN
 			FROM KOMSIA.KS_MENU
-			WHERE PID = (
-				SELECT
-					PID
-				FROM KOMSIA.KS_MENU
-				WHERE URL = #{url}
-				AND TYPE = 'M'
-				AND USE_YN = 'Y'
-			)
+			WHERE PID = #{pid}
+			AND TYPE = 'M'
 			UNION ALL
 			SELECT
 				M.MENU_ID
@@ -75,7 +72,7 @@
 			FROM KOMSIA.KS_MENU M
 			INNER JOIN CTE
 				ON M.PID = CTE.MENU_ID
-			WHERE TYPE = 'N'
+			WHERE TYPE = 'M'
 		)
 		SELECT * FROM CTE
 		WHERE USE_YN = 'Y'

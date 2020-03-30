@@ -53,19 +53,6 @@ public class MenuController {
 		return result;
 	}
 	
-	@PostMapping(value = "/menu/sidebar")
-	@ResponseBody
-	public Map<String, Object> getSidebarMenu(HttpServletRequest request
-			, @RequestParam(value = "url", required = true) String url){
-		Map<String, Object> result = new HashMap<String, Object>();
-		try {
-			result = menuService.getSideMenu(url);
-		} catch (Exception e) {
-			log.error("Exception : {}", e);
-		}
-		return result;
-	}
-	
 	@PostMapping(value = "/menu/save")
 	@ResponseBody
 	public Map<String, Object> insertMenu(HttpServletRequest request

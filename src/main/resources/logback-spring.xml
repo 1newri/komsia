@@ -18,6 +18,7 @@
 	<logger name="org.springframework.web" level="INFO"/>
 	<logger name="org.springframework" level="error" />
 	<logger name="org.springframework.jdbc" level="error" /> 
+	<logger name="com.zaxxer.hikari" level="error" />
 	<root level="DEBUG">
 		<appender-ref ref="console" />
 	</root>

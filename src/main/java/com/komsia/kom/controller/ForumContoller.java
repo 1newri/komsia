@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.komsia.kom.constant.CommonConstant;
 import com.komsia.kom.domain.BoardVO;
@@ -75,7 +78,7 @@ public class ForumContoller {
 	
 	@PostMapping(value = "/forum/notice/regist")
 	@ResponseBody
-	public Map<String, Object> noticeRegist(HttpServletRequest request
+	public Map<String, Object> noticeRegist(MultipartHttpServletRequest request
 			, @ModelAttribute NoticeVO noticeVO
 			, ModelMap model) {
 		Map<String, Object> result = new HashMap<String, Object>();

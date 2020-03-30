@@ -2,7 +2,9 @@ package com.komsia.kom.config;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -21,6 +23,11 @@ public class WebMvcConfig implements WebMvcConfigurer{
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(handlerInterceptor)
 				.addPathPatterns("/**")
-				.excludePathPatterns("/admin/**");
+				.excludePathPatterns("/css/**"
+						, "/img/**"
+						, "/js/**"
+						, "/lib/**"
+						, "/menu/**"
+						, "/error");
 	}
 }

@@ -1,14 +1,181 @@
-
-.navbar-nav{
-	font-weight: bold;
-	color: #000000;
-	float: right;
-	margin: 0;
+/*--------------------------------------------------------------
+# Sections Header
+--------------------------------------------------------------*/
+.section-header h3 {
+  font-size: 36px;
+  color: #283d50;
+  text-align: center;
+  font-weight: 500;
+  position: relative;
 }
 
-.navbar-light .navbar-nav .nav-link {
-    color: rgb(0, 0, 0);
+.section-header p {
+  text-align: center;
+  margin: auto;
+  font-size: 15px;
+  padding-bottom: 60px;
+  color: #556877;
 }
+
+@media (max-width: 767px) {
+  .section-header p {
+    width: 100%;
+  }
+}
+/*--------------------------------------------------------------
+# Service Sections
+--------------------------------------------------------------*/
+#services {
+  padding: 60px 0 40px 0;
+  box-shadow: inset 0px 0px 12px 0px rgba(0, 0, 0, 0.1);
+}
+
+#services .box {
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  margin: 0 10px 40px 10px;
+  background: #fff;
+  box-shadow: 0 10px 29px 0 rgba(68, 88, 144, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+#services .box:hover {
+  transform: translateY(-5px);
+}
+
+#services .icon {
+  position: absolute;
+  left: -10px;
+  top: calc(50% - 32px);
+}
+
+#services .icon i {
+  font-size: 64px;
+  line-height: 1;
+  transition: 0.5s;
+}
+
+#services .title {
+  margin-left: 40px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+#services .title a {
+  color: #111;
+}
+
+#services .box:hover .title a {
+  color: #007bff;
+}
+
+#services .description {
+  font-size: 14px;
+  margin-left: 40px;
+  line-height: 24px;
+  margin-bottom: 0;
+}
+
+#why-us {
+  padding: 60px 0;
+  background: #004a99;
+}
+
+#why-us .section-header h3, #why-us .section-header p {
+  color: #fff;
+}
+
+#why-us .card {
+  background: #00458f;
+  border-color: #00458f;
+  border-radius: 10px;
+  margin: 0 15px;
+  padding: 15px 0;
+  text-align: center;
+  color: #fff;
+  transition: 0.3s ease-in-out;
+  height: 100%;
+}
+
+@media (max-width: 991px) {
+  #why-us .card {
+    margin: 0;
+  }
+}
+
+#why-us .card:hover {
+  background: #003b7a;
+  border-color: #003b7a;
+}
+
+#why-us .card i {
+  font-size: 48px;
+  padding-top: 15px;
+  color: #bfddfe;
+}
+
+#why-us .card h5 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+#why-us .card p {
+  font-size: 15px;
+  color: #d8eafe;
+}
+
+#why-us .card .readmore {
+  color: #fff;
+  font-weight: 600;
+  display: inline-block;
+  transition: 0.3s ease-in-out;
+  border-bottom: #00458f solid 2px;
+}
+
+#why-us .card .readmore:hover {
+  border-bottom: #fff solid 2px;
+}
+
+#why-us .counters {
+  padding-top: 40px;
+}
+
+#why-us .counters span {
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  font-size: 48px;
+  display: block;
+  color: #fff;
+}
+
+#why-us .counters p {
+  padding: 0;
+  margin: 0 0 20px 0;
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  color: #cce5ff;
+}
+/*--------------------------------------------------------------
+# About Us Section
+--------------------------------------------------------------*/
+#join-section {
+  width: 100%;
+  position: relative;
+  padding: 150px 0 120px 0;
+}
+
+#join-section .container .join-form{
+	width: 60%;
+	margin: auto;
+}
+
+.form-group .form-inline{
+	width: 100%
+}
+
 /*--------------------------------------------------------------
 # Intro Section
 --------------------------------------------------------------*/
@@ -196,6 +363,12 @@
 	font-size: 18px;	    
 }
 
+.detail-box .title-box small{
+	float: right;
+	font-size: 12px;
+	color: #747474;	
+}
+
 .detail-box .info-box{
 	border-bottom: 1px solid #cecece;
 	font-size: 12px;
@@ -212,14 +385,21 @@
 }
 
 .detail-box .content-box{
-	padding: 20px;
 	border-bottom: 1px solid #cecece;
+	padding-bottom: 20px;
 }
 
 .detail-box .content-box .file-box{
 	text-align: right;
-	
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
+
+.detail-box .content-box textarea{
+	border: 0px solid;
+}
+
+
 .detail-box .list-box ul{
 	padding: 10px 0px 0px 10px;
 }
@@ -227,11 +407,15 @@
 .detail-box .list-box li{
 	padding-top : 10px;
 	list-style: none;
-	color: #747474;	    
 }
 
-.detail-box .list-box li span{
+.detail-box .list-box li a{
+	color: #747474; 
+}
+
+.detail-box .list-box li a span{
 	padding-left : 15px;
+	cursor: pointer;
 }
 
 .glyphicon-paperclip:before {
@@ -243,6 +427,11 @@
 .regist-box{
 	padding-top: 20px;
 }
+
+.regist-box .editor{
+	padding: 10px;
+}
+
 /*--------------------------------------------------------------
 # Sidebar & Widgets
 --------------------------------------------------------------*/
@@ -272,6 +461,7 @@
 }
 
 .title {
+  font-weight: bold;
   position: relative;
   padding-bottom: 20px;
   margin: 20px 0;
@@ -281,12 +471,17 @@
 .categories{
 	padding-left: 0px;
 }
+
 .categories li{
 	padding-bottom: 10px;
 }
 
+.categories li a.active{
+	font-weight: bold;
+}
+
 .content {
-  padding: 20px 20px 60px 20px;
+  padding: 20px 2px 60px 20px;
 }
 
 .widget {

@@ -98,8 +98,7 @@ public class ForumServiceImpl implements ForumService{
 		
 		String resCode = ResponseCode.RESPONSE_OK;
 		String resMsg = ResponseCode.RESPONSE_OK_MSG;
-		
-		forumMapper.saveNotice(noticeVO);
+		// forumMapper.saveNotice(noticeVO);
 		int boardNo = noticeVO.getBoardNo();
 		
 		log.debug("boardNo : {}", boardNo);

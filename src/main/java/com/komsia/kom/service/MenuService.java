@@ -15,6 +15,10 @@ public interface MenuService {
 
 	public List<MenuVO> getTopMenu();
 
-	public Map<String, Object> getSideMenu(String url);
+	public List<MenuVO> getSideMenu(int pid);
+
+	public String getMenuTitle(String url);
+
+	public MenuVO getMenuIdByUrl(String url);
 
 }

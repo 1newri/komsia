@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/mainLayout">
+
+<th:block layout:fragment="content">
+	<section id="join-section">
+		<div class="container">
+	        <header class="section-header">
+				<h3>회원가입</h3>
+				<p>회원가입후 편리한 한국소액주주연구회 서비스를 이용해보세요.</p>
+	        </header>
+        	<div class="join-form">
+	        		<fieldset>
+	        			<div class="form-group form-inline">
+							<label for="userId" class="col-sm-3 col-form-label">아이디</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="userId" name="userId">
+								<button class="btn btn-primary" id="dupCheck">중복확인</button>
+								<input type="hidden" id="checkYn" name="checkYn" value="N">
+								<div id="dupCheckMsg"></div>
+							</div>
+						</div>
+	        			<div class="form-group form-inline">
+							<label for="userPwd" class="col-sm-3 col-form-label">비밀번호</label>
+							<div class="col-sm-9">
+								<input type="password" class="form-control" id="password" name="password">
+							</div>
+						</div>
+	        			<div class="form-group form-inline">
+							<label for="userPwdCheck" class="col-sm-3 col-form-label">비밀번호확인</label>
+							<div class="col-sm-9">
+								<input type="password" class="form-control" id="passwordCheck" name="passwordCheck" >
+								<div id="checkMsg"></div>
+								<input type="hidden" id="pwdCheckYn" name="pwdCheckYn" value="N">
+							</div>
+						</div>
+	        			<div class="form-group form-inline">
+							<label for="userName" class="col-sm-3 col-form-label">이름</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="userName" name="userName" >
+							</div>
+						</div>
+	        			<div class="form-group form-inline">
+							<label for="birth" class="col-sm-3 col-form-label">생년월일</label>
+							<div class="col-sm-9">
+								<select class="form-control" id="selectYear"></select>
+								<select class="form-control" id="selectMonth"></select>
+								<select class="form-control" id="selectDay"></select>
+							</div>
+						</div>
+	        			<div class="form-group form-inline">
+							<label for="sex" class="col-sm-3 col-form-label">성별</label>
+							<div class="col-sm-9 form-inline">
+								<div class="custom-control custom-radio">
+									<input type="radio" id="man" name="sex" class="custom-control-input" checked="checked" value="M">
+									<label class="custom-control-label" for="man">남</label>
+								</div>
+								<div class="custom-control custom-radio">
+									<input type="radio" id="female" name="sex" class="custom-control-input" value="F">
+									<label class="custom-control-label" for="female">여</label>
+								</div>
+							</div>
+						</div>
+	        			<div class="form-group form-inline">
+							<label for="tel" class="col-sm-3 col-form-label">핸드폰번호</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="tel" name="tel" maxlength="13">
+							</div>
+						</div>
+	        			<div class="form-group form-inline">
+							<label for="email" class="col-sm-3 col-form-label">이메일</label>
+							<div class="col-sm-9 form-inline">
+								<input type="text" class="form-control" id="email" name="email"> 
+								<span>@</span>
+								<input type="text" class="form-control" id="addr" name="addr"> 
+								<select class="form-control" id="selectMail">
+	                                <option value="">직접입력</option>
+	                                <option value="naver.com">naver.com</option>
+	                                <option value="daum.net">daum.net</option>
+	                                <option value="hanmail.net">hanmail.net</option>
+	                                <option value="gmail.com">gmail.com</option>
+	                                <option value="hotmail.com">hotmail.com</option>
+	                                <option value="nate.com">nate.com</option>
+	                            </select>
+							</div>
+						</div>
+						<button type="button" id="save" class="btn btn-primary btn-block">동의하고 가입하기</button>
+						<p class="text-secondary">
+							본인은 만 14세 이상이며, 한국소액주주연구회 이용약관, 개인정보 수집 및 이용<br>
+							개인정보 제공 내용을 확인하였으며, 동의합니다.
+						</p>
+	        		</fieldset>
+        	</div>
+		</div>
+	</section><!-- End About Section -->
+  	<script>
+  		$(function(){
+		  	fn_selectBirth(); 
+			// 1. 아이디 중복확인
+			$("#dupCheck").on("click", function(){
+				if($("#userId").val() == ''){
+					alert("아이디를 입력하세요.");
+					$("#userId").focus();
+					return ;
+				}
+				$.ajax({
+      				url: "/user/duplication"
+					, type : "post"
+      				, data : {
+      					userId : $("#userId").val()
+      				}, success : function(data){
+      					
+      					var json = JSON.parse(data);
+      					$("#checkYn").val(json.checkYn);
+      					
+      					if(json.resCode == "duplicate"){
+      						$("#userId").removeClass("is-valid");
+      						$("#dupCheckMsg").removeClass("valid-feedback");
+      						$("#userId").addClass("is-invalid");
+      						$("#dupCheckMsg").addClass("invalid-feedback");
+	      					$("#dupCheckMsg").text(json.resMsg);
+							$("#userId").focus();
+      					}else{
+      						$("#userId").removeClass("is-invalid");
+      						$("#dupCheckMsg").removeClass("invalid-feedback");
+      						$("#userId").addClass("is-valid");
+      						$("#dupCheckMsg").addClass("valid-feedback");
+	      					$("#dupCheckMsg").text("사용가능한 ID 입니다.");
+      					}
+      					
+      				}, error : function(request, status, error){
+      					alert("error : ", request);
+      				}
+      			});
+			});
+			
+			// 2. 패스워드 확인
+			$("#passwordCheck").keyup(function(){
+				if($("#password").val() == $("#passwordCheck").val()){
+					$("#passwordCheck").removeClass("is-invalid");
+					$("#checkMsg").removeClass("invalid-feedback");
+					$("#passwordCheck").addClass("is-valid");
+					$("#checkMsg").addClass("valid-feedback");
+					$("#checkMsg").text("비밀번호가 일치합니다.");
+					$("#pwdCheckYn").val("Y");
+				}else{
+					$("#passwordCheck").removeClass("is-valid");
+					$("#checkMsg").removeClass("valid-feedback");
+					$("#passwordCheck").addClass("is-invalid");
+					$("#checkMsg").addClass("invalid-feedback");
+					$("#checkMsg").text("비밀번호가 일치하지 않습니다.");
+					$("#pwdCheckYn").val("N");
+				}
+			});
+  			
+			
+			$("#tel").keyup(function(){
+				fn_inputPhoneNumber($(this));
+			});
+			
+			
+			$("#selectMail").change(function(){
+				if($(this).val() == ''){
+					$("#addr").attr("readonly", false);
+					$("#addr").val('');
+				}else{
+					$("#addr").attr("readonly", true);
+					$("#addr").val($(this).val());
+				}
+			});
+			
+			$("#save").click(function(){
+				if($("#userId").val() == ""){
+	  				alert("아이디를 입력하세요.");
+	  				$("#userId").focus();
+	  				return false;
+	  			}
+				
+				if($("#checkYn").val() == "N"){
+					alert("아이디 중복확인을 해주세요.");
+					return;
+				}
+	  			
+	  			if($("#password").val() == ""){
+	  				alert("비밀번호를 입력하세요.");
+	  				$("#password").focus();
+	  				return;
+	  			}
+	  			
+	  			if($("#passwordCheck").val() == ""){
+	  				alert("비밀번호확인을 입력하세요.");
+	  				$("#passwordCheck").focus();
+	  				return;
+	  			}
+
+				if($("#pwdCheckYn").val() == "N"){
+					alert("비밀번호를 확인 해주세요.");
+					return;
+				}
+	  			
+	  			if($("#userName").val() == ""){
+	  				alert("이름을 입력하세요.");
+	  				$("#userName").focus();
+	  				return;
+	  			}
+				
+	  			if($("#tel").val() == ""){
+	  				alert("핸드폰번호를 입력하세요.");
+	  				$("#tel").focus();
+	  				return;
+	  			}
+	  			if($("#email").val() == "" || $("#addr").val() == ""){
+	  				alert("이메일 주소를 입력하세요.");
+	  				$("#email").focus();
+	  				return;
+	  			}
+				
+				
+				
+				var birthday = getBirthDay();
+				var email = $("#email").val() + "@" + $("#addr").val();
+				
+				$.ajax({
+      				url: "/user/join"
+					, type : "post"
+      				, data : {
+      					userId : $("#userId").val()
+      					, password : $("#password").val()
+      					, userName : $("#userName").val()
+      					, birth : birthday
+      					, sex : $('input[name="sex"]:checked').val()
+      					, tel : $("#tel").val()
+      					, email : email
+      				}, success : function(data){
+      					var json = JSON.parse(data);
+      					alert(json.resMsg);
+      					if(json.resCode == "0000"){
+      						$(location).attr("href", "/");
+      					}
+      				}, error : function(request, status, error){
+      					alert("error : ", request);
+      				}
+      			});
+			});
+  		});
+  		
+  		function getBirthDay(){
+  			var year = $("#selectYear option:selected").val();
+  			var month = $("#selectMonth option:selected").val();
+  			var day = $("#selectDay option:selected").val();
+  			
+  			return year+month+day;
+  		}
+  		
+  	</script>
+</th:block>
+</html>

@@ -18,6 +18,7 @@
 				</div>
 				<div class="title-box">
 					<span th:text="${data.vo.title}"></span>
+					<small>조회수 : <span th:text="${data.vo.hit}"></span></small>
 				</div>
 				<div class="info-box">
 					<ul>
@@ -32,12 +33,14 @@
 							<span class="glyphicon glyphicon-paperclip"></span> Paperclip 
 				        </button>
 					</div>
-					<span th:text="${data.vo.content}"></span>
+					<div id="test">
+						<textarea class="form-control" id="boardContent" name="boardContent" rows="10">[[${data.vo.content}]]</textarea>
+					</div>
 				</div>
 				<div class="list-box">
 					<ul>
-						<li><strong>다음글</strong> <span th:text="${data.next.nextNoticeTitle}"></span></li>
-						<li><strong>이전글</strong> <span th:text="${data.prev.prevNoticeTitle}"></span></li>
+						<li><strong>다음글</strong><a id="next"><span th:data-nextno="${data.next.nextNoticeNo}" th:text="${data.next.nextNoticeTitle}"></span></a></li>
+						<li><strong>이전글</strong><a id="prev"><span th:data-prevno="${data.prev.prevNoticeNo}" th:text="${data.prev.prevNoticeTitle}"></span></a></li>
 					</ul>
 				</div>
 			</div>
@@ -46,10 +49,43 @@
       <!-- end content -->
 	<script>
 		$(function(){
+			
+			$("#next").on('click', function(){
+				var next = $(this).children('span').data("nextno");
+				if(next == undefined){
+					alert("다음글이 없습니다.");
+					return;
+				}else{
+					post(next);
+				}
+			});
+			
+			$("#prev").on('click', function(){
+				var prev = $(this).children('span').data("prevno");
+				if(prev == undefined){
+					alert("이전글이 없습니다.");
+					return;
+				}else{
+					post(prev);
+				}
+			});
+			
 			$("#list").on('click', function(){
 				$(location).attr("href", "/forum/notice");
 			});
 		});
+		
+		function post(boardNo){
+			var $form = $("<form></form>");
+			$form.attr("method", "post");
+			$form.attr("action", "/forum/notice/detail");
+			$form.attr("id", "fm");
+			$form.appendTo('body');
+			$form.append('<input type="hidden" id="boardNo" name="boardNo" value="' + boardNo + '">');
+			
+			$("#fm").submit();
+		}
 	</script>
+	<script th:src="@{/js/readonly.js}"></script>
 </th:block>
 </html>

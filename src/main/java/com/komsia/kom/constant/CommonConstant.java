@@ -14,4 +14,10 @@ public class CommonConstant {
 	public static final String BOARD_TYPE_F = "F";	// Feature 선물
 	public static final String BOARD_TYPE_B = "B";	// Bond 채권
 	public static final String BOARD_TYPE_O = "O";	// biO 바이오
+
+	public static final String ROLE_A = "A";		//Admin
+	public static final String ROLE_M = "M";		//Member
+
+	public static final String YN_Y = "Y";
+	public static final String YN_N = "N";
 }

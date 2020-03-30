@@ -11,12 +11,18 @@
 			<li class="breadcrumb-item active">오시는 길</li>
 		</ol>
 		<h2>오시는 길</h2>
+		<div id="map" style="width:500px;height:400px;"></div>
 	</div>
       <!-- end content -->
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f8346e6f05bfe17af4e7ffef6297845b"></script>
 	<script>
-		$(function(){
-			
-		});
+	var container = document.getElementById('map');
+	var options = {
+		center: new kakao.maps.LatLng(33.450701, 126.570667),
+		level: 3
+	};
+
+	var map = new kakao.maps.Map(container, options);
 	</script>
 </th:block>
 </html>

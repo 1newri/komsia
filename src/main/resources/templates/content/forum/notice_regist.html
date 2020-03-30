@@ -13,20 +13,20 @@
 		<h2>공지사항</h2>
 		<div>
 			<div class="regist-box">
-				<form>
+				<form id="frm" enctype="multipart/form-data">
 					<fieldset>
 						<div class="form-group">
 							<label for="title">제목</label>
 							<input type="text" class="form-control" id="title" name="title">
 					    </div>
 					    <div class="form-group">
-							<label for="content">내용</label>
-							<textarea class="form-control" id="boardContent" rows="10"></textarea>
+							<label for="boardContent">내용</label>
+							<textarea class="form-control" id="boardContent" name="boardContent" rows="10"></textarea>
 						</div>
-						<div class="form-group">
-							<label for="file">첨부파일</label>
-							<input type="file" class="form-control-file" id="file" aria-describedby="fileHelp">
-						</div>
+							<div class="form-group">
+								<label for="file">첨부파일</label>
+								<input type="file" class="form-control-file" id="file" name="file" aria-describedby="fileHelp">
+							</div>
 					</fieldset>
 				</form>
 			</div>
@@ -37,16 +37,41 @@
 	</div>
       <!-- end content -->
 	<script>
+	
 		$(function(){
 			$("#save").on("click", function(){
+				
+				if($("#title").val() == '' || $("#title").val().length == 0){
+					alert("제목을 입력하세요.");
+					$("#title").focus();
+					return;
+				}
+				
+				// editor에 내용업데이트.
+				submitContents(this);
+				
+				if($("#boardContent").val() == '' || $("#boardContent").val().length == 0){
+					alert("내용을 입력하세요.");
+					$("#boardContent").focus();
+					return;
+				}
+				
+				var result = confirm("게시물을 등록하시겠습니까?");
+				if(!result){
+					return;
+				}
+				
+				var formData = new FormData($("#frm")[0]);
 				$.ajax({
       				url: "/forum/notice/regist"
-					, type : "post"
-      				, data : {
-      					title : $("#title").val()
-      					, content : $("#boardContent").val()
-      				}, success : function(data){
+   					, data : formData
+   					, type : "post"
+   					, processData : false
+   					, contentType : false
+      				, success : function(data){
+						alert(data.resMsg);
       					if(data.resCode == "0000"){
+      						$(location).attr("href", "/forum/notice");	
       					}
       				}, error : function(request, status, error){
       					alert("시스템 오류가 발생하였습니다. 관리자에게 문의하세요.");
@@ -55,5 +80,6 @@
 			});
 		});
 	</script>
+	<script th:src="@{/js/editor.js}"></script>
 </th:block>
 </html>

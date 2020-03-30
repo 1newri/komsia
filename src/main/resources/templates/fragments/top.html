@@ -3,38 +3,32 @@
 <th:block th:fragment="topFragment">
 	<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
 		<div class="container">
-			<a class="navbar-brand" href="/">
-				<img alt="" th:src="@{/img/logo.gif}">
-			</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
+			<!-- LOGO -->
+			<a class="navbar-brand" href="/"><img alt="" th:src="@{/img/logo.gif}"></a>
+			<!-- Toggle -->
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#komsiaTopNav"
+		    			aria-controls="komsiaTopNav" aria-expanded="false" aria-label="Toggle navigation">
+		    	<span class="navbar-toggler-icon"></span>
 			</button>
-	
-			<div class="collapse navbar-collapse" id="navbarColor03">
-				<ul class="navbar-nav mr-auto">
+			<div class="collapse navbar-collapse">
+				<ul class="navbar-nav ml-auto">
 					<li class="nav-item">
-						<a class="nav-link" href="/info">연구회소개</a>
+						<a class="nav-link" href="/user/login">로그인</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="/activity">연구활동</a>
+						<a class="nav-link" href="/user/join">회원가입</a>
 					</li>
-					<!-- 추후 오픈 예정 -->
-					<!-- <li class="nav-item">
-						<a class="nav-link" href="#">자격증</a>
-					</li> -->
-					<li class="nav-item">
-						<a class="nav-link" href="/sinmungo">신문고</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/forum">연구회포럼</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/menu">메뉴</a>
+				</ul>
+			</div>
+			<div class="collapse navbar-collapse" id="komsiaTopNav">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item" th:each="top : ${topMenu}">
+						<a class="nav-link" th:href="${top.url}" th:text="${top.name}" th:data-pid="${top.menuId}"></a>
+<!-- 						<span class="sr-only">(current)</span> -->
 					</li>
 				</ul>
 			</div>
 		</div>
 	</nav>
-	
 </th:block>
 </html>

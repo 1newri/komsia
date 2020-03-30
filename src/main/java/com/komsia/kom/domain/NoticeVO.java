@@ -1,5 +1,7 @@
 package com.komsia.kom.domain;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -27,6 +29,8 @@ public class NoticeVO {
 	
 	private String nextNoticeNo;
 	private String nextNoticeTitle;
+	
+	private MultipartFile file;
 	
 	@JsonIgnore
 	private int start;

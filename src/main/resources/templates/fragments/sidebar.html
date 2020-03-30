@@ -4,33 +4,15 @@
 	<div id="sidebar" class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 		<div class="widget">
 			<h4 class="title">
-				<span>Categories</span>
+				<span th:text="${menuTitle}"></span>
 			</h4>
-			<ul class="categories"></ul>
+			<input type="hidden" id="menuId" name="menuId" th:value="${menuId}">
+			<ul class="categories">
+				<li th:each="side : ${sideMenu}">
+					<a th:href="${side.url}" th:text="${side.name}" th:data-menuid="${side.menuId}"></a>
+				</li>
+			</ul>
 		</div>
 	</div>
-	<script type="text/javascript">
-		$(function(){
-			var gPathName = $(location).attr("pathname");
-			$.ajax({
-  				url: "/menu/sidebar"
-				, type : "post"
-				, data : {
-					url : gPathName
-				}
-  				, success : function(data){
-  					$(".title > span").text(data.title);
-  					$.each(data.side, function(index, item){
-  						if(item.level == '2'){
-	  						$(".categories").append('<li><a href="'+item.url+'">'+ item.name +'</a></li>');
-  						}
-  					});
-  				}, error : function(request, status, error){
-  					alert(request);
-  				}
-  			});
-	
-		});
-	</script>
 </th:block>
 </html>

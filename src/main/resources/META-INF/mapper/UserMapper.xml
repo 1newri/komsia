@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.komsia.kom.mapper.UserMapper">
+	
+	<select id="selectUserByUserId" parameterType="String" resultType="UserVO">
+		SELECT 
+			U.USER_NO
+		    , U.USER_ID
+		    , R.ROLE_CD
+		    , R.ROLE_NAME
+		    , PASSWORD
+		    , USER_NAME
+		    , TEL
+		    , SEX
+		    , EMAIL
+		    , BIRTH
+		    , REG_DTTM
+		    , MOD_ID
+		    , MOD_DTTM
+		FROM komsia.ks_user U
+		LEFT JOIN komsia.ks_auth_authorities A
+			ON U.user_no = A.user_no
+		LEFT JOIN komsia.ks_auth_role R
+			ON A.role_cd = R.role_cd
+		WHERE U.USER_ID = #{userId}
+	</select>
+	
+	
+	<insert id="joinUser" parameterType="UserVO">
+		INSERT INTO ks_user (
+			USER_ID
+			, PASSWORD
+			, USER_NAME
+			, TEL
+			, SEX
+			, EMAIL
+			, BIRTH
+		) VALUES (
+			#{userId}
+			, #{password}
+			, #{userName}
+			, #{tel}
+			, #{sex}
+			, #{email}
+			, #{birth}
+		)
+		<selectKey keyProperty="userNo" resultType="Long" order="AFTER">
+            SELECT 
+            	USER_NO AS userNo 
+            FROM ks_user 
+			WHERE USER_ID = #{userId}
+		</selectKey>
+	</insert>
+	
+	<insert id="insertAuthUser" parameterType="Role">
+		INSERT INTO ks_auth_authorities(
+			USER_NO
+			, ROLE_CD
+		) VALUES (
+			#{userNo}
+			, #{roleCd}		
+		)
+	</insert>
+</mapper>

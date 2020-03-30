@@ -128,7 +128,7 @@
   				url: "/menu/pid"
 				, type : "post"
 				, success : function(data){
-					$.each(data, function(index, item){
+					$.each(JSON.parse(data), function(index, item){
   						$("#pid").append('<option value="'+item.menuId+'" data-url="'+ item.url +'" data-level="'+ item.level +'">'+ item.name +'</option>');
 					});
   				}, error : function(request, status, error){

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.komsia.kom.constant.CommonConstant;
@@ -58,6 +59,7 @@ public class MenuServiceImpl implements MenuService{
 	}
 
 	@Override
+	@Cacheable(value = "menuCache")
 	public List<MenuVO> getTopMenu() {
 		return menuMapper.selectTopMenu();
 	}
@@ -68,17 +70,19 @@ public class MenuServiceImpl implements MenuService{
 	}
 
 	@Override
-	public Map<String, Object> getSideMenu(String url) {
-		Map<String, Object> result = new HashMap<String, Object>();
-		
-		// sideMenu
-		List<MenuVO> list = menuMapper.selectSideMenu(url);
-		result.put("side", list);
-		
-		String title = menuMapper.selectMenuTitle(url);
-		result.put("title", title);
-		
-		return result;
+	@Cacheable(value = "menuCache", key="#pid")
+	public List<MenuVO> getSideMenu(int pid) {
+		return menuMapper.selectSideMenu(pid);
+	}
+
+	@Override
+	public String getMenuTitle(String url) {
+		return menuMapper.selectMenuTitle(url);
+	}
+
+	@Override
+	public MenuVO getMenuIdByUrl(String url) {
+		return menuMapper.getMenuIdByUrl(url);
 	}
 
 
