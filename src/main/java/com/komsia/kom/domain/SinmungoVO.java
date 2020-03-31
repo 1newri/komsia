@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Data
-public class BoardVO {
-	
+public class SinmungoVO {
+
 	private int boardNo;
 	private String boardType;
 	

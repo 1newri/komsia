@@ -33,7 +33,7 @@
         		</thead>
         	</table>
         	<div class="text-right">
-        		<button class="btn btn-outline-primary">등록</button>
+        		<button class="btn btn-outline-primary" id="regist">등록</button>
         	</div>
         </div>
 	</div>
@@ -74,6 +74,10 @@
 				var boardNo = table.row(click).data()['boardNo'];
 				
 				post(boardNo);
+			});
+			
+			$("#regist").on("click", function(){
+				$(location).attr("href", "/forum/press/regist");
 			});
 		});
 			

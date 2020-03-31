@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import com.komsia.kom.constant.ResponseCode;
@@ -89,21 +90,78 @@ public class ForumServiceImpl implements ForumService{
 		
 		return result;
 	}
+	
+	@Override
+	public Map<String, Object> getBoard(BoardVO boardVO) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		// noticeVO 조회
+		boardVO = forumMapper.selectBoard(boardVO);
+		result.put("vo", boardVO);
+		log.debug("boardVO : {} ", boardVO.toString());
+		
+		// 이전글 조회
+		BoardVO prev = forumMapper.selectPrevBoard(boardVO);
+		if(ObjectUtils.isEmpty(prev)) {
+			prev = new BoardVO();
+			prev.setPrevTitle("이전글이 없습니다.");
+		}
+		result.put("prev", prev);
+		log.debug("prev : {} ", prev.toString());
+		
+		// 다음글 조회
+		BoardVO next = forumMapper.selectNextBoardVO(boardVO);
+		if(ObjectUtils.isEmpty(next)) {
+			next = new BoardVO();
+			next.setNextTitle("다음글이 없습니다.");
+		}
+		result.put("next", next);
+		log.debug("next : {} ", next.toString());
+		
+		// update hit
+		forumMapper.updateHitByBoard(boardVO);
+		
+		return result;
+	}
 
 
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public Map<String, Object> noticeRegister(NoticeVO noticeVO) {
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		
 		String resCode = ResponseCode.RESPONSE_OK;
 		String resMsg = ResponseCode.RESPONSE_OK_MSG;
-		// forumMapper.saveNotice(noticeVO);
-		int boardNo = noticeVO.getBoardNo();
 		
-		log.debug("boardNo : {}", boardNo);
+		forumMapper.insertNotice(noticeVO);
 		
-		result.put("boardNo", boardNo);
+//		int boardNo = noticeVO.getBoardNo();
+//		log.debug("boardNo : {}", boardNo);
+//		result.put("boardNo", boardNo);
+		
+		result.put("resCode", resCode);
+		result.put("resMsg", resMsg);
+		
+		return result;
+	}
+
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public Map<String, Object> boardRegister(BoardVO boardVO) {
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		String resCode = ResponseCode.RESPONSE_OK;
+		String resMsg = ResponseCode.RESPONSE_OK_MSG;
+		
+		forumMapper.insertBoardForum(boardVO);
+		
+//		int boardNo = noticeVO.getBoardNo();
+//		log.debug("boardNo : {}", boardNo);
+//		result.put("boardNo", boardNo);
+		
 		result.put("resCode", resCode);
 		result.put("resMsg", resMsg);
 		

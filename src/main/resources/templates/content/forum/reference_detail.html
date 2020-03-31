@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
+
+<th:block layout:fragment="content">
+	<div class="content pull-right col-lg-9 col-md-8 col-sm-9 col-xs-12 clearfix">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/">Home</a></li>
+			<li class="breadcrumb-item"><a href="/forum">연구회포럼</a></li>
+			<li class="breadcrumb-item active">자료실</li>
+		</ol>
+		<h2>자료실</h2>
+		<div>
+			<div class="detail-box">
+				<div class="btn-box">
+					<button type="button" id="list" class="btn btn-outline-primary">목록으로</button>
+				</div>
+				<div class="title-box">
+					<span th:text="${data.vo.title}"></span>
+					<small>조회수 : <span th:text="${data.vo.hit}"></span></small>
+				</div>
+				<div class="info-box">
+					<ul>
+						<li>작성일 : <span th:text="${data.vo.regDttm}"></span></li>
+						<li>작성자 : <span th:text="${data.vo.regId}"></span></li>
+					</ul>
+				</div>
+				<div class="content-box">
+					<div class="file-box">
+						첨부파일 : 
+						<button type="button" class="btn btn-secondary btn-sm">
+							<span class="glyphicon glyphicon-paperclip"></span> Paperclip 
+				        </button>
+					</div>
+					<div id="test">
+						<textarea class="form-control" id="boardContent" name="boardContent" rows="10">[[${data.vo.content}]]</textarea>
+					</div>
+				</div>
+				<div class="list-box">
+					<ul>
+						<li><strong>다음글</strong><a id="next"><span th:data-nextno="${data.next.nextNo}" th:text="${data.next.nextTitle}"></span></a></li>
+						<li><strong>이전글</strong><a id="prev"><span th:data-prevno="${data.prev.prevNo}" th:text="${data.prev.prevTitle}"></span></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+      <!-- end content -->
+	<script>
+		$(function(){
+			
+			$("#next").on('click', function(){
+				var next = $(this).children('span').data("nextno");
+				if(next == undefined){
+					alert("다음글이 없습니다.");
+					return;
+				}else{
+					post(next);
+				}
+			});
+			
+			$("#prev").on('click', function(){
+				var prev = $(this).children('span').data("prevno");
+				if(prev == undefined){
+					alert("이전글이 없습니다.");
+					return;
+				}else{
+					post(prev);
+				}
+			});
+			
+			$("#list").on('click', function(){
+				$(location).attr("href", "/forum/notice");
+			});
+		});
+		
+		function post(boardNo){
+			var $form = $("<form></form>");
+			$form.attr("method", "post");
+			$form.attr("action", "/forum/notice/detail");
+			$form.attr("id", "fm");
+			$form.appendTo('body');
+			$form.append('<input type="hidden" id="boardNo" name="boardNo" value="' + boardNo + '">');
+			
+			$("#fm").submit();
+		}
+	</script>
+	<script th:src="@{/js/readonly.js}"></script>
+</th:block>
+</html>

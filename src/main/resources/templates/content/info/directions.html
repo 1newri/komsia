@@ -11,18 +11,104 @@
 			<li class="breadcrumb-item active">오시는 길</li>
 		</ol>
 		<h2>오시는 길</h2>
-		<div id="map" style="width:500px;height:400px;"></div>
+		<div class="map-box">
+			<div id="map" style="width:600px;height:300px;"></div>
+		</div>
+		<div>
+			<p class="text-muted">(05242) 서울특별시 강동구 상암로 20, 2호(암사동, 한일빌딩)</p>
+		</div>		
+		<div class="map-info">
+			<h5>지하철역</h5>
+			<div class="form-inline subway">
+				<p class="text-secondary">암사역<div class="circle">8</div><span>| 3번 출구 <span class="text-danger">도보 3분</span></span></p>
+			</div>
+			<h5>버스정류장</h5>
+			<div class="row">
+				<div class="col-sm-6">
+					<p class="text-secondary">암사역선사현대아파트(25155) | 160m </p>
+				</div>
+				<div class="col-sm-6">
+					<p class="badge badge-info">간선</p> 340
+					<p class="badge badge-success">지선</p> 3318 | 3411
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<p class="text-secondary">암사역(25602) | 173m </p>
+				</div>
+				<div class="col-sm-6">
+					<p class="badge badge-success">마을</p> 강동02
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<p class="text-secondary">암사역(25571) | 185m </p>
+				</div>
+				<div class="col-sm-6">
+					<p class="badge badge-success">마을</p> 강동02
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<p class="text-secondary">암사역2번출구.암사종합시장(25156) | 194m </p>
+				</div>
+				<div class="col-sm-6">
+					<p class="badge badge-info">간선</p> 340
+					<p class="badge badge-success">지선</p> 3318 | 3411
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<p class="text-secondary">암사종합시장(25666) | 237m </p>
+				</div>
+				<div class="col-sm-6">
+					<p class="badge badge-success">마을</p> 강동02
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<p class="text-secondary">암사종합시장(25568) | 241m </p>
+				</div>
+				<div class="col-sm-6">
+					<p class="badge badge-success">마을</p> 강동02
+				</div>
+			</div>
+		</div>		
 	</div>
       <!-- end content -->
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f8346e6f05bfe17af4e7ffef6297845b"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f8346e6f05bfe17af4e7ffef6297845b&libraries=services,clusterer,drawing"></script>
 	<script>
-	var container = document.getElementById('map');
-	var options = {
-		center: new kakao.maps.LatLng(33.450701, 126.570667),
-		level: 3
-	};
+		var geocoder = new kakao.maps.services.Geocoder();
+	
+	    var callback = function(result, status) {
+	        if (status === kakao.maps.services.Status.OK) {
+	        	 coords = new kakao.maps.LatLng(result[0].x, result[0].y);
+	        	 console.log(result);
+	        }
+	    };
+	    
+		geocoder.addressSearch(' 강동구 상암로 20', callback);
+	
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    	mapOption = { 
+            center: new kakao.maps.LatLng(37.5506470305294, 127.125806727457), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+        };
 
-	var map = new kakao.maps.Map(container, options);
+	    var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+	
+		var coords = '';
+	    // 마커가 표시될 위치입니다 
+	    var markerPosition  = new kakao.maps.LatLng(37.5506470305294, 127.125806727457); 
+	
+	    // 마커를 생성합니다
+	    var marker = new kakao.maps.Marker({
+	    	map: map,
+	        position: markerPosition
+	    });
+	
+	    // 마커가 지도 위에 표시되도록 설정합니다
+	    marker.setMap(map);
 	</script>
 </th:block>
 </html>

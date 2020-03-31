@@ -1,3 +1,4 @@
+
 /*--------------------------------------------------------------
 # Sections Header
 --------------------------------------------------------------*/
@@ -430,6 +431,37 @@
 
 .regist-box .editor{
 	padding: 10px;
+}
+
+/* map-box */
+.map-box {
+	padding: 20px 20px 20px 0px;
+}
+.map-info {
+	padding-top: 20px;
+}
+.map-info h5{
+	font-weight: bold;
+}
+
+.map-info .form-inline span{
+	margin-bottom: 16px;
+}
+ 
+.circle {
+	width: 20px;
+	height: 20px;
+	border-radius:50%;
+	background-color: #ff77bb;
+	color: #fff;
+	text-align: center;
+	line-height: 20px;
+	-webkit-border-radius:50%;
+	-moz-border-radius:50%;
+	position: relative;
+	margin-bottom: 15px;
+	margin-left: 10px;
+	margin-right: 10px;
 }
 
 /*--------------------------------------------------------------

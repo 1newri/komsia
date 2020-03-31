@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.komsia.kom.mapper.SinmungoMapper">
+	
+	<select id="selectSinmungoList" parameterType="SinmungoVO" resultType="SinmungoVO">
+		SELECT
+			*
+		FROM ks_board_sinmungo
+		WHERE BOARD_TYPE = #{boardType}
+		AND USE_YN = 'Y'
+		limit #{length} offset #{start}
+	</select>
+	
+	<select id="selectSinmungoListTotalCnt" parameterType="SinmungoVO" resultType="Integer">
+		SELECT
+			COUNT(*) CNT
+		FROM ks_board_sinmungo
+		WHERE BOARD_TYPE = #{boardType}
+		AND USE_YN = 'Y'
+	</select>
+	
+	<select id="selectSinmungo" parameterType="SinmungoVO" resultType="SinmungoVO">
+		SELECT
+			*
+		FROM ks_board_sinmungo
+		WHERE BOARD_NO = #{boardNo} 
+		AND BOARD_TYPE = #{boardType}
+		AND USE_YN = 'Y'
+	</select>
+	
+	<select id="selectPrevSinmungo" parameterType="SinmungoVO" resultType="SinmungoVO">
+		SELECT
+			BOARD_NO AS prevNo
+			, TITLE AS prevTitle
+		FROM ks_board_sinmungo
+		WHERE BOARD_NO = (
+			SELECT 
+				BOARD_NO 
+			FROM ks_board_sinmungo 
+			WHERE BOARD_NO <![CDATA[ > ]]> #{boardNo}
+			AND BOARD_TYPE = #{boardType}
+			AND USE_YN = 'Y' 
+			ORDER BY BOARD_NO DESC 
+			LIMIT 1 
+		) 
+	</select>
+	
+	<select id="selectNextSinmungo" parameterType="SinmungoVO" resultType="SinmungoVO">
+		SELECT
+			BOARD_NO AS nextNo
+			, TITLE AS nextTitle
+		FROM ks_board_sinmungo
+		WHERE BOARD_NO = (
+			SELECT 
+				BOARD_NO 
+			FROM ks_board_sinmungo 
+			WHERE BOARD_NO <![CDATA[ > ]]> #{boardNo}
+			AND BOARD_TYPE = #{boardType}
+			AND USE_YN = 'Y' 
+			ORDER BY BOARD_NO DESC 
+			LIMIT 1 
+		) 
+	</select>
+	
+	<update id="updateHitBySinmungo" parameterType="SinmungoVO">
+		UPDATE ks_board_sinmungo SET
+			HIT = IFNULL(HIT, 0) + 1
+		WHERE BOARD_NO = #{boardNo}
+		AND BOARD_TYPE = #{boardType}
+		AND USE_YN = 'Y'			
+	</update>
+	
+	<insert id="insertSinmungo" parameterType="SinmungoVO">
+		INSERT INTO ks_board_sinmungo(
+			BOARD_TYPE
+			, TITLE
+			, CONTENT
+			, HIT
+			, USE_YN
+			, REG_ID
+		) VALUES (
+			#{boardType}
+			, #{title}
+			, #{content}
+			, 0
+			, 'Y'
+			, #{regId}
+		)
+	</insert>
+	
+</mapper>

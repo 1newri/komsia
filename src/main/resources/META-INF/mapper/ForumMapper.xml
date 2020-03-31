@@ -60,7 +60,7 @@
 		) 
 	</select>
 	
-	<insert id="saveNotice" parameterType="NoticeVO">
+	<insert id="insertNotice" parameterType="NoticeVO">
 		INSERT INTO ks_board_notice(
 			TITLE
 			, CONTENT
@@ -71,6 +71,13 @@
 			, 'SYSTEM'
 		)
 	</insert>
+	
+	<update id="updateHitByNotice" parameterType="NoticeVO">
+		UPDATE ks_board_notice SET
+			HIT = IFNULL(HIT, 0) + 1
+		WHERE BOARD_NO = #{boardNo}
+		AND USE_YN = 'Y'
+	</update>
 	
 	<select id="selectBoardList" parameterType="BoardVO" resultType="BoardVO">
 		SELECT
@@ -100,13 +107,13 @@
 	
 	<select id="selectPrevBoard" parameterType="BoardVO" resultType="BoardVO">
 		SELECT
-			BOARD_NO AS prevBoardNo
-			, TITLE AS prevBoardTitle
+			BOARD_NO AS prevNo
+			, TITLE AS prevTitle
 		FROM ks_board_forum
 		WHERE BOARD_NO = (
 			SELECT 
 				BOARD_NO 
-			FROM KS_BOARD_NOTICE 
+			FROM ks_board_forum 
 			WHERE BOARD_NO <![CDATA[ > ]]> #{boardNo}
 			AND BOARD_TYPE = #{boardType}
 			AND USE_YN = 'Y' 
@@ -117,13 +124,13 @@
 	
 	<select id="selectNextBoard" parameterType="BoardVO" resultType="BoardVO">
 		SELECT
-			BOARD_NO AS nextBoardNo
-			, TITLE AS nextBoardTitle
+			BOARD_NO AS nextNo
+			, TITLE AS nextTitle
 		FROM ks_board_forum
 		WHERE BOARD_NO = (
 			SELECT 
 				BOARD_NO 
-			FROM KS_BOARD_NOTICE 
+			FROM ks_board_forum 
 			WHERE BOARD_NO <![CDATA[ > ]]> #{boardNo}
 			AND BOARD_TYPE = #{boardType}
 			AND USE_YN = 'Y' 
@@ -132,19 +139,30 @@
 		) 
 	</select>
 	
-	<update id="updateHitByNotice" parameterType="NoticeVO">
-		UPDATE ks_board_notice SET
-			HIT = IFNULL(HIT, 0) + 1
-		WHERE BOARD_NO = #{boardNo}
-		AND USE_YN = 'Y'
-	</update>
-	
 	<update id="updateHitByBoard" parameterType="BoardVO">
-		UPDATE ks_board_notice SET
+		UPDATE ks_board_forum SET
 			HIT = IFNULL(HIT, 0) + 1
 		WHERE BOARD_NO = #{boardNo}
 		AND BOARD_TYPE = #{boardType}
 		AND USE_YN = 'Y'			
 	</update>
 	
+	<insert id="insertBoardForum" parameterType="BoardVO">
+		INSERT INTO ks_board_forum(
+			BOARD_TYPE
+			, TITLE
+			, CONTENT
+			, HIT
+			, USE_YN
+			, REG_ID
+		) VALUES (
+			#{boardType}
+			, #{title}
+			, #{content}
+			, 0
+			, 'Y'
+			, #{regId}
+		)
+	</insert>
+
 </mapper>

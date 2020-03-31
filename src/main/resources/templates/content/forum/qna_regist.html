@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
+
+<th:block layout:fragment="content">
+	<div class="content pull-right col-lg-9 col-md-8 col-sm-9 col-xs-12 clearfix">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/">Home</a></li>
+			<li class="breadcrumb-item"><a href="/forum">연구회포럼</a></li>
+			<li class="breadcrumb-item active">QnA</li>
+		</ol>
+		<h2>QnA</h2>
+		<div>
+			<div class="regist-box">
+				<form id="frm" enctype="multipart/form-data">
+					<fieldset>
+						<div class="form-group">
+							<label for="title">제목</label>
+							<input type="text" class="form-control" id="title" name="title">
+					    </div>
+					    <div class="form-group">
+							<label for="boardContent">내용</label>
+							<textarea class="form-control" id="boardContent" name="boardContent" rows="10"></textarea>
+						</div>
+							<div class="form-group">
+								<label for="file">첨부파일</label>
+								<input type="file" class="form-control-file" id="file" name="file" aria-describedby="fileHelp">
+							</div>
+					</fieldset>
+				</form>
+			</div>
+			<div class="text-right">
+        		<button class="btn btn-outline-primary" id="save">등록</button>
+        	</div>
+		</div>
+	</div>
+      <!-- end content -->
+	<script>
+	
+		$(function(){
+			$("#save").on("click", function(){
+				
+				if($("#title").val() == '' || $("#title").val().length == 0){
+					alert("제목을 입력하세요.");
+					$("#title").focus();
+					return;
+				}
+				
+				// editor에 내용업데이트.
+				submitContents(this);
+				
+				if($("#boardContent").val() == '' || $("#boardContent").val().length == 0){
+					alert("내용을 입력하세요.");
+					$("#boardContent").focus();
+					return;
+				}
+				
+				var result = confirm("게시물을 등록하시겠습니까?");
+				if(!result){
+					return;
+				}
+				
+				var formData = new FormData($("#frm")[0]);
+				$.ajax({
+      				url: "/forum/qna/regist"
+   					, data : formData
+   					, type : "post"
+   					, processData : false
+   					, contentType : false
+      				, success : function(data){
+						alert(data.resMsg);
+      					if(data.resCode == "0000"){
+      						$(location).attr("href", "/forum/qna");	
+      					}
+      				}, error : function(request, status, error){
+      					alert("시스템 오류가 발생하였습니다. 관리자에게 문의하세요.");
+      				}
+      			});
+			});
+		});
+	</script>
+	<script th:src="@{/js/editor.js}"></script>
+</th:block>
+</html>

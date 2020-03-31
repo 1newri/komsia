@@ -98,11 +98,49 @@ public class ForumContoller {
 	@PostMapping(value = "/forum/press/list")
 	@ResponseBody
 	public Map<String, Object> pressList(HttpServletRequest request
-			,@ModelAttribute BoardVO BoardVO) {
+			,@ModelAttribute BoardVO boardVO) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		BoardVO.setBoardType(CommonConstant.BOARD_TYPE_P);
+		boardVO.setBoardType(CommonConstant.BOARD_TYPE_P);
 		try {
-			result = forumService.getBoardList(BoardVO);
+			result = forumService.getBoardList(boardVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+		}
+		return result;
+	}
+	
+	@PostMapping(value = "/forum/press/detail")
+	public String pressDetail(HttpServletRequest request
+			, @ModelAttribute BoardVO boardVO
+			, ModelMap model) {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		boardVO.setBoardType(CommonConstant.BOARD_TYPE_P);
+		try {
+			result = forumService.getBoard(boardVO);
+			model.addAttribute("data", result);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+		}
+		return "/content/forum/notice_detail";
+	}
+	
+	@GetMapping(value = "/forum/press/regist")
+	public String pressRegist(HttpServletRequest request
+			, ModelMap model) {
+		
+		return "/content/forum/press_regist";
+	}
+	
+	@PostMapping(value = "/forum/press/regist")
+	@ResponseBody
+	public Map<String, Object> pressRegist(MultipartHttpServletRequest request
+			, @ModelAttribute BoardVO boardVO
+			, ModelMap model) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		boardVO.setBoardType(CommonConstant.BOARD_TYPE_P);
+		try {
+			result = forumService.boardRegister(boardVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
 		}
@@ -117,11 +155,49 @@ public class ForumContoller {
 	@PostMapping(value = "/forum/qna/list")
 	@ResponseBody
 	public Map<String, Object> qnaList(HttpServletRequest request
-			,@ModelAttribute BoardVO BoardVO) {
+			,@ModelAttribute BoardVO boardVO) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		BoardVO.setBoardType(CommonConstant.BOARD_TYPE_Q);
+		boardVO.setBoardType(CommonConstant.BOARD_TYPE_Q);
 		try {
-			result = forumService.getBoardList(BoardVO);
+			result = forumService.getBoardList(boardVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+		}
+		return result;
+	}
+	
+	@PostMapping(value = "/forum/qna/detail")
+	public String qnaDetail(HttpServletRequest request
+			, @ModelAttribute BoardVO boardVO
+			, ModelMap model) {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		boardVO.setBoardType(CommonConstant.BOARD_TYPE_Q);
+		try {
+			result = forumService.getBoard(boardVO);
+			model.addAttribute("data", result);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+		}
+		return "/content/forum/qna_detail";
+	}
+	
+	@GetMapping(value = "/forum/qna/regist")
+	public String qnaRegist(HttpServletRequest request
+			, ModelMap model) {
+		
+		return "/content/forum/qna_regist";
+	}
+	
+	@PostMapping(value = "/forum/qna/regist")
+	@ResponseBody
+	public Map<String, Object> qnaRegist(MultipartHttpServletRequest request
+			, @ModelAttribute BoardVO boardVO
+			, ModelMap model) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		boardVO.setBoardType(CommonConstant.BOARD_TYPE_Q);
+		try {
+			result = forumService.boardRegister(boardVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
 		}
@@ -136,11 +212,49 @@ public class ForumContoller {
 	@PostMapping(value = "/forum/reference/list")
 	@ResponseBody
 	public Map<String, Object> referenceList(HttpServletRequest request
-			,@ModelAttribute BoardVO BoardVO) {
+			,@ModelAttribute BoardVO boardVO) {
 		Map<String, Object> result = new HashMap<String, Object>();
-		BoardVO.setBoardType(CommonConstant.BOARD_TYPE_R);
+		boardVO.setBoardType(CommonConstant.BOARD_TYPE_R);
 		try {
-			result = forumService.getBoardList(BoardVO);
+			result = forumService.getBoardList(boardVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+		}
+		return result;
+	}
+	
+	@PostMapping(value = "/forum/reference/detail")
+	public String referenceDetail(HttpServletRequest request
+			, @ModelAttribute BoardVO boardVO
+			, ModelMap model) {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		boardVO.setBoardType(CommonConstant.BOARD_TYPE_R);
+		try {
+			result = forumService.getBoard(boardVO);
+			model.addAttribute("data", result);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+		}
+		return "/content/forum/reference_detail";
+	}
+	
+	@GetMapping(value = "/forum/reference/regist")
+	public String referenceRegist(HttpServletRequest request
+			, ModelMap model) {
+		
+		return "/content/forum/reference_regist";
+	}
+	
+	@PostMapping(value = "/forum/reference/regist")
+	@ResponseBody
+	public Map<String, Object> referenceRegist(MultipartHttpServletRequest request
+			, @ModelAttribute BoardVO boardVO
+			, ModelMap model) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		boardVO.setBoardType(CommonConstant.BOARD_TYPE_R);
+		try {
+			result = forumService.boardRegister(boardVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
 		}

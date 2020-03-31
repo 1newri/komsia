@@ -26,21 +26,23 @@ public interface ForumMapper {
 	
 	NoticeVO selectNextNotice(NoticeVO noticeVO);
 
+	void updateHitByNotice(NoticeVO noticeVO);
+	
+	@Options(useGeneratedKeys = true, keyProperty = "noticeVO.boardNo")
+	int insertNotice(@Param("noticeVO")NoticeVO noticeVO);
+	
+	
 	List<BoardVO> selectBoardList(BoardVO boardVO);
 
 	int selectBoardListTotalCnt(BoardVO boardVO);
 
-	BoardVO selectBoard(String boardNo);
-	
-	BoardVO selectPrevBoard(String boardNo);
-	
-	BoardVO selectNextBoard(String boardNo);
+	BoardVO selectBoard(BoardVO boardVO);
 
-	void updateHitByNotice(NoticeVO noticeVO);
+	BoardVO selectPrevBoard(BoardVO boardVO);
+
+	BoardVO selectNextBoardVO(BoardVO boardVO);
 	
 	void updateHitByBoard(BoardVO boardVO);
 	
-	@Options(useGeneratedKeys = true, keyProperty = "noticeVO.boardNo")
-	int saveNotice(@Param("noticeVO")NoticeVO noticeVO);
-	
+	int insertBoardForum(@Param("boardVO")BoardVO boardVO);
 }
