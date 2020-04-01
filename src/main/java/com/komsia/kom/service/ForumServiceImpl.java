@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
+import com.komsia.kom.constant.CommonConstant;
 import com.komsia.kom.constant.ResponseCode;
 import com.komsia.kom.domain.BoardVO;
+import com.komsia.kom.domain.FileVO;
 import com.komsia.kom.domain.NoticeVO;
 import com.komsia.kom.mapper.ForumMapper;
 
@@ -22,6 +24,8 @@ import lombok.extern.slf4j.Slf4j;
 public class ForumServiceImpl implements ForumService{
 
 	private ForumMapper forumMapper;
+	
+	private FileService fileSerivce;
 	
 	@Override
 	public Map<String, Object> getNoticeList(NoticeVO noticeVO) {
@@ -127,7 +131,7 @@ public class ForumServiceImpl implements ForumService{
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public Map<String, Object> noticeRegister(NoticeVO noticeVO) {
+	public Map<String, Object> noticeRegister(NoticeVO noticeVO) throws Exception{
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		
@@ -136,9 +140,17 @@ public class ForumServiceImpl implements ForumService{
 		
 		forumMapper.insertNotice(noticeVO);
 		
-//		int boardNo = noticeVO.getBoardNo();
-//		log.debug("boardNo : {}", boardNo);
-//		result.put("boardNo", boardNo);
+		int boardNo = noticeVO.getBoardNo();
+		log.debug("boardNo : {}", boardNo);
+		
+		if(!ObjectUtils.isEmpty(noticeVO.getFile())) {
+			FileVO fileVO = new FileVO();
+			fileVO.setFile(noticeVO.getFile());
+			fileVO.setBoardNo(boardNo);
+			fileVO.setBoardType(CommonConstant.BOARD_TYPE_N);
+			
+			fileSerivce.saveFile(fileVO);	
+		}
 		
 		result.put("resCode", resCode);
 		result.put("resMsg", resMsg);
@@ -149,18 +161,30 @@ public class ForumServiceImpl implements ForumService{
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public Map<String, Object> boardRegister(BoardVO boardVO) {
-
+	public Map<String, Object> boardRegister(BoardVO boardVO) throws Exception{
+		log.debug("boardType : {} ", boardVO.getBoardType());
+		
+		boardVO.setRegId("SYSTEM");
+		
 		Map<String, Object> result = new HashMap<String, Object>();
 		
 		String resCode = ResponseCode.RESPONSE_OK;
 		String resMsg = ResponseCode.RESPONSE_OK_MSG;
 		
+		log.debug("boardVO : {} ", boardVO.toString());
 		forumMapper.insertBoardForum(boardVO);
 		
-//		int boardNo = noticeVO.getBoardNo();
-//		log.debug("boardNo : {}", boardNo);
-//		result.put("boardNo", boardNo);
+		int boardNo = boardVO.getBoardNo();
+		log.debug("boardNo : {}", boardNo);
+		
+		if(!ObjectUtils.isEmpty(boardVO.getFile())) {
+			FileVO fileVO = new FileVO();
+			fileVO.setFile(boardVO.getFile());
+			fileVO.setBoardNo(boardNo);
+			fileVO.setBoardType(boardVO.getBoardType());
+			
+			fileSerivce.saveFile(fileVO);	
+		}
 		
 		result.put("resCode", resCode);
 		result.put("resMsg", resMsg);

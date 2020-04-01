@@ -1,5 +1,7 @@
 package com.komsia.kom.domain;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 @Data
@@ -11,11 +13,13 @@ public class FileVO {
 	private String boardType;
 	private String fileNm;
 	private String fileExt;
+	private String fileDir;
 	private String useYn;
 	
 	private String regId;
 	private String regDttm;
 	private String modId;
 	private String modDttm;
-	
+
+	private MultipartFile file;
 }

@@ -78,7 +78,7 @@ public class ForumContoller {
 	
 	@PostMapping(value = "/forum/notice/regist")
 	@ResponseBody
-	public Map<String, Object> noticeRegist(MultipartHttpServletRequest request
+	public Map<String, Object> noticeRegist(HttpServletRequest request
 			, @ModelAttribute NoticeVO noticeVO
 			, ModelMap model) {
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -122,7 +122,7 @@ public class ForumContoller {
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
 		}
-		return "/content/forum/notice_detail";
+		return "/content/forum/press_detail";
 	}
 	
 	@GetMapping(value = "/forum/press/regist")
@@ -134,7 +134,7 @@ public class ForumContoller {
 	
 	@PostMapping(value = "/forum/press/regist")
 	@ResponseBody
-	public Map<String, Object> pressRegist(MultipartHttpServletRequest request
+	public Map<String, Object> pressRegist(HttpServletRequest request
 			, @ModelAttribute BoardVO boardVO
 			, ModelMap model) {
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -191,7 +191,7 @@ public class ForumContoller {
 	
 	@PostMapping(value = "/forum/qna/regist")
 	@ResponseBody
-	public Map<String, Object> qnaRegist(MultipartHttpServletRequest request
+	public Map<String, Object> qnaRegist(HttpServletRequest request
 			, @ModelAttribute BoardVO boardVO
 			, ModelMap model) {
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -248,7 +248,7 @@ public class ForumContoller {
 	
 	@PostMapping(value = "/forum/reference/regist")
 	@ResponseBody
-	public Map<String, Object> referenceRegist(MultipartHttpServletRequest request
+	public Map<String, Object> referenceRegist(HttpServletRequest request
 			, @ModelAttribute BoardVO boardVO
 			, ModelMap model) {
 		Map<String, Object> result = new HashMap<String, Object>();

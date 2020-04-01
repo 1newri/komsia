@@ -70,6 +70,7 @@
 	  		});
 			
 			$(document).on('click', '#pressTable td', function(e){
+				
 				var click = $(this).closest('tr');
 				var boardNo = table.row(click).data()['boardNo'];
 				
@@ -82,14 +83,15 @@
 		});
 			
 		function post(boardNo){
+			
 			var $form = $("<form></form>");
 			$form.attr("method", "post");
 			$form.attr("action", "/forum/press/detail");
-			$form.attr("id", "frm");
+			$form.attr("id", "fm");
 			$form.appendTo('body');
 			$form.appendTo('<input type="hidden" id="boardNo" name="boardNo" value="' + boardNo + '">');
 			
-			$("#frm").submit();
+			$("#fm").submit();
 		}
 	</script>
 </th:block>

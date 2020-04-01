@@ -12,7 +12,7 @@ public class SinmungoVO {
 	
 	private int fileNo;
 	private String title;
-	private String content;
+	private String contents;
 	
 	private int hit;
 	private String useYn;

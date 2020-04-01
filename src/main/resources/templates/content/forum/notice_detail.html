@@ -27,14 +27,14 @@
 					</ul>
 				</div>
 				<div class="content-box">
-					<div class="file-box">
+					<div class="file-box" th:if="${data.vo.fileNo} != 0">
 						첨부파일 : 
 						<button type="button" class="btn btn-secondary btn-sm">
-							<span class="glyphicon glyphicon-paperclip"></span> Paperclip 
+							<span class="glyphicon glyphicon-paperclip"></span>[[${data.vo.fileNm}]]
 				        </button>
 					</div>
-					<div id="test">
-						<textarea class="form-control" id="boardContent" name="boardContent" rows="10">[[${data.vo.content}]]</textarea>
+					<div id="board-box">
+						<textarea class="form-control" id="boardContent" name="content" rows="10">[[${data.vo.content}]]</textarea>
 					</div>
 				</div>
 				<div class="list-box">

@@ -1,5 +1,7 @@
 package com.komsia.kom.domain;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -10,7 +12,6 @@ public class BoardVO {
 	private int boardNo;
 	private String boardType;
 	
-	private int fileNo;
 	private String title;
 	private String content;
 	
@@ -28,6 +29,12 @@ public class BoardVO {
 	private String nextNo;
 	private String nextTitle;
 	
+	private MultipartFile file;
+	
+	private int fileNo;
+	private int fileSeq;
+	private String fileNm;
+	private String fileDir;
 	
 	@JsonIgnore
 	private int start;

@@ -22,10 +22,24 @@
 	
 	<select id="selectNotice" parameterType="NoticeVO" resultType="NoticeVO">
 		SELECT
-			*
-		FROM ks_board_notice
-		WHERE BOARD_NO = #{boardNo}
-		AND USE_YN = 'Y'
+			N.BOARD_NO
+		    , N.TITLE
+		    , N.CONTENT
+		    , N.RANK
+		    , N.HIT
+		    , N.REG_ID
+		    , N.REG_DTTM
+		    , FILE_NO
+		    , FILE_SEQ
+		    , FILE_NM
+		    , FILE_DIR
+		FROM KS_BOARD_NOTICE N
+		LEFT JOIN KS_FILE F
+			ON N.BOARD_NO = F.BOARD_NO
+		    AND F.BOARD_TYPE = 'N'
+		    AND F.USE_YN = 'Y'
+		WHERE N.USE_YN = 'Y'
+		AND N.BOARD_NO = #{boardNo}
 	</select>
 	
 	<select id="selectPrevNotice" parameterType="NoticeVO" resultType="NoticeVO">
@@ -60,7 +74,7 @@
 		) 
 	</select>
 	
-	<insert id="insertNotice" parameterType="NoticeVO">
+	<insert id="insertNotice" parameterType="NoticeVO" useGeneratedKeys="true" keyProperty="boardNo">
 		INSERT INTO ks_board_notice(
 			TITLE
 			, CONTENT
@@ -98,11 +112,26 @@
 	
 	<select id="selectBoard" parameterType="BoardVO" resultType="BoardVO">
 		SELECT
-			*
-		FROM ks_board_forum
-		WHERE BOARD_NO = #{boardNo} 
-		AND BOARD_TYPE = #{boardType}
-		AND USE_YN = 'Y'
+			B.BOARD_NO
+			, B.BOARD_TYPE
+		    , B.TITLE
+		    , B.CONTENT
+		    , B.RANK
+		    , B.HIT
+		    , B.REG_ID
+		    , B.REG_DTTM
+		    , FILE_NO
+		    , FILE_SEQ
+		    , FILE_NM
+		    , FILE_DIR
+		FROM ks_board_forum B
+		LEFT JOIN KS_FILE F
+			ON B.BOARD_NO = F.BOARD_NO
+		    AND B.BOARD_TYPE = F.BOARD_TYPE
+		    AND F.USE_YN = 'Y'
+		WHERE B.USE_YN = 'Y'
+		AND B.BOARD_NO = #{boardNo}
+		AND B.BOARD_TYPE = #{boardType}
 	</select>
 	
 	<select id="selectPrevBoard" parameterType="BoardVO" resultType="BoardVO">
@@ -147,7 +176,7 @@
 		AND USE_YN = 'Y'			
 	</update>
 	
-	<insert id="insertBoardForum" parameterType="BoardVO">
+	<insert id="insertBoardForum" parameterType="BoardVO" useGeneratedKeys="true" keyProperty="boardNo">
 		INSERT INTO ks_board_forum(
 			BOARD_TYPE
 			, TITLE

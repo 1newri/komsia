@@ -11,12 +11,86 @@
 			<li class="breadcrumb-item active">소액주주 하소연</li>
 		</ol>
 		<h2>소액주주 하소연</h2>
+		<div id="search_div" class="form-inline">
+			<select class="custom-select">
+				<option value="1">제목</option>
+				<option value="2">작성자</option>
+				<option value="3">내용</option>
+			</select>
+			<input type="text" class="form-control" id="" >
+			<button class="btn btn-outline-secondary" type="submit">Search</button>
+		</div>
+		<div>
+			<table id="complainTable" class="table table-hover">
+        		<thead>
+        			<tr>
+        				<th>NO.</th>
+        				<th>제목</th>
+        				<th>등록자</th>
+        				<th>등록일</th>
+        				<th>조회수</th>
+        			</tr>
+        		</thead>
+        	</table>
+        	<div class="text-right">
+        		<button class="btn btn-outline-primary" id="regist">등록</button>
+        	</div>
+        </div>
 	</div>
       <!-- end content -->
 	<script>
 		$(function(){
+			var total = "";
+			var table = $("#complainTable").DataTable({
+				searching : false
+				, pageLength : 10
+				, ordering : false
+				, serverSide : true
+				, language : lang_kor
+				, dom: '<<t><p>'
+			    , paging : true
+				, ajax : {
+					'url' : "/sinmungo/complain/list",
+					'type': 'POST',
+					'dataSrc': function(data){
+						total = data.total;
+						return data.data;
+					}
+				}, columns : [
+					{
+						data : "boardNo", className: 'text-center'
+						, render : function(data, type, row, meta){
+							return meta.row + meta.settings._iDisplayStart + 1;
+						}
+					},{ data : "title" , className: 'text-left'}
+					,{ data : "regId" , className: 'text-center'}
+					,{ data : "regDttm", className: 'text-center'}
+					,{ data : "hit", className: 'text-center'}
+				]
+	  		});
 			
+			$(document).on('click', '#complainTable td', function(e){
+				var click = $(this).closest('tr');
+				var boardNo = table.row(click).data()['boardNo'];
+				
+				post(boardNo);
+			});
+			
+			$("#regist").on("click", function(){
+				$(location).attr("href", "/sinmungo/complain/regist");
+			});
 		});
+			
+		function post(boardNo){
+			var $form = $("<form></form>");
+			$form.attr("method", "post");
+			$form.attr("action", "/sinmungo/complain/detail");
+			$form.attr("id", "frm");
+			$form.appendTo('body');
+			$form.appendTo('<input type="hidden" id="boardNo" name="boardNo" value="' + boardNo + '">');
+			
+			$("#frm").submit();
+		}
 	</script>
 </th:block>
 </html>

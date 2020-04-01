@@ -12,7 +12,6 @@ public class NoticeVO {
 	private int boardNo;
 	private String boardType;
 	
-	private int fileNo;
 	private String title;
 	private String content;
 	
@@ -31,6 +30,11 @@ public class NoticeVO {
 	private String nextNoticeTitle;
 	
 	private MultipartFile file;
+	
+	private int fileNo;
+	private int fileSeq;
+	private String fileNm;
+	private String fileDir;
 	
 	@JsonIgnore
 	private int start;

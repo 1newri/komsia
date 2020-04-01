@@ -44,5 +44,6 @@ public interface ForumMapper {
 	
 	void updateHitByBoard(BoardVO boardVO);
 	
-	int insertBoardForum(@Param("boardVO")BoardVO boardVO);
+	@Options(useGeneratedKeys = true, keyProperty = "boardVO.boardNo")
+	int insertBoardForum(BoardVO boardVO);
 }

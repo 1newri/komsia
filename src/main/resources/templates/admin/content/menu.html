@@ -111,10 +111,11 @@
       					, ordering : $("#ordering").val()
       					, level : $("#level").val()
       				}, success : function(data){
-      					if(data.resCode == "0000"){
+      					var json = JSON.parse(data);
+      					if(json.resCode == "0000"){
       						table.ajax.reload();
       						fn_init();
-							alert(data.resMsg);
+							alert(json.resMsg);
       					}
       				}, error : function(request, status, error){
       					alert(request);

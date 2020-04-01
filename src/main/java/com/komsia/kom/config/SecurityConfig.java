@@ -44,18 +44,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 									, "/lib/**"
 									, "/menu/**"
 									, "/forum/**"
+									, "/sinmungo/**"
 									, "/user/join"
-									, "/user/duplication"
 									);
 	}
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/", "/user/login", "/user/join", "/error**").permitAll()
+			.antMatchers("/", "/user/**").permitAll()
 			.antMatchers("/user/myinfo").hasRole("MEMBER")
 			.antMatchers("/admin/**").hasRole("ADMIN")
-//			.antMatchers("/**").authenticated()
+//			.antMatchers("/**", "/forum/**").authenticated()
 			.and()
 				.formLogin()
 				.loginPage("/user/login")

@@ -13,10 +13,10 @@ public interface ForumService {
 
 	Map<String, Object> getNotice(NoticeVO noticeVO);
 
-	Map<String, Object> noticeRegister(NoticeVO noticeVO);
+	Map<String, Object> noticeRegister(NoticeVO noticeVO) throws Exception;
 
 	Map<String, Object> getBoard(BoardVO boardVO);
 
-	Map<String, Object> boardRegister(BoardVO boardVO);
+	Map<String, Object> boardRegister(BoardVO boardVO) throws Exception;
 
 }
