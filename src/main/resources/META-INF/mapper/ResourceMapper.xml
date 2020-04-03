@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.komsia.kom.mapper.ResourceMapper">
+	
+	<select id="selectRoleList" resultType="Role">
+		SELECT 
+			ROLE_ID
+			, ROLE_NAME
+			, ROLE_DEF
+		FROM ks_auth_role 
+	</select>
+	
+	<select id="selectRoleIdList" resultType="String">
+		SELECT 
+			ROLE_ID
+		FROM ks_auth_role R
+		WHERE
+		<choose>
+			<when test="role_name != null and role_name.size() > 0">
+				R.ROLE_NAME IN
+				<foreach collection="role_name" item="item" index="index" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</when>
+			<otherwise>
+				1=2
+			</otherwise>
+		</choose>		
+	</select>
+	
+	<select id="selectTopMenu" parameterType="String" resultType="MenuVO">
+		SELECT
+			*
+		FROM ks_menu M
+		WHERE PID = 1
+		AND USE_YN = 'Y'
+		AND M.MENU_ID IN (
+			SELECT
+				MENU_ID
+			FROM ks_auth_role R
+		    JOIN ks_auth_role_menu RM
+		    ON R.ROLE_ID = RM.ROLE_ID
+		    WHERE 
+		    <choose>
+				<when test="role_name != null and role_name.size() > 0">
+					 R.ROLE_NAME IN
+					<foreach collection="role_name" item="item" index="index" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				</when>
+				<otherwise>
+					R.ROLE_NAME = 'ROLE_MEMBER'
+				</otherwise>
+			</choose>
+		)
+		AND M.TYPE = 'M'
+		ORDER BY ORDERING
+	</select>
+	
+	<select id="selectAuthUserList" resultType="AuthVO" parameterType="Integer">
+		SELECT
+			AR.ROLE_ID
+		    , AR.ROLE_NAME
+		    , AR.ROLE_DEF
+		    , U.USER_NO
+		    , U.USER_ID
+		    , U.USER_NAME
+		    , U.TEL
+		    , U.EMAIL
+		FROM KS_AUTH_ROLE AR
+		JOIN KS_AUTH_AUTHORITIES AA
+			ON AR.ROLE_ID = AA.ROLE_ID
+		JOIN KS_USER U
+			ON AA.USER_NO = U.USER_NO
+		WHERE 1=1
+		<if test="roleId != null and roleId != 0">
+			AND AR.ROLE_ID = #{roleId}
+		</if>
+	</select>
+</mapper>

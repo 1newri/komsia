@@ -114,7 +114,7 @@ public class ForumServiceImpl implements ForumService{
 		log.debug("prev : {} ", prev.toString());
 		
 		// 다음글 조회
-		BoardVO next = forumMapper.selectNextBoardVO(boardVO);
+		BoardVO next = forumMapper.selectNextBoard(boardVO);
 		if(ObjectUtils.isEmpty(next)) {
 			next = new BoardVO();
 			next.setNextTitle("다음글이 없습니다.");
@@ -143,7 +143,8 @@ public class ForumServiceImpl implements ForumService{
 		int boardNo = noticeVO.getBoardNo();
 		log.debug("boardNo : {}", boardNo);
 		
-		if(!ObjectUtils.isEmpty(noticeVO.getFile())) {
+		log.debug("file size : {}", noticeVO.getFile().getSize());
+		if(noticeVO.getFile().getSize() > 0) {
 			FileVO fileVO = new FileVO();
 			fileVO.setFile(noticeVO.getFile());
 			fileVO.setBoardNo(boardNo);
@@ -177,7 +178,7 @@ public class ForumServiceImpl implements ForumService{
 		int boardNo = boardVO.getBoardNo();
 		log.debug("boardNo : {}", boardNo);
 		
-		if(!ObjectUtils.isEmpty(boardVO.getFile())) {
+		if(boardVO.getFile().getSize() > 0) {
 			FileVO fileVO = new FileVO();
 			fileVO.setFile(boardVO.getFile());
 			fileVO.setBoardNo(boardNo);

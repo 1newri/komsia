@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
+
+<th:block layout:fragment="content">
+	<div class="content pull-right col-lg-9 col-md-8 col-sm-9 col-xs-12 clearfix">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/">Home</a></li>
+			<li class="breadcrumb-item"><a href="/admin">관리자</a></li>
+			<li class="breadcrumb-item active">권한관리</li>
+		</ol>
+		<h2>회원관리</h2>
+		<div>
+			<table id="userTable" class="table table-hover">
+        		<thead>
+        			<tr>
+        				<th>NO.</th>
+        				<th>아이디</th>
+        				<th>이름</th>
+        				<th>전화번호</th>
+        				<th>이메일</th>
+        				<th>비밀번호초기화</th>
+        				<th>사용여부</th>
+        			</tr>
+        		</thead>
+        	</table>
+        </div>
+	</div>
+      <!-- end content -->
+	<script>
+		$(function(){
+			
+			var table = $("#userTable").DataTable({
+				searching : false
+				, pageLength : 10
+				, ordering : false
+				, serverSide : true
+				, language : lang_kor
+				, dom : ''
+				, ajax : {
+					'url' : "/admin/user/list",
+					'type': 'POST'
+				}, columns : [
+					{
+						data : "userNo", className: 'text-center'
+						, render : function(data, type, row, meta){
+							return meta.row + meta.settings._iDisplayStart + 1;
+						}
+					}
+					,{ data : "userId" , className: 'text-center'}
+					,{ data : "userName" , className: 'text-center'}
+					,{ data : "tel" , className: 'text-left'}
+					,{ data : "email", className: 'text-left'}
+					,{	
+						render : function(data, type, row, meta){
+							return meta.row + meta.settings._iDisplayStart + 1;
+						}
+					}
+					,{ data : "useYn", className: 'text-center'}
+				]
+      		});
+	      		
+		});
+      	
+	</script>
+</th:block>
+</html>

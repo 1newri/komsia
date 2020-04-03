@@ -4,11 +4,29 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.komsia.kom.mapper.UserMapper">
 	
-	<select id="selectUserByUserId" parameterType="String" resultType="UserVO">
+	<resultMap type="UserVO" id="user">
+		<result column="USER_NO" jdbcType="DECIMAL" property="userNo" />
+		<result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+		<result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+		<result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+		<result column="TEL" jdbcType="VARCHAR" property="tel" />
+		<result column="SEX" jdbcType="CHAR" property="sex" />
+		<result column="EMAIL" jdbcType="VARCHAR" property="email" />
+		<result column="BIRTH" jdbcType="VARCHAR" property="birth" />
+		<collection property="userRoles" column="userRoles" javaType="ArrayList" ofType="Authorities">
+			<id column="ROLE_ID" jdbcType="DECIMAL" property="id"/>
+			<collection property="role" column="role" ofType="Role">
+				<id column="ROLE_ID" jdbcType="DECIMAL" property="roleId"/>
+				<result column="ROLE_NAME" jdbcType="VARCHAR" property="roleName"/>
+			</collection>
+		</collection>
+	</resultMap>
+	
+	<select id="selectUserByUserId" parameterType="String" resultMap="user">
 		SELECT 
 			U.USER_NO
 		    , U.USER_ID
-		    , R.ROLE_CD
+		    , R.ROLE_ID
 		    , R.ROLE_NAME
 		    , PASSWORD
 		    , USER_NAME
@@ -16,14 +34,11 @@
 		    , SEX
 		    , EMAIL
 		    , BIRTH
-		    , REG_DTTM
-		    , MOD_ID
-		    , MOD_DTTM
 		FROM komsia.ks_user U
 		LEFT JOIN komsia.ks_auth_authorities A
 			ON U.user_no = A.user_no
 		LEFT JOIN komsia.ks_auth_role R
-			ON A.role_cd = R.role_cd
+			ON A.ROLE_ID = R.ROLE_ID
 		WHERE U.USER_ID = #{userId}
 	</select>
 	
@@ -54,7 +69,7 @@
 		</selectKey>
 	</insert>
 	
-	<insert id="insertAuthUser" parameterType="Role">
+	<insert id="insertAuthUser" parameterType="String">
 		INSERT INTO ks_auth_authorities(
 			USER_NO
 			, ROLE_CD
@@ -63,4 +78,15 @@
 			, #{roleCd}		
 		)
 	</insert>
+	
+	<select id="selectUserList" resultType="UserVO">
+		SELECT
+			USER_ID
+			, USER_NAME
+			, TEL
+			, EMAIL
+			, REG_DTTM
+			, USE_YN
+		FROM ks_user
+	</select>
 </mapper>

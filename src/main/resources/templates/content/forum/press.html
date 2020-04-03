@@ -18,7 +18,7 @@
 				<option value="3">내용</option>
 			</select>
 			<input type="text" class="form-control" id="" >
-			<button class="btn btn-outline-secondary" type="submit">Search</button>
+			<button class="btn btn-outline-secondary">Search</button>
 		</div>
 		<div>
 			<table id="pressTable" class="table table-hover">
@@ -50,9 +50,9 @@
 				, dom: '<<t><p>'
 			    , paging : true
 				, ajax : {
-					'url' : "/forum/press/list",
-					'type': 'POST',
-					'dataSrc': function(data){
+					url : "/forum/press/list",
+					type: 'POST',
+					dataSrc: function(data){
 						total = data.total;
 						return data.data;
 					}
@@ -70,7 +70,6 @@
 	  		});
 			
 			$(document).on('click', '#pressTable td', function(e){
-				
 				var click = $(this).closest('tr');
 				var boardNo = table.row(click).data()['boardNo'];
 				
@@ -83,13 +82,12 @@
 		});
 			
 		function post(boardNo){
-			
 			var $form = $("<form></form>");
 			$form.attr("method", "post");
 			$form.attr("action", "/forum/press/detail");
 			$form.attr("id", "fm");
 			$form.appendTo('body');
-			$form.appendTo('<input type="hidden" id="boardNo" name="boardNo" value="' + boardNo + '">');
+			$form.append('<input type="hidden" id="boardNo" name="boardNo" value="' + boardNo + '">');
 			
 			$("#fm").submit();
 		}

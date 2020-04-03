@@ -23,11 +23,25 @@
 	
 	<select id="selectSinmungo" parameterType="SinmungoVO" resultType="SinmungoVO">
 		SELECT
-			*
-		FROM ks_board_sinmungo
-		WHERE BOARD_NO = #{boardNo} 
-		AND BOARD_TYPE = #{boardType}
-		AND USE_YN = 'Y'
+			B.BOARD_NO
+			, B.BOARD_TYPE
+		    , B.TITLE
+		    , B.CONTENT
+		    , B.HIT
+		    , B.REG_ID
+		    , B.REG_DTTM
+		    , FILE_NO
+		    , FILE_SEQ
+		    , FILE_NM
+		    , FILE_DIR
+		FROM ks_board_sinmungo B
+		LEFT JOIN KS_FILE F
+			ON B.BOARD_NO = F.BOARD_NO
+		    AND B.BOARD_TYPE = F.BOARD_TYPE
+		    AND F.USE_YN = 'Y'
+		WHERE B.USE_YN = 'Y'
+		AND B.BOARD_NO = #{boardNo}
+		AND B.BOARD_TYPE = #{boardType}
 	</select>
 	
 	<select id="selectPrevSinmungo" parameterType="SinmungoVO" resultType="SinmungoVO">
@@ -39,7 +53,7 @@
 			SELECT 
 				BOARD_NO 
 			FROM ks_board_sinmungo 
-			WHERE BOARD_NO <![CDATA[ > ]]> #{boardNo}
+			WHERE BOARD_NO <![CDATA[ < ]]> #{boardNo}
 			AND BOARD_TYPE = #{boardType}
 			AND USE_YN = 'Y' 
 			ORDER BY BOARD_NO DESC 
@@ -72,7 +86,7 @@
 		AND USE_YN = 'Y'			
 	</update>
 	
-	<insert id="insertSinmungo" parameterType="SinmungoVO">
+	<insert id="insertSinmungo" parameterType="SinmungoVO" useGeneratedKeys="true" keyProperty="boardNo">
 		INSERT INTO ks_board_sinmungo(
 			BOARD_TYPE
 			, TITLE

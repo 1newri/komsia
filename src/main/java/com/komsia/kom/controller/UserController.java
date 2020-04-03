@@ -4,7 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -71,26 +75,18 @@ public class UserController {
 	}
 	
 	@PostMapping(value = "/user/login")
-	public String login(HttpServletRequest request) {
+	public String login(HttpServletRequest request, HttpServletResponse response) {
 		return "/user/login";
 	}
 	
-	/*
-	 * @PostMapping(value = "/user/login")
-	 * 
-	 * @ResponseBody public Map<String, Object> login(HttpServletRequest request
-	 * , @ModelAttribute UserVO userVO){ Map<String, Object> map = new
-	 * HashMap<String, Object>(); try { // map =
-	 * userService.duplicationUser(userId); } catch (Exception e) {
-	 * log.error("Exception : {}", e); map.put("resCode",
-	 * ResponseCode.RESPONSE_FAIL); map.put("resMsg",
-	 * ResponseCode.RESPONSE_FAIL_MSG); } return map; }
-	 */
-	
 	@PostMapping(value = "/user/logout")
 	@ResponseBody
-	public Map<String, Object> logout(HttpServletRequest request){
-		return null;
+	public String logout(HttpServletRequest request, HttpServletResponse response){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if(auth != null){
+			new SecurityContextLogoutHandler().logout(request, response, auth);
+		}
+		return "redirect:/";
 	}
 	
 	@GetMapping(value = "/user/denied")

@@ -58,11 +58,6 @@ public class MenuServiceImpl implements MenuService{
 		return result;
 	}
 
-	@Override
-	@Cacheable(value = "menuCache")
-	public List<MenuVO> getTopMenu() {
-		return menuMapper.selectTopMenu();
-	}
 
 	@Override
 	public List<MenuVO> getParentMenuList() {

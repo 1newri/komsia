@@ -3,6 +3,7 @@ package com.komsia.kom.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.springframework.stereotype.Repository;
 
 import com.komsia.kom.domain.SinmungoVO;
@@ -23,6 +24,7 @@ public interface SinmungoMapper {
 
 	void updateHitBySinmungo(SinmungoVO sinmungoVO);
 
+	@Options(useGeneratedKeys = true, keyProperty = "sinmungoVO.boardNo")
 	void insertSinmungo(SinmungoVO sinmungoVO);
 	
 }

@@ -9,7 +9,7 @@
 			<input type="hidden" id="menuId" name="menuId" th:value="${menuId}">
 			<ul class="categories">
 				<li th:each="side : ${sideMenu}">
-					<a th:href="${side.url}" th:text="${side.name}" th:data-menuid="${side.menuId}"></a>
+					<a th:href="${side.url}" th:text="${side.name}" th:data-menuid="${side.menuId}" th:data-level="${side.level}"></a>
 				</li>
 			</ul>
 		</div>

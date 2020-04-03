@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
+
+<th:block layout:fragment="content">
+	<div class="content pull-right col-lg-9 col-md-8 col-sm-9 col-xs-12 clearfix">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/">Home</a></li>
+			<li class="breadcrumb-item"><a href="/admin">관리자</a></li>
+			<li class="breadcrumb-item active">권한관리</li>
+		</ol>
+		<h2>권한관리</h2>
+		<div>
+			<div class="form-group row">
+				<label for="staticEmail" class="col-sm-2 col-form-label">권한그룹</label>
+				<div class="col-sm-10">
+					<select class="form-control" id="authorities">
+						<option value="0">----- 전체 -----</option>
+						<option th:each="item : ${data}" th:value="${item.roleId}" th:data-name="${item.roleName}" th:text="${item.roleDef}"></option>	
+					</select>
+				</div>
+		    </div>
+        </div>
+		<div>
+			<table id="authUserTable" class="table table-hover">
+        		<thead>
+        			<tr>
+        				<th>NO.</th>
+        				<th>권한</th>
+        				<th>아이디</th>
+        				<th>이름</th>
+        			</tr>
+        		</thead>
+			</table>
+		</div>
+	</div>
+      <!-- end content -->
+	<script>
+		$(function(){
+
+			var table = $("#authUserTable").DataTable({
+				searching : false
+				, pageLength : 10
+				, ordering : false
+				, serverSide : true
+				, language : lang_kor
+				, dom : ''
+				, ajax : {
+					url : "/admin/auth/list",
+					type: 'POST',
+					data : {
+						roleId : function() { return $("#authorities option:selected").val() }
+					}					
+				}, columns : [
+					{
+						data : "userNo", className: 'text-center'
+						, render : function(data, type, row, meta){
+							return meta.row + meta.settings._iDisplayStart + 1;
+						}
+					},{ data : "roleDef" , className: 'text-center'}
+					,{ data : "userId" , className: 'text-center'}
+					,{ data : "userName" , className: 'text-center'}
+				]
+      		});
+			
+			$("#authorities").change(function(){
+				table.ajax.reload();
+			});
+		})
+	</script>
+</th:block>
+</html>

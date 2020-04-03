@@ -27,8 +27,9 @@ public class UserVO {
 	private String regDttm;
 	private String modId;
 	private String modDttm;
+	private String useYn;
 	
-	private List<Role> roles = new ArrayList<Role>();
+	private List<Authorities> userRoles = new ArrayList<>();
 	
 	@JsonIgnore
 	private int start;

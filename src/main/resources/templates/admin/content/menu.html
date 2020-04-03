@@ -5,7 +5,12 @@
 
 <th:block layout:fragment="content">
 	<div class="content pull-right col-lg-9 col-md-8 col-sm-9 col-xs-12 clearfix">
-		<h2>메뉴</h2>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/">Home</a></li>
+			<li class="breadcrumb-item"><a href="/admin">관리자</a></li>
+			<li class="breadcrumb-item active">메뉴관리</li>
+		</ol>
+		<h2>메뉴관리</h2>
 		<div>
 			<table id="menuTable" class="table table-hover">
         		<thead>
@@ -28,7 +33,9 @@
 					<legend>메뉴등록</legend>
 					<div class="form-group">
 						<label for="pid">상위메뉴</label>
-						<select class="form-control" id="pid"></select>
+						<select class="form-control" id="pid">
+							<option th:each="item : ${list}" th:value="${item.menuId}" th:data-url="${item.url}" th:data-level="${item.level}" th:text="${item.name}"></option>
+						</select>
 						<input type="hidden" id="level" name="level">
 					</div>
 					<div class="form-group">
@@ -62,7 +69,6 @@
       <!-- end content -->
 	<script>
 		$(function(){
-			fn_selPid();
 			fn_init();
 			
 			$("#pid").change(function(){
@@ -80,7 +86,7 @@
 				, language : lang_kor
 				, dom : ''
 				, ajax : {
-					'url' : "/menu/list",
+					'url' : "/admin/menu/list",
 					'type': 'POST'
 				}, columns : [
 					{
@@ -99,8 +105,10 @@
       		});
 	      		
       		$("#save").click(function(){
+      			
+      			$("#level").val();
       			$.ajax({
-      				url: "/menu/save"
+      				url: "/admin/menu/save"
 					, type : "post"
       				, data : {
       					pid : $("#pid option:selected").val()
@@ -124,19 +132,6 @@
       		})
 		});
       	
-		function fn_selPid(){
-			$.ajax({
-  				url: "/menu/pid"
-				, type : "post"
-				, success : function(data){
-					$.each(JSON.parse(data), function(index, item){
-  						$("#pid").append('<option value="'+item.menuId+'" data-url="'+ item.url +'" data-level="'+ item.level +'">'+ item.name +'</option>');
-					});
-  				}, error : function(request, status, error){
-  					alert(request);
-  				}
-  			});
-		}
 		
       	function fn_init(){
       		$("input").val('');

@@ -28,6 +28,7 @@ public class WebMvcConfig implements WebMvcConfigurer{
 						, "/js/**"
 						, "/lib/**"
 						, "/menu/**"
-						, "/error");
+						, "/error"
+						, "/favicon.ico");
 	}
 }

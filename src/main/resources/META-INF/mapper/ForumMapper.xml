@@ -116,7 +116,6 @@
 			, B.BOARD_TYPE
 		    , B.TITLE
 		    , B.CONTENT
-		    , B.RANK
 		    , B.HIT
 		    , B.REG_ID
 		    , B.REG_DTTM
@@ -143,7 +142,7 @@
 			SELECT 
 				BOARD_NO 
 			FROM ks_board_forum 
-			WHERE BOARD_NO <![CDATA[ > ]]> #{boardNo}
+			WHERE BOARD_NO <![CDATA[ < ]]> #{boardNo}
 			AND BOARD_TYPE = #{boardType}
 			AND USE_YN = 'Y' 
 			ORDER BY BOARD_NO DESC 

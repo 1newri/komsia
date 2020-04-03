@@ -11,14 +11,26 @@
 		    	<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse">
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item">
-						<a class="nav-link" href="/user/login">로그인</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/user/join">회원가입</a>
-					</li>
-				</ul>
+				<div th:if="${userId == null}">
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item">
+							<a class="nav-link" href="/user/login">로그인</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/user/join">회원가입</a>
+						</li>
+					</ul>
+				</div>
+				<div th:unless="${userId == null}">
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item">
+							<a class="nav-link" href="/user/mypage" th:text="${userId}"></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/user/logout">로그아웃</a>
+						</li>
+					</ul>
+				</div>
 			</div>
 			<div class="collapse navbar-collapse" id="komsiaTopNav">
 				<ul class="navbar-nav ml-auto">

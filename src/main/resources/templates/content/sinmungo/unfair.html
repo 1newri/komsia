@@ -50,9 +50,9 @@
 				, dom: '<<t><p>'
 			    , paging : true
 				, ajax : {
-					'url' : "/sinmungo/unfair/list",
-					'type': 'POST',
-					'dataSrc': function(data){
+					url : "/sinmungo/unfair/list",
+					type: 'POST',
+					dataSrc: function(data){
 						total = data.total;
 						return data.data;
 					}
@@ -87,7 +87,7 @@
 			$form.attr("action", "/sinmungo/unfair/detail");
 			$form.attr("id", "frm");
 			$form.appendTo('body');
-			$form.appendTo('<input type="hidden" id="boardNo" name="boardNo" value="' + boardNo + '">');
+			$form.append('<input type="hidden" id="boardNo" name="boardNo" value="' + boardNo + '">');
 			
 			$("#frm").submit();
 		}

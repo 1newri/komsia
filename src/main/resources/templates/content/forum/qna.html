@@ -50,9 +50,9 @@
 				, dom: '<<t><p>'
 			    , paging : true
 				, ajax : {
-					'url' : "/forum/qna/list",
-					'type': 'POST',
-					'dataSrc': function(data){
+					url : "/forum/qna/list",
+					type: 'POST',
+					dataSrc: function(data){
 						total = data.total;
 						return data.data;
 					}
@@ -82,14 +82,15 @@
 		});
 			
 		function post(boardNo){
+			
 			var $form = $("<form></form>");
 			$form.attr("method", "post");
 			$form.attr("action", "/forum/qna/detail");
 			$form.attr("id", "frm");
 			$form.appendTo('body');
-			$form.appendTo('<input type="hidden" id="boardNo" name="boardNo" value="' + boardNo + '">');
+			$form.append('<input type="hidden" id="boardNo" name="boardNo" value="' + boardNo + '">');
 			
-			$("#frm").submit();
+			$form.submit();
 		}
 	</script>
 </th:block>

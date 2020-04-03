@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.komsia.kom.constant.CommonConstant;
+import com.komsia.kom.constant.ResponseCode;
 import com.komsia.kom.domain.BoardVO;
 import com.komsia.kom.domain.NoticeVO;
 import com.komsia.kom.service.ForumService;
@@ -50,11 +51,13 @@ public class ForumContoller {
 			result = forumService.getNoticeList(noticeVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
 		}
 		return result;
 	}
 	
-	@PostMapping(value = "/forum/notice/detail")
+	@GetMapping(value = "/forum/notice/detail")
 	public String noticeDetail(HttpServletRequest request
 			, @ModelAttribute NoticeVO noticeVO
 			, ModelMap model) {
@@ -65,6 +68,8 @@ public class ForumContoller {
 			model.addAttribute("data", result);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
 		}
 		return "/content/forum/notice_detail";
 	}
@@ -86,6 +91,8 @@ public class ForumContoller {
 			result = forumService.noticeRegister(noticeVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
 		}
 		return result;
 	}
@@ -105,6 +112,8 @@ public class ForumContoller {
 			result = forumService.getBoardList(boardVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
 		}
 		return result;
 	}
@@ -121,6 +130,8 @@ public class ForumContoller {
 			model.addAttribute("data", result);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
 		}
 		return "/content/forum/press_detail";
 	}
@@ -143,6 +154,8 @@ public class ForumContoller {
 			result = forumService.boardRegister(boardVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
 		}
 		return result;
 	}
@@ -162,6 +175,8 @@ public class ForumContoller {
 			result = forumService.getBoardList(boardVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
 		}
 		return result;
 	}
@@ -178,6 +193,8 @@ public class ForumContoller {
 			model.addAttribute("data", result);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
 		}
 		return "/content/forum/qna_detail";
 	}
@@ -200,6 +217,8 @@ public class ForumContoller {
 			result = forumService.boardRegister(boardVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
 		}
 		return result;
 	}
@@ -219,6 +238,8 @@ public class ForumContoller {
 			result = forumService.getBoardList(boardVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
 		}
 		return result;
 	}
@@ -235,6 +256,8 @@ public class ForumContoller {
 			model.addAttribute("data", result);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
 		}
 		return "/content/forum/reference_detail";
 	}
@@ -257,6 +280,8 @@ public class ForumContoller {
 			result = forumService.boardRegister(boardVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
 		}
 		return result;
 	}

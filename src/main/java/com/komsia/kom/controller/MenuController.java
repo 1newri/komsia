@@ -22,50 +22,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@AllArgsConstructor
-@Slf4j
 public class MenuController {
 	
-	private MenuService menuService;
 
-	@GetMapping(value = "/menu")
-	public String menu() {
-		
-		return "/admin/content/menu";
-	}
-	
-	@PostMapping(value = "/menu/pid")
-	@ResponseBody
-	public List<MenuVO> menuPid(HttpServletRequest request){
-		List<MenuVO> list = menuService.getParentMenuList();
-		return list;
-	}
-	
-	@PostMapping(value = "/menu/list")
-	@ResponseBody
-	public Map<String, Object> menuList(HttpServletRequest request){
-		Map<String, Object> result = new HashMap<String, Object>();
-		try {
-			result = menuService.getMenuList();
-		} catch (Exception e) {
-			log.error("Exception : {}", e);
-		}
-		return result;
-	}
-	
-	@PostMapping(value = "/menu/save")
-	@ResponseBody
-	public Map<String, Object> insertMenu(HttpServletRequest request
-			, @ModelAttribute MenuVO menuVO){
-		log.debug("menuVO : {}", menuVO);
-		Map<String, Object> result = new HashMap<String, Object>();
-		try {
-			result = menuService.insertMenu(menuVO);
-		} catch (Exception e) {
-			log.error("Exception : {}", e);
-			result.put("resCode", ResponseCode.RESPONSE_FAIL);
-			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
-		}
-		return result;
-	}
 }

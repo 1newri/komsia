@@ -35,5 +35,5 @@ public class ActivityController {
 	public String bio(HttpServletRequest request) {
 		return "/content/activity/bio/bio";
 	}
-	
+
 }

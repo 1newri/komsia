@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.komsia.kom.mapper.ActivityMapper">
+	
+	<select id="selectActivityList" parameterType="ActivityVO" resultType="ActivityVO">
+		SELECT
+			*
+		FROM ks_board_activity
+		WHERE BOARD_TYPE = #{boardType}
+		AND BOARD_SUB_TYPE = #{boardSubType}
+		AND USE_YN = 'Y'
+	</select>
+	
+	<select id="selectActivityListTotalCnt" parameterType="ActivityVO" resultType="ActivityVO">
+		SELECT
+			COUNT(*) CNT
+		FROM ks_board_activity
+		WHERE BOARD_TYPE = #{boardType}
+		AND BOARD_SUB_TYPE = #{boardSubType}
+		AND USE_YN = 'Y'
+	</select>
+	
+	<select id="selectActivity" parameterType="ActivityVO" resultType="ActivityVO">
+		SELECT
+			B.BOARD_NO
+			, B.BOARD_TYPE
+		    , B.TITLE
+		    , B.CONTENT
+		    , B.HIT
+		    , B.REG_ID
+		    , B.REG_DTTM
+		    , FILE_NO
+		    , FILE_SEQ
+		    , FILE_NM
+		    , FILE_DIR
+		FROM ks_board_activity B
+		LEFT JOIN KS_FILE F
+			ON B.BOARD_NO = F.BOARD_NO
+		    AND B.BOARD_TYPE = F.BOARD_TYPE
+		    AND F.USE_YN = 'Y'
+		WHERE B.USE_YN = 'Y'
+		AND B.BOARD_NO = #{boardNo}
+		AND B.BOARD_TYPE = #{boardType}
+		AND B.BOARD_SUB_TYPE = #{boardSubType}
+	</select>
+	
+	<update id="updateHitByActivity" parameterType="ActivityVO">
+		UPDATE ks_board_activity SET
+			HIT = IFNULL(HIT, 0) + 1
+		WHERE BOARD_NO = #{boardNo}
+		AND BOARD_TYPE = #{boardType}
+		AND BOARD_SUB_TYPE = #{boardSubType}
+		AND USE_YN = 'Y'			
+	</update>
+	
+	<insert id="insertActivity" parameterType="ActivityVO" useGeneratedKeys="true" keyProperty="boardNo">
+		INSERT INTO ks_board_activity(
+			BOARD_TYPE
+			, BOARD_SUB_TYPE
+			, TITLE
+			, CONTENT
+			, HIT
+			, USE_YN
+			, REG_ID
+		) VALUES (
+			#{boardType}
+			, #{boardSubType}
+			, #{title}
+			, #{content}
+			, 0
+			, 'Y'
+			, #{regId}
+		)
+	</insert>
+	
+</mapper>

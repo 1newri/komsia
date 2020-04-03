@@ -40,7 +40,7 @@ public interface ForumMapper {
 
 	BoardVO selectPrevBoard(BoardVO boardVO);
 
-	BoardVO selectNextBoardVO(BoardVO boardVO);
+	BoardVO selectNextBoard(BoardVO boardVO);
 	
 	void updateHitByBoard(BoardVO boardVO);
 	

@@ -1,5 +1,7 @@
 package com.komsia.kom.config;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import com.komsia.kom.handler.AuthFailureHandler;
 import com.komsia.kom.handler.AuthSuccessHandler;
@@ -24,7 +27,6 @@ import lombok.AllArgsConstructor;
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	private UserService userService;
-	
 	private AuthSuccessHandler authSuccessHandler;
 	private AuthFailureHandler authFailureHandler;
 	 
@@ -42,10 +44,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 									, "/komsia/**"
 									, "/js/**"
 									, "/lib/**"
-									, "/menu/**"
-									, "/forum/**"
-									, "/sinmungo/**"
-									, "/user/join"
 									);
 	}
 	
@@ -55,7 +53,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.antMatchers("/", "/user/**").permitAll()
 			.antMatchers("/user/myinfo").hasRole("MEMBER")
 			.antMatchers("/admin/**").hasRole("ADMIN")
-//			.antMatchers("/**", "/forum/**").authenticated()
+			.antMatchers("/activity/stock/analist/chat/manager").hasRole("MANAGER")
+			.antMatchers("/activity/stock/analist/chat/analyst").hasRole("ANALYST")
+			.antMatchers("/activity/**").authenticated()
 			.and()
 				.formLogin()
 				.loginPage("/user/login")
@@ -71,13 +71,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.logoutSuccessUrl("/")
 				.invalidateHttpSession(true)
 			.and()
-				.exceptionHandling().accessDeniedPage("/user/denied");
+				.exceptionHandling().accessDeniedPage("/user/denied")
+			.and().csrf().disable();
+//			.and().csrf().ignoringAntMatchers("/","/user/login","/user/logout");
 	}
-	
 	
 	
 	@Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
+	
 }

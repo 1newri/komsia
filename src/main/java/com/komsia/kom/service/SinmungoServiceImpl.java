@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
+import com.komsia.kom.constant.CommonConstant;
 import com.komsia.kom.constant.ResponseCode;
+import com.komsia.kom.domain.FileVO;
 import com.komsia.kom.domain.NoticeVO;
 import com.komsia.kom.domain.SinmungoVO;
 import com.komsia.kom.mapper.SinmungoMapper;
@@ -22,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SinmungoServiceImpl implements SinmungoService{
 	
 	private SinmungoMapper sinmungoMapper;
+	private FileService fileSerivce;
 	
 	@Override
 	public Map<String, Object> getSinmungoList(SinmungoVO sinmungoVO) {
@@ -45,7 +48,7 @@ public class SinmungoServiceImpl implements SinmungoService{
 	public Map<String, Object> getSinmungo(SinmungoVO sinmungoVO) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		
-		// noticeVO 조회
+		// sinmungoVO 조회
 		sinmungoVO = sinmungoMapper.selectSinmungo(sinmungoVO);
 		result.put("vo", sinmungoVO);
 		log.debug("sinmungoVO : {} ", sinmungoVO.toString());
@@ -76,14 +79,29 @@ public class SinmungoServiceImpl implements SinmungoService{
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public Map<String, Object> sinmungoRegister(SinmungoVO sinmungoVO) {
+	public Map<String, Object> sinmungoRegister(SinmungoVO sinmungoVO) throws Exception{
 
+		log.debug("boardType : {} ", sinmungoVO.getBoardType());
 		Map<String, Object> result = new HashMap<String, Object>();
+		
+		sinmungoVO.setRegId("SYSTEM");
 		
 		String resCode = ResponseCode.RESPONSE_OK;
 		String resMsg = ResponseCode.RESPONSE_OK_MSG;
 		
 		sinmungoMapper.insertSinmungo(sinmungoVO);
+		
+		int boardNo = sinmungoVO.getBoardNo();
+		log.debug("boardNo : {}", boardNo);
+		
+		if(sinmungoVO.getFile().getSize() > 0) {
+			FileVO fileVO = new FileVO();
+			fileVO.setFile(sinmungoVO.getFile());
+			fileVO.setBoardNo(boardNo);
+			fileVO.setBoardType(sinmungoVO.getBoardType());
+			
+			fileSerivce.saveFile(fileVO);	
+		}
 		
 		result.put("resCode", resCode);
 		result.put("resMsg", resMsg);

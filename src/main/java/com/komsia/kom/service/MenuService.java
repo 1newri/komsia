@@ -13,8 +13,6 @@ public interface MenuService {
 	
 	public Map<String, Object> insertMenu(MenuVO menuVO);
 
-	public List<MenuVO> getTopMenu();
-
 	public List<MenuVO> getSideMenu(int pid);
 
 	public String getMenuTitle(String url);

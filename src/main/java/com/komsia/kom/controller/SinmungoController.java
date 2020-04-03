@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.komsia.kom.constant.CommonConstant;
+import com.komsia.kom.constant.ResponseCode;
 import com.komsia.kom.domain.NoticeVO;
 import com.komsia.kom.domain.SinmungoVO;
 import com.komsia.kom.service.SinmungoService;
@@ -48,42 +49,50 @@ public class SinmungoController {
 			result = sinmungoService.getSinmungoList(sinmungoVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
 		}
 		return result;
 	}
 	
 	@PostMapping(value = "/sinmungo/complain/detail")
-	public String noticeDetail(HttpServletRequest request
+	public String complainDetail(HttpServletRequest request
 			, @ModelAttribute SinmungoVO sinmungoVO
 			, ModelMap model) {
 		
 		Map<String, Object> result = new HashMap<String, Object>();
+		sinmungoVO.setBoardType(CommonConstant.BOARD_TYPE_C);
 		try {
 			result = sinmungoService.getSinmungo(sinmungoVO);
 			model.addAttribute("data", result);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
 		}
-		return "/content/sinmungo/notice_detail";
+		return "/content/sinmungo/complain_detail";
 	}
 	
 	@GetMapping(value = "/sinmungo/complain/regist")
-	public String noticeRegist(HttpServletRequest request
+	public String complainRegist(HttpServletRequest request
 			, ModelMap model) {
 		
-		return "/content/sinmungo/notice_regist";
+		return "/content/sinmungo/complain_regist";
 	}
 	
 	@PostMapping(value = "/sinmungo/complain/regist")
 	@ResponseBody
-	public Map<String, Object> sinmungoRegist(MultipartHttpServletRequest request
+	public Map<String, Object> complainRegist(HttpServletRequest request
 			, @ModelAttribute SinmungoVO sinmungoVO
 			, ModelMap model) {
 		Map<String, Object> result = new HashMap<String, Object>();
+		sinmungoVO.setBoardType(CommonConstant.BOARD_TYPE_C);
 		try {
 			result = sinmungoService.sinmungoRegister(sinmungoVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
 		}
 		return result;
 	}
@@ -103,6 +112,49 @@ public class SinmungoController {
 			result = sinmungoService.getSinmungoList(sinmungoVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		return result;
+	}
+	
+	@PostMapping(value = "/sinmungo/unfair/detail")
+	public String unfairDetail(HttpServletRequest request
+			, @ModelAttribute SinmungoVO sinmungoVO
+			, ModelMap model) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		sinmungoVO.setBoardType(CommonConstant.BOARD_TYPE_U);
+		try {
+			result = sinmungoService.getSinmungo(sinmungoVO);
+			model.addAttribute("data", result);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		return "/content/sinmungo/unfair_detail";
+	}
+	
+	@GetMapping(value = "/sinmungo/unfair/regist")
+	public String noticeRegist(HttpServletRequest request
+			, ModelMap model) {
+		
+		return "/content/sinmungo/unfair_regist";
+	}
+	
+	@PostMapping(value = "/sinmungo/unfair/regist")
+	@ResponseBody
+	public Map<String, Object> sinmungoRegist(HttpServletRequest request
+			, @ModelAttribute SinmungoVO sinmungoVO
+			, ModelMap model) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		sinmungoVO.setBoardType(CommonConstant.BOARD_TYPE_U);
+		try {
+			result = sinmungoService.sinmungoRegister(sinmungoVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
 		}
 		return result;
 	}

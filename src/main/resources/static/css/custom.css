@@ -1,4 +1,14 @@
 
+#accord .ui-accordion-header {
+	font-size : 14px;
+}
+
+#accord .accord-info {
+	color : #8c8c8c;
+	text-align: right;
+}
+
+
 /*--------------------------------------------------------------
 # Sections Header
 --------------------------------------------------------------*/
@@ -513,7 +523,7 @@
 }
 
 .content {
-  padding: 20px 2px 60px 20px;
+  padding: 20px 20px 60px 20px;
 }
 
 .widget {

@@ -30,11 +30,16 @@
         		</form>
         	</div>
 		</div>
-	</section><!-- End About Section -->
-  	<script>
+	</section>
+  	<script th:inline="javascript">
   		$(function(){
+  			/*<![CDATA[*/
+				var result = [[${result}]];
+  			/*]]>*/
+			if(result == 'fail'){
+				alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+			}
   		});
-  		
   	</script>
 </th:block>
 </html>

@@ -4,10 +4,33 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.komsia.kom.mapper.MenuMapper">
 	<select id="selectMenuList" resultType="MenuVO">
-		SELECT
-			*
-		FROM KS_MENU
-		ORDER BY PID, MENU_ID, ORDERING
+		SELECT 
+			CASE WHEN FNC.LEVEL-1 > 0 THEN CONCAT(CONCAT(REPEAT('    ', FNC.LEVEL  - 1),' '), M.NAME)
+			ELSE M.NAME
+			END AS NAME
+		     , M.MENU_ID
+		     , M.PID
+		     , M.URL
+		     , M.TYPE
+		     , M.ORDERING
+		     , M.USE_YN
+		     , M.DESCRIPTION
+		     , FNC.LEVEL
+		  FROM(
+			SELECT 
+				fn_hierarchi() AS ID
+		        , @level AS LEVEL
+			FROM (
+				SELECT 
+					@start_with:=0
+		            , @id:=@start_with
+		            , @level:=0
+			) VARS
+			JOIN komsia.ks_menu
+			WHERE @id IS NOT NULL
+		) FNC
+		JOIN komsia.ks_menu M
+		ON FNC.ID = M.MENU_ID
 	</select>
 	
 	<select id="getParentMenuList" resultType="MenuVO">
@@ -47,35 +70,30 @@
 	</select>
 	
 	<select id="selectSideMenu" resultType="MenuVO" parameterType="Integer">
-		WITH RECURSIVE CTE (MENU_ID, LEVEL, NAME, PID, URL, ORDERING, USE_YN) AS
-		(
-			SELECT     
-				MENU_ID
-				, LEVEL
-				, NAME
-				, PID
-				, URL
-				, ORDERING
-		        , USE_YN
-			FROM KOMSIA.KS_MENU
-			WHERE PID = #{pid}
-			AND TYPE = 'M'
-			UNION ALL
-			SELECT
-				M.MENU_ID
-				, M.LEVEL
-				, M.NAME
-				, M.PID
-				, M.URL
-				, M.ORDERING
-		        , M.USE_YN
-			FROM KOMSIA.KS_MENU M
-			INNER JOIN CTE
-				ON M.PID = CTE.MENU_ID
-			WHERE TYPE = 'M'
-		)
-		SELECT * FROM CTE
-		WHERE USE_YN = 'Y'
+		SELECT 
+			CASE WHEN FNC.LEVEL-1 > 0 THEN CONCAT(CONCAT(REPEAT('    ', FNC.LEVEL  - 1),' '), M.NAME)
+			ELSE M.NAME
+			END AS NAME
+		     , M.MENU_ID
+		     , M.PID
+		     , M.URL
+		     , M.TYPE
+		     , FNC.LEVEL
+		  FROM(
+			SELECT 
+				fn_hierarchi() AS ID
+		        , @level AS LEVEL
+			FROM (
+				SELECT 
+					@start_with:= #{pid}
+		            , @id:=@start_with
+		            , @level:=0
+			) VARS
+			JOIN komsia.ks_menu
+			WHERE @id IS NOT NULL
+		) FNC
+		JOIN komsia.ks_menu M
+		ON FNC.ID = M.MENU_ID
 	</select>
 	
 	

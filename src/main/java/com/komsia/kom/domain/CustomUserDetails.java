@@ -1,37 +1,60 @@
-package com.komsia.kom.service;
+package com.komsia.kom.domain;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 public class CustomUserDetails extends User{
 	
-	private Long userNo;
+	private UserVO user;
+	private List<String> roles;
+	private int userNo;
 	private String userName;
-
-	public CustomUserDetails(String userId, String password,
-			Collection<? extends GrantedAuthority> authorities) {
-		super(userId, password, true, true, true, true, authorities);
+	
+	
+	public CustomUserDetails(UserVO user, List<String> roles) {
+		super(user.getUserId(), user.getPassword(), true, true, true, true, 
+				roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
 	}
 
-	public Long getUserNo() {
+	public UserVO getUser() {
+		return user;
+	}
+
+
+	public void setUser(UserVO user) {
+		this.user = user;
+	}
+
+
+	public List<String> getRoles() {
+		return roles;
+	}
+
+
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
+
+
+	public int getUserNo() {
 		return userNo;
 	}
 
-	public void setUserNo(Long userNo) {
+
+	public void setUserNo(int userNo) {
 		this.userNo = userNo;
 	}
+
 
 	public String getUserName() {
 		return userName;
 	}
 
+
 	public void setUserName(String userName) {
 		this.userName = userName;
-	}
-	
-	public String getUserId() {
-		return super.getUsername();
 	}
 }

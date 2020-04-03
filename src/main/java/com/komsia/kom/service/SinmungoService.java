@@ -10,5 +10,5 @@ public interface SinmungoService {
 
 	Map<String, Object> getSinmungo(SinmungoVO sinmungoVO);
 
-	Map<String, Object> sinmungoRegister(SinmungoVO sinmungoVO);
+	Map<String, Object> sinmungoRegister(SinmungoVO sinmungoVO) throws Exception;
 }
