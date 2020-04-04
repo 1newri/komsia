@@ -16,8 +16,10 @@ public interface UserMapper {
 	
 	void joinUser(UserVO userVO);
 	
-	void insertAuthUser(@Param(value = "userNo")Long userNo, @Param(value = "roleId") String roleId);
+	void insertAuthUser(@Param(value = "userNo")String userNo, @Param(value = "roleId") String roleId);
 
 	List<UserVO> selectUserList();
+
+	void deleteAuthUser(@Param(value = "userNo")String userNo, @Param(value = "roleId")String auth);
 
 }

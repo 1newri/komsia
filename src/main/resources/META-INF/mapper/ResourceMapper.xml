@@ -63,7 +63,11 @@
 		SELECT
 			AR.ROLE_ID
 		    , AR.ROLE_NAME
-		    , AR.ROLE_DEF
+		    , REPLACE(
+				GROUP_CONCAT(
+					CONCAT(AR.ROLE_DEF) SEPARATOR ','
+				), AR.ROLE_NAME,''
+			) AS ROLE_DEF
 		    , U.USER_NO
 		    , U.USER_ID
 		    , U.USER_NAME
@@ -78,5 +82,45 @@
 		<if test="roleId != null and roleId != 0">
 			AND AR.ROLE_ID = #{roleId}
 		</if>
+		GROUP BY U.USER_NO
+	</select>
+	<select id="selectNotAuthUserList" resultType="AuthVO" parameterType="String">
+		SELECT
+			ROLE_IDS
+			, ROLE_NAME
+			, USER_NO
+			, USER_ID
+			, USER_NAME
+			, TEL
+			, EMAIL
+		FROM(
+			SELECT
+				REPLACE(GROUP_CONCAT(
+						CONCAT(AR.ROLE_ID) SEPARATOR ','), AR.ROLE_NAME,'') AS ROLE_IDS
+				, REPLACE(
+					GROUP_CONCAT(
+						CONCAT(AR.ROLE_DEF) SEPARATOR ','), AR.ROLE_NAME,'') AS ROLE_NAME
+				, U.USER_NO
+				, U.USER_ID
+				, U.USER_NAME
+				, U.TEL
+				, U.EMAIL
+			FROM KS_AUTH_ROLE AR
+			JOIN KS_AUTH_AUTHORITIES AA
+				ON AR.ROLE_ID = AA.ROLE_ID
+			JOIN KS_USER U
+				ON AA.USER_NO = U.USER_NO
+			WHERE 1=1
+			GROUP BY USER_NO
+		) A
+		WHERE 1=1 
+		<if test="roleId != null and roleId != 0">
+			AND A.ROLE_IDS NOT LIKE CONCAT('%',#{roleId},'%')
+		</if>
+		<if test="searchId != null and searchId != ''">
+			AND A.USER_ID LIKE CONCAT('%',#{searchId},'%')
+		</if>
+		
+		
 	</select>
 </mapper>

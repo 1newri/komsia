@@ -22,28 +22,30 @@
 		AND USE_YN = 'Y'
 	</select>
 	
-	<select id="selectActivity" parameterType="ActivityVO" resultType="ActivityVO">
+	<select id="selectActivityStock" parameterType="ActivityVO" resultType="ActivityVO">
 		SELECT
 			B.BOARD_NO
 			, B.BOARD_TYPE
-		    , B.TITLE
-		    , B.CONTENT
-		    , B.HIT
-		    , B.REG_ID
-		    , B.REG_DTTM
-		    , FILE_NO
-		    , FILE_SEQ
-		    , FILE_NM
-		    , FILE_DIR
+			, B.BOARD_SUB_TYPE
+			, B.TITLE
+			, B.CONTENT
+			, B.HIT
+			, B.REG_ID
+			, B.REG_DTTM
+			, FILE_NO
+			, FILE_NM
+			, FILE_DIR
 		FROM ks_board_activity B
-		LEFT JOIN KS_FILE F
+		LEFT JOIN KS_FILE_activity F
 			ON B.BOARD_NO = F.BOARD_NO
-		    AND B.BOARD_TYPE = F.BOARD_TYPE
-		    AND F.USE_YN = 'Y'
+			AND B.BOARD_TYPE = F.BOARD_TYPE
+		    AND B.BOARD_SUB_TYPE = F.BOARD_SUB_TYPE
+			AND F.USE_YN = 'Y'
 		WHERE B.USE_YN = 'Y'
-		AND B.BOARD_NO = #{boardNo}
 		AND B.BOARD_TYPE = #{boardType}
 		AND B.BOARD_SUB_TYPE = #{boardSubType}
+		ORDER BY REG_DTTM DESC
+		LIMIT 1
 	</select>
 	
 	<update id="updateHitByActivity" parameterType="ActivityVO">

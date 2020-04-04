@@ -7,11 +7,11 @@ import com.komsia.kom.domain.MenuVO;
 
 public interface MenuService {
 	
-	public Map<String, Object> getMenuList();
+	public List<MenuVO> getMenuList();
 
 	public List<MenuVO> getParentMenuList();
 	
-	public Map<String, Object> insertMenu(MenuVO menuVO);
+	public int insertMenu(MenuVO menuVO);
 
 	public List<MenuVO> getSideMenu(int pid);
 

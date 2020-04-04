@@ -25,8 +25,33 @@
         			</tr>
         		</thead>
         	</table>
+	        <div class="modal border-primary" id="modal-init" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">비밀번호 초기화</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<input type="hidden" id="userId" name="userId"> 
+							<input type="hidden" id="userNo" name="useNo">
+							<p>
+								<span id="initId"></span>님의 비밀번호를 초기화 하시겠습니까?<br>
+								비밀번호는 <strong> 아이디1! </strong>로  초기화 됩니다. <br>
+							</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary" id="init">초기화</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+						</div>
+				    </div>
+				</div>
+			</div>
         </div>
 	</div>
+        
       <!-- end content -->
 	<script>
 		$(function(){
@@ -50,17 +75,33 @@
 					}
 					,{ data : "userId" , className: 'text-center'}
 					,{ data : "userName" , className: 'text-center'}
-					,{ data : "tel" , className: 'text-left'}
-					,{ data : "email", className: 'text-left'}
+					,{ data : "tel" , className: 'text-center'}
+					,{ data : "email", className: 'text-center'}
 					,{	
 						render : function(data, type, row, meta){
-							return meta.row + meta.settings._iDisplayStart + 1;
-						}
+							return '<button id="initPwd" name="initPwd" data-toggle="modal" data-target="#modal-init"'
+							+ 'class="btn btn-primary btn-sm" data-userno="' + row.userNo + '" data-userid="' +row.userId + '">초기화</button>';
+						}, className: 'text-center'
 					}
 					,{ data : "useYn", className: 'text-center'}
+					,{ data : "userNo", className: 'text-center', visible:false}
 				]
       		});
+			
+			$("#modal-init").on('show.bs.modal', function(e){
+				var button = $(e.relatedTarget);
+				var userId = button.data("userid");
+				$("#initId").text(userId);
+			});
+			
 	      		
+			// 비밀번호 초기화 
+			$("#init").click(function(){
+				$.ajax({
+					
+				});
+			});
+			
 		});
       	
 	</script>

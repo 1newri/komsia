@@ -1,8 +1,6 @@
 package com.komsia.kom.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import lombok.AllArgsConstructor;
 
@@ -42,13 +40,16 @@ public class ResourceMetaSerivceImpl implements ResourceMetaSerivce{
 	}
 
 	@Override
-	public Map<String, Object> getAuthUserList(int roleId) {
+	public List<AuthVO> getAuthUserList(int roleId) {
 		
-		Map<String, Object> result = new HashMap<String, Object>();
-
 		List<AuthVO> list = resourceMapper.selectAuthUserList(roleId);
 		
-		result.put("data", list);
-		return result;
+		return list;
+	}
+
+	@Override
+	public List<AuthVO> getNotAuthUserList(String roleId, String userId) {
+		List<AuthVO> list = resourceMapper.selectNotAuthUserList(roleId, userId);
+		return list;
 	}
 }

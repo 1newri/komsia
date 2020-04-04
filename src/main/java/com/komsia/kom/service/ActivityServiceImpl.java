@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class StockServiceImpl implements StockService{
+public class ActivityServiceImpl implements ActivityService{
 	
 	private ActivityMapper activityMapper;
 
@@ -37,8 +37,6 @@ public class StockServiceImpl implements StockService{
 		log.debug("board Type : {}", activityVO.getBoardType());
 		log.debug("board Sub Type : {}", activityVO.getBoardSubType());
 		
-		activityVO.setRegId("SYSTEM");
-		
 		Map<String, Object> result = new HashMap<String, Object>();
 		
 		String resCode = ResponseCode.RESPONSE_OK;
@@ -54,6 +52,11 @@ public class StockServiceImpl implements StockService{
 		result.put("resMsg", resMsg);
 		
 		return result;
+	}
+
+	@Override
+	public ActivityVO selectActivityStock(ActivityVO activityVO) {
+		return activityMapper.selectActivityStock(activityVO);
 	}
 
 }

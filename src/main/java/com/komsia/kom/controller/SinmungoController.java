@@ -86,6 +86,8 @@ public class SinmungoController {
 			, @ModelAttribute SinmungoVO sinmungoVO
 			, ModelMap model) {
 		Map<String, Object> result = new HashMap<String, Object>();
+		String userId = (String) request.getSession().getAttribute("userId");
+		sinmungoVO.setRegId(userId);
 		sinmungoVO.setBoardType(CommonConstant.BOARD_TYPE_C);
 		try {
 			result = sinmungoService.sinmungoRegister(sinmungoVO);
@@ -148,6 +150,8 @@ public class SinmungoController {
 			, @ModelAttribute SinmungoVO sinmungoVO
 			, ModelMap model) {
 		Map<String, Object> result = new HashMap<String, Object>();
+		String userId = (String) request.getSession().getAttribute("userId");
+		sinmungoVO.setRegId(userId);
 		sinmungoVO.setBoardType(CommonConstant.BOARD_TYPE_U);
 		try {
 			result = sinmungoService.sinmungoRegister(sinmungoVO);

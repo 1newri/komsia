@@ -28,10 +28,15 @@
 				</div>
 				<div class="content-box">
 					<div class="file-box" th:if="${data.vo.fileNo} != 0">
-						첨부파일 : 
-						<button type="button" class="btn btn-secondary btn-sm">
-							<span class="glyphicon glyphicon-paperclip"></span>[[${data.vo.fileNm}]]
-				        </button>
+						<form action="/file/download" method="post">
+							<input type="hidden" id="fileNo" name="fileNo" th:value="${data.vo.fileNo}">
+							<input type="hidden" id="boardNo" name="boardNo" th:value="${data.vo.boardNo}">
+							<input type="hidden" id="boardType" name="boardType" th:value="${data.vo.boardType}">
+							첨부파일 : 
+							<button type="submit" class="btn btn-secondary btn-sm" id="download">
+								<span class="glyphicon glyphicon-paperclip"></span>[[${data.vo.fileNm}]]
+					        </button>
+						</form>
 					</div>
 					<div id="board-box">
 						<textarea class="form-control" id="boardContent" name="content" rows="10">[[${data.vo.content}]]</textarea>
@@ -73,6 +78,7 @@
 			$("#list").on('click', function(){
 				$(location).attr("href", "/forum/notice");
 			});
+		
 		});
 		
 		function post(boardNo){

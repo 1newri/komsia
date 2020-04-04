@@ -72,16 +72,17 @@
 	<insert id="insertAuthUser" parameterType="String">
 		INSERT INTO ks_auth_authorities(
 			USER_NO
-			, ROLE_CD
+			, ROLE_ID
 		) VALUES (
 			#{userNo}
-			, #{roleCd}		
+			, #{roleId}		
 		)
 	</insert>
 	
 	<select id="selectUserList" resultType="UserVO">
 		SELECT
-			USER_ID
+			USER_NO
+			, USER_ID
 			, USER_NAME
 			, TEL
 			, EMAIL
@@ -89,4 +90,10 @@
 			, USE_YN
 		FROM ks_user
 	</select>
+	
+	<delete id="deleteAuthUser" parameterType="String">
+		DELETE FROM ks_auth_authorities
+		WHERE USER_NO = #{userNo}
+		AND ROLE_ID = #{roleId}
+	</delete>
 </mapper>

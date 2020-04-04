@@ -11,18 +11,18 @@
 			<li class="breadcrumb-item active">권한관리</li>
 		</ol>
 		<h2>권한관리</h2>
-		<div>
-			<div class="form-group row">
-				<label for="staticEmail" class="col-sm-2 col-form-label">권한그룹</label>
-				<div class="col-sm-10">
-					<select class="form-control" id="authorities">
+        <div class="auth-box">
+        	<div class="auth-search row">
+			    <fieldset>
+			    	<legend class="table-title">권한그룹</legend>
+			    </fieldset>
+				<form class="form-inline my-2 my-lg-0 search-box">
+					<select class="form-control mr-sm-2" id="authorities">
 						<option value="0">----- 전체 -----</option>
 						<option th:each="item : ${data}" th:value="${item.roleId}" th:data-name="${item.roleName}" th:text="${item.roleDef}"></option>	
 					</select>
-				</div>
+    			</form>
 		    </div>
-        </div>
-		<div>
 			<table id="authUserTable" class="table table-hover">
         		<thead>
         			<tr>
@@ -30,9 +30,59 @@
         				<th>권한</th>
         				<th>아이디</th>
         				<th>이름</th>
+        				<th>삭제</th>
         			</tr>
         		</thead>
 			</table>
+			<div class="auth-search row">
+			    <fieldset>
+			    	<legend class="table-title">사용자 목록</legend>
+			    </fieldset>
+				<form class="form-inline my-2 my-lg-0 search-box">
+					<input class="form-control mr-sm-2" type="text" id="searchId">
+					<button class="btn btn-secondary my-2 my-sm-0" type="button" id="search">검색</button>
+    			</form>
+		    </div>
+			<table id="userTable" class="table table-hover">
+        		<thead>
+        			<tr>
+        				<th style="vertical-align: middle;">
+	        				<div style="padding-bottom: 20px;">
+		        				<input type="checkbox" class="form-check-input" id="checkAll">
+	        				</div>
+        				</th>
+        				<th>아이디</th>
+        				<th>이름</th>
+        			</tr>
+        		</thead>
+			</table>
+			<div class="text-right">
+        		<button class="btn btn-outline-primary" id="regist">등록</button>
+        	</div>
+        	<div class="modal border-primary" id="modal-delAuth" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<input type="hidden" id="delAuthUserNo" name="delAuthUserNo">
+						<div class="modal-header">
+							<h5 class="modal-title">권한삭제</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<input type="hidden" id="userId" name="userId"> 
+							<input type="hidden" id="userNo" name="useNo">
+							<p>
+								<span id="delAuthId"></span>님의 권한을 삭제 하시겠습니까?<br>
+							</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary" id="delete">삭제</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+						</div>
+				    </div>
+				</div>
+			</div>
 		</div>
 	</div>
       <!-- end content -->
@@ -45,7 +95,7 @@
 				, ordering : false
 				, serverSide : true
 				, language : lang_kor
-				, dom : ''
+				, dom :''
 				, ajax : {
 					url : "/admin/auth/list",
 					type: 'POST',
@@ -53,19 +103,157 @@
 						roleId : function() { return $("#authorities option:selected").val() }
 					}					
 				}, columns : [
-					{
-						data : "userNo", className: 'text-center'
+					{ 
+						data : "boardNo", className: 'text-center'
 						, render : function(data, type, row, meta){
 							return meta.row + meta.settings._iDisplayStart + 1;
 						}
-					},{ data : "roleDef" , className: 'text-center'}
-					,{ data : "userId" , className: 'text-center'}
-					,{ data : "userName" , className: 'text-center'}
+					}
+					, { data : "roleDef" , className: 'text-center'}
+					, { data : "userId" , className: 'text-center'}
+					, { data : "userName" , className: 'text-center'}
+					, { 
+						render : function(data, type, row, meta){
+							return '<button name="delAuth" data-toggle="modal" data-target="#modal-delAuth"'
+							+ 'class="btn btn-primary btn-sm" data-userno="' + row.userNo + '" data-userid="' + row.userId + '">권한삭제</button>';
+						}
+						, className: 'text-center'
+						, visible : false
+					}
 				]
       		});
 			
 			$("#authorities").change(function(){
+				if($("#authorities option:selected").val() == 0){
+					table.columns([4]).visible(false);
+				}else{
+					table.columns([4]).visible(true);
+				}
 				table.ajax.reload();
+				t.ajax.reload();
+			});
+			
+			var t = $("#userTable").DataTable({
+				searching : false
+				, pageLength : 10
+				, ordering : false
+				, serverSide : true
+				, language : lang_kor
+				, dom :''
+				, ajax : {
+					url : "/admin/auth/user/list",
+					type: 'POST',
+					data : {
+						roleId : function() { return $("#authorities option:selected").val() }
+						, userId : function() { return $("#searchId").val() }
+					}					
+				}, columns : [
+					{	
+						data : "userNo"
+						,render : function(data, type, row, meta){
+							return '<input type="checkbox" class="form-check-input" name="userCheck" value="'+ row.userNo +'">';
+						}
+						, className: 'text-center'
+					}
+					, { data : "userId" , className: 'text-center'}
+					, { data : "userName" , className: 'text-center'}
+				]
+      		});
+			
+			
+			$("#search").click(function(){
+				t.ajax.reload();
+			});
+			
+			$('#checkAll').click(function(){
+				if ($("#checkAll").is(':checked')) {
+	                $("input[type=checkbox]").prop("checked", true);
+	            } else {
+	                $("input[type=checkbox]").prop("checked", false);
+	            }				
+			});
+			
+			//전체선택 해제 로직 추가
+			
+			// 권한 삭제 로직 추가
+			
+			$("#modal-delAuth").on('show.bs.modal', function(e){
+				var button = $(e.relatedTarget);
+				var userNo = button.data("userno");
+				var userId = button.data("userid");
+				$("#delAuthId").text(userId);
+				$("#delAuthUserNo").val(userNo);
+			});
+			
+			$("#delete").click(function (){
+				
+				var auth = $("#authorities option:selected").val();
+				if(auth == 0){
+					alert("권한을 선택하세요.");
+					$("#authorities").focus();
+					return;
+				}
+				
+				var useNo = $("#delAuthUserNo").val();
+				if(useNo == '' || useNo == null){
+					return;
+				}
+			
+                $.ajax({
+      				url: "/admin/auth/user/delete"
+   					, data :  {
+   	                    auth      : auth 
+   	                    , userNo : useNo
+   	                }
+   					, type : "post"
+      				, success : function(data){
+      					var json = JSON.parse(data);
+						alert(json.resMsg);
+      					if(json.resCode == "0000"){
+      						table.ajax.reload();
+      						t.ajax.reload();
+							$('#modal-delAuth').modal("hide");  
+      					}
+      				}, error : function(request, status, error){
+      					alert("시스템 오류가 발생하였습니다. 관리자에게 문의하세요.");
+      				}
+      			});
+			});
+			
+			// 권한 추가 로직 추가.
+			$("#regist").click(function(){
+				var auth = $("#authorities option:selected").val();
+				if(auth == 0){
+					alert("권한을 선택하세요.");
+					$("#authorities").focus();
+					return;
+				}
+				
+				var userArr = [];
+				$("input[name=userCheck]:checked").each(function() {
+					userArr.push($(this).val());
+				});
+				
+                $.ajax({
+      				url: "/admin/auth/user/regist"
+   					, data :  {
+   	                    auth      : auth 
+   	                    , userArr : userArr
+   	                }
+   					, type : "post"
+      				, success : function(data){
+      					var json = JSON.parse(data);
+      					
+						alert(json.resMsg);
+      					if(json.resCode == "0000"){
+      						table.ajax.reload();
+      						t.ajax.reload();
+      					}
+      				}, error : function(request, status, error){
+      					alert("시스템 오류가 발생하였습니다. 관리자에게 문의하세요.");
+      				}
+      			});
+				
 			});
 		})
 	</script>

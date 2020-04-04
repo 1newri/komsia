@@ -10,9 +10,9 @@
 			<li class="breadcrumb-item"><a href="/activity">연구활동</a></li>
 			<li class="breadcrumb-item"><a href="/activity/stock">주식</a></li>
 			<li class="breadcrumb-item"><a href="/activity/stock/recommend">연구회추천주</a></li>
-			<li class="breadcrumb-item active">연구회관심종목</li>
+			<li class="breadcrumb-item active">종목별이슈</li>
 		</ol>
-		<h2>연구회 관심종목</h2>
+		<h2>종목별 이슈</h2>
 		<div>
 			<div class="regist-box">
 				<form id="frm">
@@ -68,7 +68,7 @@
 			
 			var formData = new FormData($("#frm")[0]);
 			$.ajax({
-   				url: "/activity/stock/recommend/type/regist"
+   				url: "/activity/stock/recommend/items/regist"
 				, data : formData
 				, type : "post"
 				, processData : false
@@ -78,7 +78,7 @@
    					
 					alert(json.resMsg);
    					if(json.resCode == "0000"){
-   						$(location).attr("href", "/activity/stock/recommend/type");	
+   						$(location).attr("href", "/activity/stock/recommend/items");	
    					}
    				}, error : function(request, status, error){
    					alert("시스템 오류가 발생하였습니다. 관리자에게 문의하세요.");

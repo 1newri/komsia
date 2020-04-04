@@ -24,38 +24,13 @@ public class MenuServiceImpl implements MenuService{
 	private MenuMapper menuMapper;
 	
 	@Override
-	public Map<String, Object> getMenuList() {
-		
-		Map<String, Object> result = new HashMap<String, Object>();
-
-		// 메뉴리스트 조회
-		List<MenuVO> list = menuMapper.selectMenuList();
-		result.put("data",list);
-		
-		return result;
+	public List<MenuVO> getMenuList() {
+		return menuMapper.selectMenuList();
 	}
 
 	@Override
-	public Map<String, Object> insertMenu(MenuVO menuVO) {
-		
-		String resCode = ResponseCode.RESPONSE_FAIL;
-		String resMsg = ResponseCode.RESPONSE_FAIL_MSG;
-		
-		
-		Map<String, Object> result = new HashMap<String, Object>();
-		
-		menuVO.setLevel(menuVO.getLevel() + 1);
-		menuVO.setRegId(CommonConstant.SYSTEM_ID);
-		
-		if(menuMapper.insertMenu(menuVO) > 0) {
-			resCode = ResponseCode.RESPONSE_OK;
-			resMsg = ResponseCode.RESPONSE_OK_MSG;
-		}
-		
-		result.put("resCode", resCode);
-		result.put("resMsg", resMsg);
-		
-		return result;
+	public int insertMenu(MenuVO menuVO) {
+		 return menuMapper.insertMenu(menuVO);
 	}
 
 

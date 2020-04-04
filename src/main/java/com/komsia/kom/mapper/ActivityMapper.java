@@ -17,4 +17,6 @@ public interface ActivityMapper {
 	@Options(useGeneratedKeys = true, keyProperty = "activityVO.boardNo")
 	void insertActivity(ActivityVO activityVO);
 
+	ActivityVO selectActivityStock(ActivityVO activityVO);
+
 }

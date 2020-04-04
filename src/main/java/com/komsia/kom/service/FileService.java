@@ -6,4 +6,6 @@ public interface FileService {
 
 	void saveFile(FileVO fileVO) throws Exception;
 
+	FileVO selectFile(FileVO fileVO);
+
 }

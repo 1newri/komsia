@@ -62,7 +62,7 @@ public class UserService implements UserDetailsService{
 		
 		if(!ObjectUtils.isEmpty(userNo)) {
 			// 권한 부여 (2:Member)
-			userMapper.insertAuthUser(userNo, "2");
+			insertAuthUser(String.valueOf(userNo), "2");
 		}else {
 			resCode = ResponseCode.RESPONSE_FAIL;
 			resMsg = ResponseCode.RESPONSE_FAIL_MSG;
@@ -97,6 +97,14 @@ public class UserService implements UserDetailsService{
 
 	public List<UserVO> getUserList() {
 		return userMapper.selectUserList();
+	}
+
+	public void insertAuthUser(String userNo, String auth) {
+		userMapper.insertAuthUser(userNo, auth);
+	}
+
+	public void deleteAuthUser(String userNo, String auth) {
+		userMapper.deleteAuthUser(userNo, auth);
 	}
 
 }

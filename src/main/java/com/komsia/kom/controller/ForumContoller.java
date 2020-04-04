@@ -57,7 +57,7 @@ public class ForumContoller {
 		return result;
 	}
 	
-	@GetMapping(value = "/forum/notice/detail")
+	@PostMapping(value = "/forum/notice/detail")
 	public String noticeDetail(HttpServletRequest request
 			, @ModelAttribute NoticeVO noticeVO
 			, ModelMap model) {
@@ -87,6 +87,8 @@ public class ForumContoller {
 			, @ModelAttribute NoticeVO noticeVO
 			, ModelMap model) {
 		Map<String, Object> result = new HashMap<String, Object>();
+		String userId = (String) request.getSession().getAttribute("userId");
+		noticeVO.setRegId(userId);
 		try {
 			result = forumService.noticeRegister(noticeVO);
 		} catch (Exception e) {
@@ -149,6 +151,8 @@ public class ForumContoller {
 			, @ModelAttribute BoardVO boardVO
 			, ModelMap model) {
 		Map<String, Object> result = new HashMap<String, Object>();
+		String userId = (String) request.getSession().getAttribute("userId");
+		boardVO.setRegId(userId);
 		boardVO.setBoardType(CommonConstant.BOARD_TYPE_P);
 		try {
 			result = forumService.boardRegister(boardVO);
@@ -212,6 +216,8 @@ public class ForumContoller {
 			, @ModelAttribute BoardVO boardVO
 			, ModelMap model) {
 		Map<String, Object> result = new HashMap<String, Object>();
+		String userId = (String) request.getSession().getAttribute("userId");
+		boardVO.setRegId(userId);
 		boardVO.setBoardType(CommonConstant.BOARD_TYPE_Q);
 		try {
 			result = forumService.boardRegister(boardVO);
@@ -275,6 +281,8 @@ public class ForumContoller {
 			, @ModelAttribute BoardVO boardVO
 			, ModelMap model) {
 		Map<String, Object> result = new HashMap<String, Object>();
+		String userId = (String) request.getSession().getAttribute("userId");
+		boardVO.setRegId(userId);
 		boardVO.setBoardType(CommonConstant.BOARD_TYPE_R);
 		try {
 			result = forumService.boardRegister(boardVO);
@@ -286,3 +294,4 @@ public class ForumContoller {
 		return result;
 	}
 }
+

@@ -10,5 +10,7 @@ import com.komsia.kom.domain.FileVO;
 public interface FileMapper {
 
 	void insertFile(FileVO fileVO);
+
+	FileVO selectFile(FileVO fileVO);
 	
 }

@@ -149,6 +149,7 @@ public class ForumServiceImpl implements ForumService{
 			fileVO.setFile(noticeVO.getFile());
 			fileVO.setBoardNo(boardNo);
 			fileVO.setBoardType(CommonConstant.BOARD_TYPE_N);
+			fileVO.setRegId(noticeVO.getRegId());
 			
 			fileSerivce.saveFile(fileVO);	
 		}
@@ -164,8 +165,6 @@ public class ForumServiceImpl implements ForumService{
 	@Transactional(rollbackFor = Exception.class)
 	public Map<String, Object> boardRegister(BoardVO boardVO) throws Exception{
 		log.debug("boardType : {} ", boardVO.getBoardType());
-		
-		boardVO.setRegId("SYSTEM");
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		
@@ -183,7 +182,7 @@ public class ForumServiceImpl implements ForumService{
 			fileVO.setFile(boardVO.getFile());
 			fileVO.setBoardNo(boardNo);
 			fileVO.setBoardType(boardVO.getBoardType());
-			
+			fileVO.setRegId(boardVO.getRegId());
 			fileSerivce.saveFile(fileVO);	
 		}
 		

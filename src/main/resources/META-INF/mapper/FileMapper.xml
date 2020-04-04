@@ -3,6 +3,14 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.komsia.kom.mapper.FileMapper">
+	<select id="selectFile" parameterType="FileVO" resultType="FileVO">
+		SELECT
+			*
+		FROM ks_file
+		WHERE FILE_NO = #{fileNo}
+		AND BOARD_NO = #{boardNo}
+		AND BOARD_TYPE = #{boardType}
+	</select>
 	
 	<insert id="insertFile" parameterType="FileVO">
 		INSERT INTO ks_file(

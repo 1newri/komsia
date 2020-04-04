@@ -11,12 +11,31 @@
 			<li class="breadcrumb-item active">바이오소액투자자포럼</li>
 		</ol>
 		<h2>바이오소액투자자포럼</h2>
+		<div>
+			<div class="detail-box">
+				<div th:if="${data != null}">
+					<div class="reg-date">작성일 : <span th:text="${data.regDttm}"></span></div>
+					<textarea class="form-control" id="boardContent" name="content" rows="30">[[${data.content}]]</textarea>
+				</div>
+				<div th:unless="${data != null}">
+					<div class="no-write">
+						<img th:src="@{/img/no-write.gif}">
+					</div>
+				</div>	
+			</div>
+			<div class="text-right">
+        		<button class="btn btn-outline-primary" id="regist">등록</button>
+        	</div>
+		</div>
 	</div>
-      <!-- end content -->
+    <!-- end content -->
 	<script>
 		$(function(){
-			
+			$("#regist").on("click", function(){
+				$(location).attr("href", "/activity/bio/regist");
+			});
 		});
 	</script>
+	<script th:src="@{/js/readonly.js}"></script>
 </th:block>
 </html>

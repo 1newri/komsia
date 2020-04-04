@@ -23,6 +23,7 @@
 	<select id="selectNotice" parameterType="NoticeVO" resultType="NoticeVO">
 		SELECT
 			N.BOARD_NO
+			, 'N' AS BOARD_TYPE
 		    , N.TITLE
 		    , N.CONTENT
 		    , N.RANK
@@ -82,7 +83,7 @@
 		) VALUES (
 			#{noticeVO.title}
 			, #{noticeVO.content}
-			, 'SYSTEM'
+			, #{noticeVO.regId}
 		)
 	</insert>
 	

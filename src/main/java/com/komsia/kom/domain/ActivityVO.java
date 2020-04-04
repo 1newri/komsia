@@ -19,5 +19,9 @@ public class ActivityVO {
 	private String regDttm;
 	private String modId;
 	private String modeDttm;
+	
+	private int fileNo;
+	private String fileNm;
+	private String fileDir;
 
 }

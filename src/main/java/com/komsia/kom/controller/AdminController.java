@@ -34,11 +34,6 @@ public class AdminController {
 	
 	private AdminService adminService;
 	
-	private ResourceMetaSerivce resourceService;
-
-	private MenuService menuService;
-	
-	private UserService userService;
 	
 	@GetMapping(value = "/admin")
 	public String admin(HttpServletRequest request) {
@@ -49,7 +44,7 @@ public class AdminController {
 	@GetMapping(value = "/admin/menu")
 	public String menu(HttpServletRequest request,
 			ModelMap model) {
-		List<MenuVO> list = menuService.getParentMenuList();
+		List<MenuVO> list = adminService.getParentMenuList();
 		model.put("list", list);
 		return "/admin/content/menu";
 	}
@@ -57,7 +52,7 @@ public class AdminController {
 	@PostMapping(value = "/menu/pid")
 	@ResponseBody
 	public List<MenuVO> menuPid(HttpServletRequest request){
-		List<MenuVO> list = menuService.getParentMenuList();
+		List<MenuVO> list = adminService.getParentMenuList();
 		return list;
 	}
 	
@@ -66,7 +61,7 @@ public class AdminController {
 	public Map<String, Object> menuList(HttpServletRequest request){
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
-			result = menuService.getMenuList();
+			result = adminService.getMenuList();
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
 		}
@@ -78,9 +73,11 @@ public class AdminController {
 	public Map<String, Object> insertMenu(HttpServletRequest request
 			, @ModelAttribute MenuVO menuVO){
 		log.debug("menuVO : {}", menuVO);
+		String userId = (String) request.getSession().getAttribute("userId");
+		menuVO.setRegId(userId);
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
-			result = menuService.insertMenu(menuVO);
+			result = adminService.insertMenu(menuVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
 			result.put("resCode", ResponseCode.RESPONSE_FAIL);
@@ -92,9 +89,9 @@ public class AdminController {
 	@GetMapping(value = "/admin/user")
 	public String user(HttpServletRequest request,
 			ModelMap model) {
-		List<UserVO> list = userService.getUserList();
-		log.debug("user List Size : {}", list.size());
-		model.put("data", list);
+		
+		Map<String, Object> result = adminService.getUserList();
+		model.put("data", result.get("data"));
 		return "/admin/content/user";
 	}
 	
@@ -115,7 +112,7 @@ public class AdminController {
 	public String auth(HttpServletRequest request,
 			ModelMap model) {
 		
-		List<Role> list = resourceService.getRoleList();
+		List<Role> list = adminService.getRoleList();
 		log.debug("Role List : {}", list);
 		model.put("data", list);
 		
@@ -128,7 +125,49 @@ public class AdminController {
 			, @RequestParam(value = "roleId") int roleId){
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
-			result = resourceService.getAuthUserList(roleId);
+			result = adminService.getAuthUserList(roleId);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+		}
+		return result;
+	}
+	
+	@PostMapping(value = "/admin/auth/user/list")
+	@ResponseBody
+	public Map<String, Object> authUserList(HttpServletRequest request
+			, @RequestParam(value = "roleId") String roleId
+			, @RequestParam(value = "userId") String userId){
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			result = adminService.getNotAuthUserList(roleId, userId);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+		}
+		return result;
+	}
+	
+	@PostMapping(value = "/admin/auth/user/regist")
+	@ResponseBody
+	public Map<String, Object> authUserRegist(HttpServletRequest request
+			, @RequestParam(value = "auth") String auth
+			, @RequestParam(value = "userArr[]") List<String> userArr){
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			result = adminService.authUserRegist(auth, userArr);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+		}
+		return result;
+	}
+	
+	@PostMapping(value = "/admin/auth/user/delete")
+	@ResponseBody
+	public Map<String, Object> authUserDelete(HttpServletRequest request
+			, @RequestParam(value = "auth") String auth
+			, @RequestParam(value = "userNo") String userNo){
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			result = adminService.authUserDelete(auth, userNo);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
 		}

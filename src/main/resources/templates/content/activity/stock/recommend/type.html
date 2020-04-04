@@ -15,18 +15,14 @@
 		<h2>연구회 관심종목</h2>
 		<div>
 			<div class="detail-box">
-				<div th:if="${data != null && #lists.size(data) > 0}">
-					<div id="accord">
-				 		<div th:each="list : ${data}">
-							<h3 th:text="${list.title}">연구회 관심종목 등록 테스트</h3>
-					   		<div class="accord-info">등록일 : <span th:text="${list.regDttm}"></span></div>
-							<div th:text="${list.content}">
-							</div>
-				 		</div>
-					</div>	
+				<div th:if="${data != null}">
+					<div class="reg-date">작성일 : <span th:text="${data.regDttm}"></span></div>
+					<textarea class="form-control" id="boardContent" name="content" rows="30">[[${data.content}]]</textarea>
 				</div>
-				<div th:unless="${data != null && #lists.size(data) > 0}">
-					<h3>데이터가 없습니다.</h3>
+				<div th:unless="${data != null}">
+					<div class="no-write">
+						<img th:src="@{/img/no-write.gif}">
+					</div>
 				</div>	
 			</div>
 			<div class="text-right">
@@ -37,12 +33,12 @@
     <!-- end content -->
 	<script>
 		$(function(){
-			$("#accord").accordion();
 			
 			$("#regist").on("click", function(){
 				$(location).attr("href", "/activity/stock/recommend/type/regist");
 			});
 		});
 	</script>
+	<script th:src="@{/js/readonly.js}"></script>
 </th:block>
 </html>

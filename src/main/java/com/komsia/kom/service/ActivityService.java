@@ -5,10 +5,12 @@ import java.util.Map;
 
 import com.komsia.kom.domain.ActivityVO;
 
-public interface StockService {
+public interface ActivityService {
 
 	List<ActivityVO> selectRecommandList(ActivityVO activityVO);
 
 	Map<String, Object> recommandRegist(ActivityVO activityVO);
+
+	ActivityVO selectActivityStock(ActivityVO activityVO);
 
 }

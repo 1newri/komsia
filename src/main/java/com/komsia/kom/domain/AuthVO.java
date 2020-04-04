@@ -5,11 +5,12 @@ import lombok.Data;
 @Data
 public class AuthVO {
 	
-	private Integer roleId;
+	private int roleId;
+	private String roleIds;
 	private String roleName;
 	private String roleDef;
 	
-	private Long userNO;
+	private Long userNo;
 	private String userId;
 	private String userName;
 	private String tel;

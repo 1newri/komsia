@@ -84,8 +84,6 @@ public class SinmungoServiceImpl implements SinmungoService{
 		log.debug("boardType : {} ", sinmungoVO.getBoardType());
 		Map<String, Object> result = new HashMap<String, Object>();
 		
-		sinmungoVO.setRegId("SYSTEM");
-		
 		String resCode = ResponseCode.RESPONSE_OK;
 		String resMsg = ResponseCode.RESPONSE_OK_MSG;
 		

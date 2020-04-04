@@ -49,4 +49,9 @@ public class FileServiceImpl implements FileService{
 			fileMapper.insertFile(fileVO);
 		}
 	}
+
+	@Override
+	public FileVO selectFile(FileVO fileVO) {
+		return fileMapper.selectFile(fileVO);
+	}
 }

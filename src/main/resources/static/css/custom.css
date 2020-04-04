@@ -8,7 +8,22 @@
 	text-align: right;
 }
 
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1030;
+  background-color: #333333;
+  opacity:0.3;  
+}
 
+.col-form-label{
+	text-align: center;
+	vertical-align: middle;
+	font-weight: bold;
+}
 /*--------------------------------------------------------------
 # Sections Header
 --------------------------------------------------------------*/
@@ -434,6 +449,23 @@
   background-size: cover;
 }
 
+.detail-box .reg-date{
+	padding: 10px 0px 10px 0px;
+	text-align: right;
+	color: #747474;
+}
+
+.detail-box .no-write{
+	text-align: center;
+}
+
+.detail-box .no-write img{
+	margin: auto;
+	padding-top: 100px;
+	padding-bottom: 100px;
+	opacity: 0.5
+}
+
 /* Custom 등록 화면  */
 .regist-box{
 	padding-top: 20px;
@@ -559,6 +591,30 @@
   }
 }
 
+/*--------------------------------------------------------------
+# Admin
+--------------------------------------------------------------*/
+#default .content .auth-box table{
+	padding-top: 10px;
+}
+
+#default .content .auth-search {
+	width: 100%;
+	margin: 0px;
+	padding-top: 20px;
+}
+
+#default .content .auth-search .search-box{
+	text-align: right;
+	float: right;
+	align-items: flex-start;
+}
+
+#default .content .auth-search .table-title{
+	font-size: 16px;
+	font-weight: bold;
+	text-align: left;
+}
 /*--------------------------------------------------------------
 # Footer
 --------------------------------------------------------------*/
