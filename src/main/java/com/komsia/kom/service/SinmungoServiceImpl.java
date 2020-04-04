@@ -88,17 +88,18 @@ public class SinmungoServiceImpl implements SinmungoService{
 		String resMsg = ResponseCode.RESPONSE_OK_MSG;
 		
 		sinmungoMapper.insertSinmungo(sinmungoVO);
-		
 		int boardNo = sinmungoVO.getBoardNo();
 		log.debug("boardNo : {}", boardNo);
 		
-		if(sinmungoVO.getFile().getSize() > 0) {
-			FileVO fileVO = new FileVO();
-			fileVO.setFile(sinmungoVO.getFile());
-			fileVO.setBoardNo(boardNo);
-			fileVO.setBoardType(sinmungoVO.getBoardType());
-			
-			fileSerivce.saveFile(fileVO);	
+		if(!ObjectUtils.isEmpty(sinmungoVO.getFile())) {
+			if(sinmungoVO.getFile().getSize() > 0) {
+				FileVO fileVO = new FileVO();
+				fileVO.setFile(sinmungoVO.getFile());
+				fileVO.setBoardNo(boardNo);
+				fileVO.setBoardType(sinmungoVO.getBoardType());
+				
+				fileSerivce.saveFile(fileVO);	
+			}
 		}
 		
 		result.put("resCode", resCode);

@@ -138,20 +138,23 @@ public class ForumServiceImpl implements ForumService{
 		String resCode = ResponseCode.RESPONSE_OK;
 		String resMsg = ResponseCode.RESPONSE_OK_MSG;
 		
+		
 		forumMapper.insertNotice(noticeVO);
 		
 		int boardNo = noticeVO.getBoardNo();
 		log.debug("boardNo : {}", boardNo);
 		
-		log.debug("file size : {}", noticeVO.getFile().getSize());
-		if(noticeVO.getFile().getSize() > 0) {
-			FileVO fileVO = new FileVO();
-			fileVO.setFile(noticeVO.getFile());
-			fileVO.setBoardNo(boardNo);
-			fileVO.setBoardType(CommonConstant.BOARD_TYPE_N);
-			fileVO.setRegId(noticeVO.getRegId());
-			
-			fileSerivce.saveFile(fileVO);	
+		if(!ObjectUtils.isEmpty(noticeVO.getFile())) {
+			log.debug("file size : {}", noticeVO.getFile().getSize());
+			if(noticeVO.getFile().getSize() > 0) {
+				FileVO fileVO = new FileVO();
+				fileVO.setFile(noticeVO.getFile());
+				fileVO.setBoardNo(boardNo);
+				fileVO.setBoardType(CommonConstant.BOARD_TYPE_N);
+				fileVO.setRegId(noticeVO.getRegId());
+				
+				fileSerivce.saveFile(fileVO);	
+			}
 		}
 		
 		result.put("resCode", resCode);
@@ -171,21 +174,28 @@ public class ForumServiceImpl implements ForumService{
 		String resCode = ResponseCode.RESPONSE_OK;
 		String resMsg = ResponseCode.RESPONSE_OK_MSG;
 		
-		log.debug("boardVO : {} ", boardVO.toString());
-		forumMapper.insertBoardForum(boardVO);
-		
-		int boardNo = boardVO.getBoardNo();
-		log.debug("boardNo : {}", boardNo);
-		
-		if(boardVO.getFile().getSize() > 0) {
-			FileVO fileVO = new FileVO();
-			fileVO.setFile(boardVO.getFile());
-			fileVO.setBoardNo(boardNo);
-			fileVO.setBoardType(boardVO.getBoardType());
-			fileVO.setRegId(boardVO.getRegId());
-			fileSerivce.saveFile(fileVO);	
+		try {
+			log.debug("boardVO : {} ", boardVO.toString());
+			forumMapper.insertBoardForum(boardVO);
+			
+			int boardNo = boardVO.getBoardNo();
+			log.debug("boardNo : {}", boardNo);
+			if(!ObjectUtils.isEmpty(boardVO.getFile())) {
+				if(boardVO.getFile().getSize() > 0) {
+					FileVO fileVO = new FileVO();
+					fileVO.setFile(boardVO.getFile());
+					fileVO.setBoardNo(boardNo);
+					fileVO.setBoardType(boardVO.getBoardType());
+					fileVO.setRegId(boardVO.getRegId());
+					fileSerivce.saveFile(fileVO);	
+				}
+			}
+			
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			resCode = ResponseCode.RESPONSE_FAIL;
+			resMsg = ResponseCode.RESPONSE_FAIL_MSG;
 		}
-		
 		result.put("resCode", resCode);
 		result.put("resMsg", resMsg);
 		

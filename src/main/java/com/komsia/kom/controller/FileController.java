@@ -44,10 +44,31 @@ public class FileController {
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.CONTENT_TYPE, contentType);
-		headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + path.getFileName().toString());
+		headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileVO.getFileNm());
 		log.debug("contentType : {}", contentType);
 		log.debug("HttpHeaders : {}", headers);
 
+		Resource resource = new InputStreamResource(Files.newInputStream(path));
+		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+	}
+	
+	@PostMapping(value =  "/file/activity/download")
+	@ResponseBody
+	public ResponseEntity<Resource> activityFileDownload(
+			@ModelAttribute FileVO fileVO
+			) throws IOException {
+		
+		fileVO = fileService.selectFileActivity(fileVO);
+		
+		Path path = Paths.get(fileVO.getFileDir());
+		String contentType = Files.probeContentType(path);
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.CONTENT_TYPE, contentType);
+		headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileVO.getFileNm());
+		log.debug("contentType : {}", contentType);
+		log.debug("HttpHeaders : {}", headers);
+		
 		Resource resource = new InputStreamResource(Files.newInputStream(path));
 		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
 	}

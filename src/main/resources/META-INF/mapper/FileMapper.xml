@@ -31,4 +31,34 @@
 			, #{regId}		
 		)
 	</insert>
+	
+	<select id="selectFileActivity" parameterType="FileVO" resultType="FileVO">
+		SELECT
+			*
+		FROM ks_file_activity
+		WHERE FILE_NO = #{fileNo}
+		AND BOARD_NO = #{boardNo}
+		AND BOARD_TYPE = #{boardType}
+		AND BOARD_SUB_TYPE = #{boardSubType}
+	</select>
+	
+	<insert id="insertFileActivity" parameterType="FileVO">
+		INSERT INTO ks_file_activity(
+			BOARD_TYPE
+			, BOARD_SUB_TYPE
+			, BOARD_NO
+			, FILE_NM
+			, FILE_EXT
+			, FILE_DIR
+			, REG_ID
+		) VALUES (
+			#{boardType}
+			, #{boardSubType}
+			, #{boardNo}
+			, #{fileNm}		
+			, #{fileExt}		
+			, #{fileDir}		
+			, #{regId}		
+		)
+	</insert>
 </mapper>

@@ -3,7 +3,18 @@
 	xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="scriptFragment">
 <script>
-
+	/*<!CDATA[*/
+		var roleId = [[${roleIds}]];
+	/*]]>*/
+	if(roleId != ''){
+		$.each(roleId, function(index, item){
+			if(item == '1' || item == '9'){
+				$("#regist").show();
+			}else{
+				$("#regist").hide();
+			}
+		});
+	}
 </script>
 </th:block>
 </html>

@@ -12,5 +12,9 @@ public interface FileMapper {
 	void insertFile(FileVO fileVO);
 
 	FileVO selectFile(FileVO fileVO);
+
+	void insertFileActivity(FileVO fileVO);
+
+	FileVO selectFileActivity(FileVO fileVO);
 	
 }

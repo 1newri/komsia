@@ -8,4 +8,7 @@ public interface FileService {
 
 	FileVO selectFile(FileVO fileVO);
 
+	void saveFileActivity(FileVO fileVO) throws Exception;
+
+	FileVO selectFileActivity(FileVO fileVO);
 }

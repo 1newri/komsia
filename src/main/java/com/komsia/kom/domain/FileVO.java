@@ -10,7 +10,8 @@ public class FileVO {
 	private int fileNo;
 	private int boardNo;
 	private int fileSeq;
-	private String boardType;
+	private String boardType;	
+	private String boardSubType;
 	private String fileNm;
 	private String fileExt;
 	private String fileDir;

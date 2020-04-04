@@ -43,9 +43,9 @@ public class StockController {
 	 * @param request
 	 * @return
 	 */
-	@GetMapping(value = "/activity/stock/analist/info")
-	public String analistInfo(HttpServletRequest request) {
-		return "/content/activity/stock/analist/info";
+	@GetMapping(value = "/activity/stock/analyst/info")
+	public String analystInfo(HttpServletRequest request) {
+		return "/content/activity/stock/analyst/info";
 	}
 	
 	/**
@@ -53,9 +53,9 @@ public class StockController {
 	 * @param request
 	 * @return
 	 */
-	@GetMapping(value = "/activity/stock/analist/chat")
-	public String analistChat(HttpServletRequest request) {
-		return "redirect:/activity/stock/analist/chat/manager";
+	@GetMapping(value = "/activity/stock/analyst/chat")
+	public String analystChat(HttpServletRequest request) {
+		return "redirect:/activity/stock/analyst/chat/manager";
 	}
 	
 	/**
@@ -63,9 +63,54 @@ public class StockController {
 	 * @param request
 	 * @return
 	 */
-	@GetMapping(value = "/activity/stock/analist/chat/manager")
-	public String analistChatManager(HttpServletRequest request) {
-		return "/content/activity/stock/analist/manager";
+	@GetMapping(value = "/activity/stock/analyst/chat/manager")
+	public String managerChat(HttpServletRequest request
+				, ModelMap model) {
+		
+		ActivityVO activityVO = new ActivityVO();
+		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
+		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_M);
+		try {
+			
+			activityVO = activityService.selectActivityStock(activityVO);
+			model.addAttribute("data", activityVO);
+			
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+		}
+		
+		return "/content/activity/stock/analyst/manager";
+	}
+	
+	@GetMapping(value = "/activity/stock/analyst/chat/manager/regist")
+	public String managerChatRegist(HttpServletRequest request
+			, ModelMap model) {
+		ActivityVO activityVO = new ActivityVO();
+		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
+		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_M);
+		activityVO = activityService.selectActivityStock(activityVO);
+		model.addAttribute("data", activityVO);
+		return "/content/activity/stock/analyst/manager_regist";
+	}
+	
+	@PostMapping(value = "/activity/stock/analyst/chat/manager/regist")
+	@ResponseBody
+	public Map<String, Object> managerChatRegist(HttpServletRequest request
+			, @ModelAttribute ActivityVO activityVO
+			, ModelMap model) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		String userId = (String) request.getSession().getAttribute("userId");
+		activityVO.setRegId(userId);
+		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
+		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_M);
+		try {
+			result = activityService.recommandRegist(activityVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		return result;
 	}
 	
 	/**
@@ -73,10 +118,55 @@ public class StockController {
 	 * @param request
 	 * @return
 	 */
-	@GetMapping(value = "/activity/stock/analist/chat/analyst")
-	public String analistChatAnalyst(HttpServletRequest request) {
-		return "/content/activity/stock/analist/analyst";
+	@GetMapping(value = "/activity/stock/analyst/chat/analyst")
+	public String analystChat(HttpServletRequest request
+				, ModelMap model) {
+		
+		ActivityVO activityVO = new ActivityVO();
+		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
+		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_A);
+		try {
+			
+			activityVO = activityService.selectActivityStock(activityVO);
+			model.addAttribute("data", activityVO);
+			
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+		}
+		
+		return "/content/activity/stock/analyst/analyst";
 	}
+	
+	@GetMapping(value = "/activity/stock/analyst/chat/analyst/regist")
+	public String analystChatRegist(HttpServletRequest request
+			, ModelMap model) {
+		ActivityVO activityVO = new ActivityVO();
+		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
+		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_A);
+		activityVO = activityService.selectActivityStock(activityVO);
+		model.addAttribute("data", activityVO);
+		return "/content/activity/stock/analyst/analyst_regist";
+	}
+	
+	@PostMapping(value = "/activity/stock/analyst/chat/analyst/regist")
+	@ResponseBody
+	public Map<String, Object> analystChatRegist(HttpServletRequest request
+			, @ModelAttribute ActivityVO activityVO) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		String userId = (String) request.getSession().getAttribute("userId");
+		activityVO.setRegId(userId);
+		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
+		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_A);
+		try {
+			result = activityService.recommandRegist(activityVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		return result;
+	}
+	
 	
 	/**
 	 * 연구회 관심종목

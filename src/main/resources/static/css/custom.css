@@ -466,6 +466,12 @@
 	opacity: 0.5
 }
 
+.detail-box .file-box{
+	text-align: right;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
 /* Custom 등록 화면  */
 .regist-box{
 	padding-top: 20px;
