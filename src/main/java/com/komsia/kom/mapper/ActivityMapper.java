@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Options;
 import org.springframework.stereotype.Repository;
 
 import com.komsia.kom.domain.ActivityVO;
+import com.komsia.kom.domain.ReplyVO;
 
 @Mapper
 @Repository
@@ -18,5 +19,9 @@ public interface ActivityMapper {
 	void insertActivity(ActivityVO activityVO);
 
 	ActivityVO selectActivityStock(ActivityVO activityVO);
+
+	void boardActivityReplyRegist(ReplyVO replyVO);
+
+	List<ReplyVO> boardActivityReplyList(ActivityVO activityVO);
 
 }

@@ -1,12 +1,6 @@
 $(function(){
-	var item = $(".categories");
-	$.each(item, function(index, data){
-		var menuId = $(this).children('li').children('a').data("menuid");
-		if($("#menuId").val() == menuId){
-			$(".categories > li > a").removeClass("active");
-			$("[data-menuid=" + menuId + "]").addClass("active");
-		}
+	$(".categories li a").click(function(){
+//		alert("메뉴클릭..?");
+		$(this).addClass("active");
 	});
-	
-	
-})
+});

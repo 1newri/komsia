@@ -13,6 +13,7 @@ import com.komsia.kom.constant.CommonConstant;
 import com.komsia.kom.constant.ResponseCode;
 import com.komsia.kom.domain.ActivityVO;
 import com.komsia.kom.domain.FileVO;
+import com.komsia.kom.domain.ReplyVO;
 import com.komsia.kom.mapper.ActivityMapper;
 
 import lombok.AllArgsConstructor;
@@ -77,6 +78,34 @@ public class ActivityServiceImpl implements ActivityService{
 	@Override
 	public ActivityVO selectActivityStock(ActivityVO activityVO) {
 		return activityMapper.selectActivityStock(activityVO);
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public Map<String, Object> boardActivityReplyRegist(ReplyVO replyVO) {
+		
+		log.debug("board Type : {}", replyVO.getBoardType());
+		log.debug("board Sub Type : {}", replyVO.getBoardSubType());
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		String resCode = ResponseCode.RESPONSE_OK;
+		String resMsg = ResponseCode.RESPONSE_OK_MSG;
+		
+			
+		log.debug("activityVO : {} ", replyVO.toString());
+		activityMapper.boardActivityReplyRegist(replyVO);
+		
+		
+		result.put("resCode", resCode);
+		result.put("resMsg", resMsg);
+		
+		return result;
+	}
+
+	@Override
+	public List<ReplyVO> boardActivityReplyList(ActivityVO activityVO) {
+		return activityMapper.boardActivityReplyList(activityVO);
 	}
 
 }

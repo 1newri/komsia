@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.komsia.kom.constant.CommonConstant;
 import com.komsia.kom.constant.ResponseCode;
 import com.komsia.kom.domain.ActivityVO;
+import com.komsia.kom.domain.ReplyVO;
 import com.komsia.kom.service.ActivityService;
 
 import lombok.AllArgsConstructor;
@@ -75,6 +76,9 @@ public class StockController {
 			activityVO = activityService.selectActivityStock(activityVO);
 			model.addAttribute("data", activityVO);
 			
+			List<ReplyVO> reply = activityService.boardActivityReplyList(activityVO);
+			model.addAttribute("list", reply);
+			
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
 		}
@@ -113,6 +117,24 @@ public class StockController {
 		return result;
 	}
 	
+	@PostMapping(value = "/activity/stock/analyst/chat/manager/reply/regist")
+	@ResponseBody
+	public Map<String, Object> managerReplyRegist(HttpServletRequest request
+			, @ModelAttribute ReplyVO replyVO
+			, ModelMap model) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		String userId = (String) request.getSession().getAttribute("userId");
+		replyVO.setReplyRegId(userId);
+		try {
+			result = activityService.boardActivityReplyRegist(replyVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		return result;
+	}
+	
 	/**
 	 * 애널리스트 채팅 > 애널리스트
 	 * @param request
@@ -129,6 +151,9 @@ public class StockController {
 			
 			activityVO = activityService.selectActivityStock(activityVO);
 			model.addAttribute("data", activityVO);
+			
+			List<ReplyVO> reply = activityService.boardActivityReplyList(activityVO);
+			model.addAttribute("list", reply);
 			
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
@@ -159,6 +184,24 @@ public class StockController {
 		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_A);
 		try {
 			result = activityService.recommandRegist(activityVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		return result;
+	}
+	
+	@PostMapping(value = "/activity/stock/analyst/chat/analyst/reply/regist")
+	@ResponseBody
+	public Map<String, Object> analystReplyRegist(HttpServletRequest request
+			, @ModelAttribute ReplyVO replyVO
+			, ModelMap model) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		String userId = (String) request.getSession().getAttribute("userId");
+		replyVO.setReplyRegId(userId);
+		try {
+			result = activityService.boardActivityReplyRegist(replyVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
 			result.put("resCode", ResponseCode.RESPONSE_FAIL);

@@ -3,15 +3,15 @@
 	xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="scriptFragment">
 <script>
+	$("#regist").hide();
 	/*<!CDATA[*/
-		var roleId = [[${roleIds}]];
+	var roleIds = [[${roleIds}]];
 	/*]]>*/
-	if(roleId != ''){
-		$.each(roleId, function(index, item){
+	
+	if(roleIds != ''){
+		$.each(roleIds, function(index, item){
 			if(item == '1' || item == '9'){
 				$("#regist").show();
-			}else{
-				$("#regist").hide();
 			}
 		});
 	}

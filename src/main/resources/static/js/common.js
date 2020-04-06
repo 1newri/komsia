@@ -1,3 +1,4 @@
+
 var lang_kor = {
 		"info" : "_START_-_END_ (총_TOTAL_ 건)"
 		, "lengthMenu" : "_MENU_ 개씩 보기"

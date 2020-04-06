@@ -512,6 +512,35 @@
 	margin-right: 10px;
 }
 
+.reply-box textarea{
+	resize: none;
+}
+
+.reply-box .reply-list {
+	padding : 10px;
+	border-top: 1px solid #cecece;
+}
+
+.reply-box .reply-list .reply-id{
+	padding-bottom: 5px;
+	font-weight: bold;
+	color: #000000;
+}
+.reply-box .reply-list .reply-content{
+	padding-bottom: 5px;
+	color: #000000;
+}
+
+.reply-box .reply-list .reply-Dttm{
+	padding-bottom: 5px;
+	color: #a1a1a1;
+}
+
+.reply-box #replyRegist{
+	text-align: right;
+	float: right;
+}
+
 /*--------------------------------------------------------------
 # Sidebar & Widgets
 --------------------------------------------------------------*/
@@ -550,6 +579,14 @@
 
 .categories{
 	padding-left: 0px;
+}
+
+.categories .level-2{
+	padding-left: 20px;
+}
+
+.categories .level-3{
+	padding-left: 40px;
 }
 
 .categories li{

@@ -8,8 +8,8 @@
 			</h4>
 			<input type="hidden" id="menuId" name="menuId" th:value="${menuId}">
 			<ul class="categories">
-				<li th:each="side : ${sideMenu}">
-					<a th:href="${side.url}" th:text="${side.name}" th:data-menuid="${side.menuId}" th:data-level="${side.level}"></a>
+				<li th:each="side : ${sideMenu}" th:class="|level-${side.level}|">
+					<a th:href="${side.url}" th:text="${side.name}" th:data-menuid="${side.menuId}"></a>
 				</li>
 			</ul>
 		</div>
