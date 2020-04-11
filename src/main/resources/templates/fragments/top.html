@@ -1,44 +1,48 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="topFragment">
-	<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+
+	<div class="topbar clearfix">
 		<div class="container">
-			<!-- LOGO -->
-			<a class="navbar-brand" href="/"><img alt="" th:src="@{/img/logo.gif}"></a>
-			<!-- Toggle -->
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-		    	<span class="navbar-toggler-icon"></span>
-			</button>
-			
-			<div class="collapse navbar-collapse" id="#navbarSupportedContent">
-				<div th:if="${userId == null}">
-					<ul class="navbar-nav ml-auto">
-						<li class="nav-item">
-							<a class="nav-link" href="/user/login">로그인</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/user/join">회원가입</a>
-						</li>
-					</ul>
+			<div class="col-lg-12 text-right">
+				<div th:if="${userId == null}" class="social_buttons">
+					<a href="/user/login">로그인</a>
+					<a href="/user/join">회원가입</a>
 				</div>
-				<div th:unless="${userId == null}">
-					<ul class="navbar-nav ml-auto">
-						<li class="nav-item">
-							<a class="nav-link" href="#" th:text="${userId}"></a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/user/logout">로그아웃</a>
-						</li>
-					</ul>
+				<div th:unless="${userId == null}" class="social_buttons">
+					<a href="#" th:text="${userId}" class="user-id"></a><span>님 환영합니다!</span>
+					<a href="/user/logout">로그아웃</a>
 				</div>
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item" th:each="top : ${topMenu}">
-						<a class="nav-link" th:href="${top.url}" th:text="${top.name}" th:data-pid="${top.menuId}"></a>
-<!-- 						<span class="sr-only">(current)</span> -->
-					</li>
-				</ul>
+     		 </div>
+    	</div>
+	</div>
+	<header class="header">
+		<div class="container">
+			<div class="site-header clearfix">
+				<div class="row">
+					<div class="col-lg-3 col-md-3 col-sm-12 title-area">
+						<div class="site-title" id="title">
+							<a href="/"><img alt="" th:src="@{/img/logo.gif}"></a>
+						</div>
+					</div>
+					<!-- title area -->
+					<div class="col-lg-9 col-md-9 col-sm-12">
+						<div id="nav" class="right affix-top">
+							<div class="container clearfix">
+								<ul id="jetmenu" class="jetmenu blue">
+									<li th:each="top : ${topMenu}">
+										<a th:href="${top.url}" th:text="${top.name}" th:data-pid="${top.menuId}"></a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+        		<!-- title area -->
 			</div>
+      	<!-- site header -->
 		</div>
-	</nav>
+    <!-- end container -->
+  </header>
 </th:block>
 </html>
