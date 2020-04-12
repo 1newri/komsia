@@ -13,7 +13,7 @@ public interface MenuService {
 	
 	public int insertMenu(MenuVO menuVO);
 
-	public List<MenuVO> getSideMenu(int pid);
+	public List<MenuVO> getSideMenu(int pid, String roleId);
 
 	public String getMenuTitle(String url);
 

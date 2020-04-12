@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.komsia.kom.constant.CommonConstant;
 import com.komsia.kom.constant.ResponseCode;
 import com.komsia.kom.domain.AuthVO;
+import com.komsia.kom.domain.MenuAuthVO;
 import com.komsia.kom.domain.MenuVO;
 import com.komsia.kom.domain.Role;
 import com.komsia.kom.domain.UserVO;
@@ -136,6 +137,47 @@ public class AdminServiceImpl implements AdminService{
 		
 		try {
 			userService.deleteAuthUser(userNo, auth);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			resCode = ResponseCode.RESPONSE_FAIL;
+			resMsg = ResponseCode.RESPONSE_FAIL_MSG;
+		}
+		
+		result.put("resCode", resCode);
+		result.put("resMsg", resMsg);
+		return result;
+	}
+
+
+	@Override
+	public Map<String, Object> getMenuAuthList(int roleId) {
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		List<MenuAuthVO> menuAuthList = resourceService.getMenuAuthList(roleId);
+		result.put("data", menuAuthList);
+		return result;
+	}
+
+
+	@Override
+	public Map<String, Object> menuAuthRegist(int roleId, List<Integer> menuArr) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		String resCode = ResponseCode.RESPONSE_OK;
+		String resMsg = ResponseCode.RESPONSE_OK_MSG;
+		
+		try {
+			
+			resourceService.deleteMenuAuth(roleId);
+			
+			MenuAuthVO menuAuthVO = null;
+			for(int menuId : menuArr) {
+				menuAuthVO = new MenuAuthVO();
+				menuAuthVO.setRoleId(roleId);
+				menuAuthVO.setMenuId(menuId);
+				
+				resourceService.insertMenuAuth(menuAuthVO);
+			}
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
 			resCode = ResponseCode.RESPONSE_FAIL;

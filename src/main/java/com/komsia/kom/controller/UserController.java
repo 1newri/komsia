@@ -6,10 +6,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -92,6 +94,34 @@ public class UserController {
 	@GetMapping(value = "/user/denied")
 	public String denied(HttpServletRequest request) {
 		return "/user/denied";
+	}
+	
+	@GetMapping(value = "/user/mypage")
+	public String mypage(HttpServletRequest request) {
+		return "redirect:/user/mypage/myinfo";
+	}
+	
+	@GetMapping(value = "/user/mypage/myinfo")
+	public String myinfo(HttpServletRequest request, ModelMap modelMap) {
+		
+		String userId = (String) request.getSession().getAttribute("userId");
+		log.debug("userId : {}", userId );
+		
+		UserVO userVO = userService.selectUserByUserId(userId);
+		if(!ObjectUtils.isEmpty(userVO)) {
+			modelMap.put("user", userVO);
+		}
+		return "/user/mypage/myinfo";
+	}
+	
+	@GetMapping(value = "/user/mypage/myuser")
+	public String myuser(HttpServletRequest request) {
+		return "/user/mypage/myuser";
+	}
+	
+	@GetMapping(value = "/user/mypage/password")
+	public String password(HttpServletRequest request) {
+		return "/user/mypage/password";
 	}
 	
 }

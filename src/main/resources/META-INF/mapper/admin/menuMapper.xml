@@ -59,6 +59,7 @@
 		FROM KOMSIA.KS_MENU
 		WHERE PID = 1
 		AND USE_YN = 'Y'
+		AND URL != '/user' 
 		ORDER BY ORDERING
 	</select>
 	
@@ -69,7 +70,7 @@
 		WHERE URL = #{url}
 	</select>
 	
-	<select id="selectSideMenu" resultType="MenuVO" parameterType="Integer">
+	<select id="selectSideMenu" resultType="MenuVO" parameterType="String">
 		SELECT 
 			CASE WHEN FNC.LEVEL-1 > 0 THEN CONCAT(CONCAT(REPEAT('    ', FNC.LEVEL  - 1),' '), M.NAME)
 			ELSE M.NAME
@@ -94,6 +95,11 @@
 		) FNC
 		JOIN komsia.ks_menu M
 		ON FNC.ID = M.MENU_ID
+		<if test='roleId != null and roleId != ""'>
+		JOIN komsia.ks_auth_role_menu RM
+			ON M.MENU_ID = RM.MENU_ID
+			WHERE RM.ROLE_ID = #{roleId}; 
+		</if>
 	</select>
 	
 	

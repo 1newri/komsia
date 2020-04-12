@@ -66,6 +66,17 @@ public class HttpInterceptor extends HandlerInterceptorAdapter{
 				roleNameList.add(grantedAuthority.getAuthority());
 			}
 			
+			String userId = (String) request.getSession().getAttribute("userId");
+			log.debug("userId : {}", userId);
+			
+			List<MenuVO> topMenu = resourceMetaSerivce.selectTopMenu(roleNameList);
+			List<String> roleIds = resourceMetaSerivce.getRoleIds(roleNameList);
+			
+			request.setAttribute("userId", userId);
+			request.setAttribute("roleIds", roleIds);
+			modelAndView.addObject("topMenu", topMenu);
+			modelAndView.addObject("roles", authorities);
+			
 			log.debug("Request URI ===> " + request.getRequestURI());		
 			String url = request.getRequestURI();
 			
@@ -85,23 +96,17 @@ public class HttpInterceptor extends HandlerInterceptorAdapter{
 				
 				MenuVO menu = menuService.getMenuIdByUrl(url);
 				if(!ObjectUtils.isEmpty(menu)) {
-					List<MenuVO> sideMenu = menuService.getSideMenu(menu.getMenuId());
+					String roleId = "";
+					if(!ObjectUtils.isEmpty(roleIds)) {
+						roleId = roleIds.get(0);
+					}
+					List<MenuVO> sideMenu = menuService.getSideMenu(menu.getMenuId(), roleId);
 					modelAndView.addObject("sideMenu", sideMenu);
 				}
 			}else {
 				log.debug("url pattern matcher not found !");
 			}
 			
-			String userId = (String) request.getSession().getAttribute("userId");
-			log.debug("userId : {}", userId);
-			
-			List<MenuVO> topMenu = resourceMetaSerivce.selectTopMenu(roleNameList);
-			List<String> roleIds = resourceMetaSerivce.getRoleIds(roleNameList);
-			
-			request.setAttribute("userId", userId);
-			request.setAttribute("roleIds", roleIds);
-			modelAndView.addObject("topMenu", topMenu);
-			modelAndView.addObject("roles", authorities);
 		}
 //		super.postHandle(request, response, handler, modelAndView);
 	}

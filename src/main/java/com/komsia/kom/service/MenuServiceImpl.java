@@ -40,9 +40,9 @@ public class MenuServiceImpl implements MenuService{
 	}
 
 	@Override
-	@Cacheable(value = "menuCache", key="#pid")
-	public List<MenuVO> getSideMenu(int pid) {
-		return menuMapper.selectSideMenu(pid);
+	@Cacheable(value = "menuCache", key="{#pid, #roleId}")
+	public List<MenuVO> getSideMenu(int pid, String roleId) {
+		return menuMapper.selectSideMenu(String.valueOf(pid) , roleId);
 	}
 
 	@Override

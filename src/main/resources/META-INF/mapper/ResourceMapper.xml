@@ -56,6 +56,7 @@
 			</choose>
 		)
 		AND M.TYPE = 'M'
+		AND M.URL != '/user'
 		ORDER BY ORDERING
 	</select>
 	
@@ -120,7 +121,27 @@
 		<if test="searchId != null and searchId != ''">
 			AND A.USER_ID LIKE CONCAT('%',#{searchId},'%')
 		</if>
-		
-		
 	</select>
+	
+	<select id="selectMenuAuthList" resultType="MenuAuthVO" parameterType="Integer">
+		SELECT
+			*
+		FROM ks_auth_role_menu
+		WHERE ROLE_ID = #{roleId}
+	</select>
+	
+	<delete id="deleteMenuAuth" parameterType="Integer">
+		DELETE FROM ks_auth_role_menu
+		WHERE ROLE_ID = #{roleId}
+	</delete>
+	
+	<insert id="insertMenuAuth" parameterType="MenuAuthVO">
+		INSERT INTO ks_auth_role_menu(
+			ROLE_ID
+			, MENU_ID
+		) VALUES(
+			#{roleId}
+			, #{menuId}
+		)
+	</insert>
 </mapper>

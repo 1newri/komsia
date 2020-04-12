@@ -8,6 +8,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.komsia.kom.domain.AuthVO;
+import com.komsia.kom.domain.MenuAuthVO;
 import com.komsia.kom.domain.MenuVO;
 import com.komsia.kom.domain.Role;
 import com.komsia.kom.mapper.ResourceMapper;
@@ -51,5 +52,22 @@ public class ResourceMetaSerivceImpl implements ResourceMetaSerivce{
 	public List<AuthVO> getNotAuthUserList(String roleId, String userId) {
 		List<AuthVO> list = resourceMapper.selectNotAuthUserList(roleId, userId);
 		return list;
+	}
+
+	@Override
+	public List<MenuAuthVO> getMenuAuthList(int roleId) {
+		List<MenuAuthVO> list = resourceMapper.selectMenuAuthList(roleId);
+		return list;
+	}
+
+	@Override
+	public void deleteMenuAuth(int roleId) {
+		resourceMapper.deleteMenuAuth(roleId);
+	}
+
+	@Override
+	public void insertMenuAuth(MenuAuthVO menuAuthVO) {
+		
+		resourceMapper.insertMenuAuth(menuAuthVO);
 	}
 }

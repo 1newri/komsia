@@ -10,7 +10,7 @@
 					<a href="/user/join">회원가입</a>
 				</div>
 				<div th:unless="${userId == null}" class="social_buttons">
-					<a href="#" th:text="${userId}" class="user-id"></a><span>님 환영합니다!</span>
+					<a href="/user/mypage" th:text="${userId}" class="user-id"></a><span>님 환영합니다!</span>
 					<a href="/user/logout">로그아웃</a>
 				</div>
      		 </div>

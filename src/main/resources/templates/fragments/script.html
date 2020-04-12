@@ -2,7 +2,7 @@
 <html lang="ko" 
 	xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="scriptFragment">
-<script>
+<script th:inline="javascript">
 	$("#regist").hide();
 	/*<!CDATA[*/
 	var roleIds = [[${roleIds}]];

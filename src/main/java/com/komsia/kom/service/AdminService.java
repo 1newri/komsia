@@ -26,4 +26,8 @@ public interface AdminService {
 
 	Map<String, Object> authUserDelete(String auth, String userNo);
 
+	Map<String, Object> getMenuAuthList(int roleId);
+
+	Map<String, Object> menuAuthRegist(int roleId, List<Integer> menuArr);
+
 }

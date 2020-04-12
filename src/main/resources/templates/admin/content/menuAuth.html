@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
+
+<th:block layout:fragment="content">
+	<div class="content pull-right col-lg-9 col-md-8 col-sm-9 col-xs-12 clearfix">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/">Home</a></li>
+			<li class="breadcrumb-item"><a href="/admin">관리자</a></li>
+			<li class="breadcrumb-item active">메뉴권한관리</li>
+		</ol>
+		<h2>메뉴권한관리</h2>
+		
+		<div class="menu-auth">
+			<div class="row">
+				<div class="auth-sel col-lg-4 col-md-12 col-sm-12">
+					<select class="form-control mr-sm-2" id="authorities">
+						<option value="0">--------- 선택하세요 ---------</option>
+						<option th:each="item : ${roleList}" th:value="${item.roleId}" th:data-name="${item.roleName}" th:text="${item.roleDef}"></option>	
+					</select>
+					<button class="btn btn-primary btn-block" id="regist">등록</button>
+				</div>
+				<div class="menu-list col-lg-6 col-md-12 col-sm-12">
+			        <div th:each="list : ${menuList}" th:class="|level-${list.level}|">
+						<div class="form-group">
+							<div class="custom-control custom-checkbox">
+								<input type="checkbox" name="menu" class="custom-control-input" th:id="${list.menuId}" th:data-pid="${list.pid}" th:value="${list.menuId}">
+								<label class="custom-control-label" th:for="${list.menuId}" th:text="${list.name}"></label>
+							</div>
+						</div>
+			        </div>
+				</div>
+			</div>
+		</div>
+	</div>
+      <!-- end content -->
+	<script>
+		$(function(){
+		
+			$("input:checkbox[name=menu]").click(function(){
+				var id = this.id;
+				if(id == 1){
+					if ($("#1").is(':checked')) {
+		                $("input[type=checkbox]").prop("checked", true);
+		            } else {
+		                $("input[type=checkbox]").prop("checked", false);
+		            }	
+				}else{
+					$('input:checkbox[name=menu]').each(function(){
+						var pid = $(this).data("pid");
+				        if(id == pid){
+				        	$('input:checkbox[name=menu]:input[data-pid=' + pid + ']').prop("checked", true);	
+				        }
+				    });
+				}
+			});
+		
+			$("#authorities").change(function(){
+				if($("#authorities option:selected").val() != 0){
+					var roleId = $("#authorities option:selected").val();
+				
+					$.ajax({
+	      				url: "/admin/menu/auth/list"
+	   					, data :  {
+	   	                    roleId : roleId 
+	   	                }
+	   					, type : "post"
+	      				, success : function(data){
+	      					$("input[type=checkbox]").prop("checked", false);
+	      					var json = JSON.parse(data);
+	      					$.each(json.data, function(index, item){
+	      						$('input:checkbox[name=menu]:input[value=' + item.menuId + ']').prop("checked", true);			
+	      					});
+	      				}, error : function(request, status, error){
+	      					alert("시스템 오류가 발생하였습니다. 관리자에게 문의하세요.");
+	      				}
+	      			});
+				}
+			});
+			
+			// 메뉴권한 등록
+			$("#regist").click(function(){
+				
+				var roleId = $("#authorities option:selected").val();
+				if(roleId == 0){
+					alert("권한그룹을 선택하세요.");
+					$("#authorities").focus();
+					return;
+				}
+				
+				var menuArr = [];
+				$("input[name=menu]:checked").each(function() {
+					menuArr.push($(this).val());
+				});
+				
+				$.ajax({
+      				url: "/admin/menu/auth/regist"
+   					, data :  {
+   	                    roleId : roleId
+   	                    , menuArr : menuArr
+   	                }
+   					, type : "post"
+      				, success : function(data){
+      					var json = JSON.parse(data);
+      					alert(json.resMsg);
+      					if(json.resCode == "0000"){
+      						location.reload();
+      					}
+      				}, error : function(request, status, error){
+      					alert("시스템 오류가 발생하였습니다. 관리자에게 문의하세요.");
+      				}
+      			});
+			});
+		});
+		
+	</script>
+</th:block>
+</html>

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.komsia.kom.constant.ResponseCode;
 import com.komsia.kom.domain.AuthVO;
+import com.komsia.kom.domain.MenuAuthVO;
 import com.komsia.kom.domain.MenuVO;
 import com.komsia.kom.domain.Role;
 import com.komsia.kom.domain.UserVO;
@@ -46,6 +47,10 @@ public class AdminController {
 			ModelMap model) {
 		List<MenuVO> list = adminService.getParentMenuList();
 		model.put("list", list);
+		
+		Map<String, Object> result = adminService.getMenuList();
+		model.put("menuList", result.get("data"));
+		
 		return "/admin/content/menu";
 	}
 	
@@ -85,6 +90,50 @@ public class AdminController {
 		}
 		return result;
 	}
+	
+	@GetMapping(value = "/admin/menu/auth")
+	public String menuAuth(HttpServletRequest request,
+			ModelMap model) {
+		
+		Map<String, Object> result = adminService.getMenuList();
+		model.put("menuList", result.get("data"));
+		
+		List<Role> list = adminService.getRoleList();
+		log.debug("Role List : {}", list);
+		model.put("roleList", list);
+		
+		return "/admin/content/menuAuth";
+	}
+	
+	@PostMapping(value = "/admin/menu/auth/list")
+	@ResponseBody
+	public Map<String, Object> menuAuthList(HttpServletRequest request
+			, @RequestParam(value = "roleId") int roleId){
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			result = adminService.getMenuAuthList(roleId);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+		}
+		return result;
+	}
+	
+	@PostMapping(value = "/admin/menu/auth/regist")
+	@ResponseBody
+	public Map<String, Object> menuAuthRegist(HttpServletRequest request
+			, @RequestParam(value = "roleId") int roleId
+			, @RequestParam(value = "menuArr[]") List<Integer> menuArr
+			){
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+		
+			result = adminService.menuAuthRegist(roleId, menuArr);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+		}
+		return result;
+	}
+	
 	
 	@GetMapping(value = "/admin/user")
 	public String user(HttpServletRequest request,

@@ -106,5 +106,5 @@ public class UserService implements UserDetailsService{
 	public void deleteAuthUser(String userNo, String auth) {
 		userMapper.deleteAuthUser(userNo, auth);
 	}
-
+	
 }

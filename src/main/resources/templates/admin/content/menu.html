@@ -11,26 +11,10 @@
 			<li class="breadcrumb-item active">메뉴관리</li>
 		</ol>
 		<h2>메뉴관리</h2>
-		<div>
-			<table id="menuTable" class="table table-hover">
-        		<thead>
-        			<tr>
-        				<th>NO.</th>
-        				<th>PID</th>
-        				<th>URL</th>
-        				<th>메뉴명</th>
-        				<th>설명</th>
-        				<th>순번</th>
-        				<th>메뉴타입</th>
-        				<th>사용여부</th>
-        			</tr>
-        		</thead>
-        	</table>
-        </div>
+		
 		<div id="menuForm">
 			<form>
 				<fieldset>
-					<legend>메뉴등록</legend>
 					<div class="form-group">
 						<label for="pid">상위메뉴</label>
 						<select class="form-control" id="pid">
@@ -65,6 +49,11 @@
 				<button type="button" id="save" class="btn btn-primary">등록</button>
 			</form>
 		</div>
+       	<ul class="menuList">
+			<li th:each="list : ${menuList}" th:class="|level-${list.level}|">
+				<a th:href="${list.url}" th:text="${list.name}" th:data-menuid="${list.menuId}"></a>
+			</li>
+		</ul>
 	</div>
       <!-- end content -->
 	<script>
@@ -77,6 +66,7 @@
 				$("#url").val(url);
 				$("#level").val(level);
 			})
+			
 			
 			var table = $("#menuTable").DataTable({
 				searching : false
@@ -106,10 +96,9 @@
 	      		
       		$("#save").click(function(){
       			
-      			$("#level").val();
       			$.ajax({
       				url: "/admin/menu/save"
-					, type : "post"
+					, type : "POST"
       				, data : {
       					pid : $("#pid option:selected").val()
       					, url : $("#url").val()
@@ -126,10 +115,10 @@
 							alert(json.resMsg);
       					}
       				}, error : function(request, status, error){
-      					alert(request);
+      					alert("시스템 오류가 발생하였습니다. 관리자에게 문의하세요.");
       				}
       			});
-      		})
+      		});
 		});
       	
 		

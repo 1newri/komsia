@@ -11,86 +11,87 @@
 				<p>회원가입후 편리한 한국소액주주연구회 서비스를 이용해보세요.</p>
 	        </header>
         	<div class="join-form">
-	        		<fieldset>
-	        			<div class="form-group form-inline">
-							<label for="userId" class="col-sm-3 col-form-label">아이디</label>
-							<div class="col-sm-9">
-								<input type="text" class="form-control" id="userId" name="userId">
-								<button class="btn btn-primary" id="dupCheck">중복확인</button>
-								<input type="hidden" id="checkYn" name="checkYn" value="N">
-								<div id="dupCheckMsg"></div>
+        		<fieldset>
+        			<div class="form-group row">
+						<label for="userId" class="col-sm-2 col-md-3 col-sm-12 col-form-label">아이디</label>
+						<div class="col-sm-10 col-md-9 col-sm-12 id-group">
+							<input type="text" class="form-control" id="userId" name="userId">
+							<button class="btn btn-primary" id="dupCheck">중복확인</button>
+							<input type="hidden" id="checkYn" name="checkYn" value="N">
+							<div id="dupCheckMsg"></div>
+						</div>
+					</div>
+        			<div class="form-group row">
+						<label for="userPwd" class="col-sm-2 col-md-3 col-sm-12 col-form-label">비밀번호</label>
+						<div class="col-sm-10 col-md-9 col-sm-12">
+							<input type="password" class="form-control" id="password" name="password">
+						</div>
+					</div>
+        			<div class="form-group row">
+						<label for="userPwdCheck" class="col-sm-2 col-md-3 col-sm-12 col-form-label">비밀번호확인</label>
+						<div class="col-sm-10 col-md-9 col-sm-12">
+							<input type="password" class="form-control" id="passwordCheck" name="passwordCheck" >
+							<div id="checkMsg"></div>
+							<input type="hidden" id="pwdCheckYn" name="pwdCheckYn" value="N">
+						</div>
+					</div>
+        			<div class="form-group row">
+						<label for="userName" class="col-sm-2 col-md-3 col-sm-12 col-form-label">이름</label>
+						<div class="col-sm-10 col-md-9 col-sm-12">
+							<input type="text" class="form-control" id="userName" name="userName" >
+						</div>
+					</div>
+        			<div class="form-group row">
+						<label for="birth" class="col-sm-2 col-md-3 col-sm-12 col-form-label">생년월일</label>
+						<div class="col-sm-8 col-md-9 col-sm-12 birth-group">
+							<select class="form-control" id="selectYear"></select>
+							<select class="form-control" id="selectMonth"></select>
+							<select class="form-control" id="selectDay"></select>
+						</div>
+					</div>
+        			<div class="form-group row">
+						<label for="sex" class="col-sm-2 col-md-3 col-sm-12 col-form-label">성별</label>
+						<div class="col-sm-10 col-md-9 col-sm-12 sex-group">
+							<div class="custom-control custom-radio">
+								<input type="radio" id="man" name="sex" class="custom-control-input" checked="checked" value="M">
+								<label class="custom-control-label" for="man">남</label>
+							</div>
+							<div class="custom-control custom-radio">
+								<input type="radio" id="female" name="sex" class="custom-control-input" value="F">
+								<label class="custom-control-label" for="female">여</label>
 							</div>
 						</div>
-	        			<div class="form-group form-inline">
-							<label for="userPwd" class="col-sm-3 col-form-label">비밀번호</label>
-							<div class="col-sm-9">
-								<input type="password" class="form-control" id="password" name="password">
-							</div>
+					</div>
+        			<div class="form-group row">
+						<label for="tel" class="col-sm-2 col-md-3 col-sm-12 col-form-label">핸드폰번호</label>
+						<div class="col-sm-10 col-md-9 col-sm-12 tel-group">
+							<input type="text" class="form-control" id="tel" name="tel" maxlength="13">
+							<button class="btn btn-primary" id="dupCheck">본인인증</button>
 						</div>
-	        			<div class="form-group form-inline">
-							<label for="userPwdCheck" class="col-sm-3 col-form-label">비밀번호확인</label>
-							<div class="col-sm-9">
-								<input type="password" class="form-control" id="passwordCheck" name="passwordCheck" >
-								<div id="checkMsg"></div>
-								<input type="hidden" id="pwdCheckYn" name="pwdCheckYn" value="N">
-							</div>
+					</div>
+        			<div class="form-group row">
+						<label for="email" class="col-sm-2 col-md-3 col-sm-12 col-form-label">이메일</label>
+						<div class="col-sm-10 col-md-9 col-sm-12 email-group">
+							<input type="text" class="form-control" id="email" name="email"> 
+							<span>@</span>
+							<input type="text" class="form-control" id="addr" name="addr"> 
+							<select class="form-control" id="selectMail">
+                                <option value="">직접입력</option>
+                                <option value="naver.com">naver.com</option>
+                                <option value="daum.net">daum.net</option>
+                                <option value="hanmail.net">hanmail.net</option>
+                                <option value="gmail.com">gmail.com</option>
+                                <option value="hotmail.com">hotmail.com</option>
+                                <option value="nate.com">nate.com</option>
+                            </select>
 						</div>
-	        			<div class="form-group form-inline">
-							<label for="userName" class="col-sm-3 col-form-label">이름</label>
-							<div class="col-sm-9">
-								<input type="text" class="form-control" id="userName" name="userName" >
-							</div>
-						</div>
-	        			<div class="form-group form-inline">
-							<label for="birth" class="col-sm-3 col-form-label">생년월일</label>
-							<div class="col-sm-9">
-								<select class="form-control" id="selectYear"></select>
-								<select class="form-control" id="selectMonth"></select>
-								<select class="form-control" id="selectDay"></select>
-							</div>
-						</div>
-	        			<div class="form-group form-inline">
-							<label for="sex" class="col-sm-3 col-form-label">성별</label>
-							<div class="col-sm-9 form-inline">
-								<div class="custom-control custom-radio">
-									<input type="radio" id="man" name="sex" class="custom-control-input" checked="checked" value="M">
-									<label class="custom-control-label" for="man">남</label>
-								</div>
-								<div class="custom-control custom-radio">
-									<input type="radio" id="female" name="sex" class="custom-control-input" value="F">
-									<label class="custom-control-label" for="female">여</label>
-								</div>
-							</div>
-						</div>
-	        			<div class="form-group form-inline">
-							<label for="tel" class="col-sm-3 col-form-label">핸드폰번호</label>
-							<div class="col-sm-9">
-								<input type="text" class="form-control" id="tel" name="tel" maxlength="13">
-							</div>
-						</div>
-	        			<div class="form-group form-inline">
-							<label for="email" class="col-sm-3 col-form-label">이메일</label>
-							<div class="col-sm-9 form-inline">
-								<input type="text" class="form-control" id="email" name="email"> 
-								<span>@</span>
-								<input type="text" class="form-control" id="addr" name="addr"> 
-								<select class="form-control" id="selectMail">
-	                                <option value="">직접입력</option>
-	                                <option value="naver.com">naver.com</option>
-	                                <option value="daum.net">daum.net</option>
-	                                <option value="hanmail.net">hanmail.net</option>
-	                                <option value="gmail.com">gmail.com</option>
-	                                <option value="hotmail.com">hotmail.com</option>
-	                                <option value="nate.com">nate.com</option>
-	                            </select>
-							</div>
-						</div>
-						<button type="button" id="save" class="btn btn-primary btn-block">동의하고 가입하기</button>
-						<p class="text-secondary">
-							본인은 만 14세 이상이며, 한국소액주주연구회 이용약관, 개인정보 수집 및 이용<br>
-							개인정보 제공 내용을 확인하였으며, 동의합니다.
-						</p>
-	        		</fieldset>
+					</div>
+					<button type="button" id="save" class="btn btn-primary btn-block">동의하고 가입하기</button>
+					<p class="text-secondary text-center">
+						본인은 만 14세 이상이며, 한국소액주주연구회 이용약관, 개인정보 수집 및 이용<br>
+						개인정보 제공 내용을 확인하였으며, 동의합니다.
+					</p>
+        		</fieldset>
         	</div>
 		</div>
 	</section><!-- End About Section -->

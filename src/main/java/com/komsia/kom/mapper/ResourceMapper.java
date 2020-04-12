@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.komsia.kom.domain.AuthVO;
+import com.komsia.kom.domain.MenuAuthVO;
 import com.komsia.kom.domain.MenuVO;
 import com.komsia.kom.domain.Role;
 
@@ -23,5 +24,11 @@ public interface ResourceMapper {
 	List<AuthVO> selectAuthUserList(int roleId);
 
 	List<AuthVO> selectNotAuthUserList(@Param(value="roleId") String roleId, @Param(value="searchId") String userId);
+
+	List<MenuAuthVO> selectMenuAuthList(int roleId);
+
+	void deleteMenuAuth(int roleId);
+
+	void insertMenuAuth(MenuAuthVO menuAuthVO);
 
 }

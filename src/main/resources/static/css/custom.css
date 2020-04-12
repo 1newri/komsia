@@ -313,6 +313,56 @@
 .form-group .form-inline{
 	width: 100%
 }
+
+.join-form{
+	padding-top:20px;
+	margin-right: 150px;
+}
+
+.join-form #password,
+.join-form #passwordCheck,
+.join-form #userId,
+.join-form #userName,
+.join-form #tel
+{
+	width: 250px;
+}
+
+.join-form label{
+	text-align: left;
+}
+
+.join-form .birth-group select{
+	width: 100px;
+	display: inline-block;
+}
+
+.join-form .email-group input,
+.join-form .email-group select{
+	width: 150px;
+	display: inline-block;
+}
+
+.join-form .sex-group div{
+	width: 50px;
+	display: inline-block;
+}
+
+.join-form .id-group input,
+.join-form .id-group button,
+.join-form .tel-group input,
+.join-form .tel-group button{
+	display: inline-block;
+}
+
+.password-form{
+	padding-top: 20px;
+}
+
+.password-form input{
+	width: 300px;
+}
+
 /*--------------------------------------------------------------
 # Intro Section
 --------------------------------------------------------------*/
@@ -704,6 +754,14 @@
 	padding-left: 40px;
 }
 
+.categories .level-4{
+	padding-left: 60px;
+}
+
+.categories .level-5{
+	padding-left: 80px;
+}
+
 .categories li{
 	padding-bottom: 10px;
 }
@@ -749,6 +807,7 @@
   }
 }
 
+
 /*--------------------------------------------------------------
 # Admin
 --------------------------------------------------------------*/
@@ -773,6 +832,41 @@
 	font-weight: bold;
 	text-align: left;
 }
+
+/*--------------------------------------------------------------
+# Menu
+--------------------------------------------------------------*/
+.menu-auth{
+	padding-top: 20px;
+}
+
+.menu-auth .menu-list{
+	padding: 10px;
+	border: 1px solid #b9b9b9;
+	border-radius: 5px;
+	margin: 5px;
+}
+
+.menu-list{
+	padding-left: 0px;
+}
+
+.menu-list .level-2{
+	padding-left: 20px;
+}
+
+.menu-list .level-3{
+	padding-left: 40px;
+}
+
+.menu-list .level-4{
+	padding-left: 60px;
+}
+
+.menu-list .level-5{
+	padding-left: 80px;
+}
+
 /*--------------------------------------------------------------
 # Footer
 --------------------------------------------------------------*/

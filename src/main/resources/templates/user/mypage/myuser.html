@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
+
+<th:block layout:fragment="content">
+	<div class="content pull-right col-lg-9 col-md-8 col-sm-9 col-xs-12 clearfix">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/">Home</a></li>
+			<li class="breadcrumb-item"><a href="/user/myinfo">마이페이지</a></li>
+			<li class="breadcrumb-item active">내 회원관리</li>
+		</ol>
+		<h2>내 회원관리</h2>
+		<div id="search_div" class="form-inline">
+			<select class="custom-select">
+				<option value="1">제목</option>
+				<option value="2">작성자</option>
+				<option value="3">내용</option>
+			</select>
+			<input type="text" class="form-control" id="" >
+			<button class="btn btn-outline-secondary" type="submit">Search</button>
+		</div>
+		<div>
+			<table id="unfairTable" class="table table-hover">
+        		<thead>
+        			<tr>
+        				<th>NO.</th>
+        				<th>제목</th>
+        				<th>등록자</th>
+        				<th>등록일</th>
+        				<th>조회수</th>
+        			</tr>
+        		</thead>
+        	</table>
+        	<div class="text-right">
+        		<button class="btn btn-outline-primary" id="regist">등록</button>
+        	</div>
+        </div>
+	</div>
+      <!-- end content -->
+	<script>
+		$(function(){
+			var total = "";
+			var table = $("#unfairTable").DataTable({
+				searching : false
+				, pageLength : 10
+				, ordering : false
+				, serverSide : true
+				, language : lang_kor
+				, dom: '<<t><p>'
+			    , paging : true
+				, ajax : {
+					url : "/sinmungo/unfair/list",
+					type: 'POST',
+					dataSrc: function(data){
+						total = data.total;
+						return data.data;
+					}
+				}, columns : [
+					{
+						data : "boardNo", className: 'text-center'
+						, render : function(data, type, row, meta){
+							return meta.row + meta.settings._iDisplayStart + 1;
+						}
+					},{ data : "title" , className: 'text-left'}
+					,{ data : "regId" , className: 'text-center'}
+					,{ data : "regDttm", className: 'text-center'}
+					,{ data : "hit", className: 'text-center'}
+				]
+	  		});
+			
+			$(document).on('click', '#unfairTable td', function(e){
+				var click = $(this).closest('tr');
+				var boardNo = table.row(click).data()['boardNo'];
+				
+				post(boardNo);
+			});
+			
+			$("#regist").on("click", function(){
+				$(location).attr("href", "/sinmungo/unfair/regist");
+			});
+		});
+			
+		function post(boardNo){
+			var $form = $("<form></form>");
+			$form.attr("method", "post");
+			$form.attr("action", "/sinmungo/unfair/detail");
+			$form.attr("id", "frm");
+			$form.appendTo('body');
+			$form.append('<input type="hidden" id="boardNo" name="boardNo" value="' + boardNo + '">');
+			
+			$("#frm").submit();
+		}
+	</script>
+</th:block>
+</html>
