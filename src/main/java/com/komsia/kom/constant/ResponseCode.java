@@ -11,4 +11,7 @@ public class ResponseCode {
 	public static final Object DUPLICATE_USER = "duplicate";
 	public static final Object DUPLICATE_USER_MSG = "이미 사용중인 ID 입니다.";
 	
+	public static final Object INVALID_PASSWORD = "invalid";
+	public static final Object INVALID_PASSWORD_MSG = "현재 비밀번호가 일치하지 않습니다.";
+	
 }

@@ -35,8 +35,7 @@
 							</button>
 						</div>
 						<div class="modal-body">
-							<input type="hidden" id="userId" name="userId"> 
-							<input type="hidden" id="userNo" name="useNo">
+							<input type="hidden" id="initUserId" name="initUserId"> 
 							<p>
 								<span id="initId"></span>님의 비밀번호를 초기화 하시겠습니까?<br>
 								비밀번호는 <strong> 아이디1! </strong>로  초기화 됩니다. <br>
@@ -92,14 +91,29 @@
 				var button = $(e.relatedTarget);
 				var userId = button.data("userid");
 				$("#initId").text(userId);
+				$("#initUserId").val(userId);
 			});
 			
 	      		
 			// 비밀번호 초기화 
 			$("#init").click(function(){
 				$.ajax({
-					
-				});
+      				url: "/admin/user/password/init"
+					, type : "post"
+      				, data : {
+      					userId : $("#initUserId").val()
+      				}, success : function(data){
+      					var json = JSON.parse(data);
+      					if(json.resCode == "0000"){
+      						alert("비밀번호가 초기화되었습니다.");
+      						location.reload();
+      					}else{
+	      					alert(json.resMsg);
+      					}
+      				}, error : function(request, status, error){
+      					alert("error : ", request);
+      				}
+      			});
 			});
 			
 		});

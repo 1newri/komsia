@@ -96,6 +96,11 @@ public class UserController {
 		return "/user/denied";
 	}
 	
+	@GetMapping(value = "/user/find")
+	public String findUser(HttpServletRequest request) {
+		return "/user/find";
+	}
+	
 	@GetMapping(value = "/user/mypage")
 	public String mypage(HttpServletRequest request) {
 		return "redirect:/user/mypage/myinfo";
@@ -114,6 +119,25 @@ public class UserController {
 		return "/user/mypage/myinfo";
 	}
 	
+	@PostMapping(value = "/user/mypage/myinfo")
+	@ResponseBody
+	public Map<String, Object> myinfo(HttpServletRequest request
+			, @ModelAttribute UserVO userVO) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		String userId = (String) request.getSession().getAttribute("userId");
+		userVO.setUserId(userId);
+		userVO.setModId(userId);
+		try {
+			map = userService.changeMyinfo(userVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			map.put("resCode", ResponseCode.RESPONSE_FAIL);
+			map.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		return map;
+	}
+	
 	@GetMapping(value = "/user/mypage/myuser")
 	public String myuser(HttpServletRequest request) {
 		return "/user/mypage/myuser";
@@ -122,6 +146,30 @@ public class UserController {
 	@GetMapping(value = "/user/mypage/password")
 	public String password(HttpServletRequest request) {
 		return "/user/mypage/password";
+	}
+	
+	@PostMapping(value = "/user/mypage/password")
+	@ResponseBody
+	public Map<String, Object> password(HttpServletRequest request
+			, @RequestParam(value = "password") String password
+			, @RequestParam(value = "newPassword") String newPassword) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		UserVO userVO = new UserVO();
+		String userId = (String) request.getSession().getAttribute("userId");
+		
+		userVO.setUserId(userId);
+		userVO.setPassword(password);
+		userVO.setNewPassword(newPassword);
+		
+		try {
+			map = userService.changePassword(userVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			map.put("resCode", ResponseCode.RESPONSE_FAIL);
+			map.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		return map;
 	}
 	
 }

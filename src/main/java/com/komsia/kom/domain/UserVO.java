@@ -29,6 +29,8 @@ public class UserVO {
 	private String modDttm;
 	private String useYn;
 	
+	private String newPassword;
+	
 	private List<Authorities> userRoles = new ArrayList<>();
 	
 	@JsonIgnore

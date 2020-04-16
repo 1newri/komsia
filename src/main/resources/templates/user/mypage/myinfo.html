@@ -145,6 +145,78 @@
 				}
 			});
 			
+			$("#tel").keyup(function(){
+				fn_inputPhoneNumber($(this));
+			});
+			
+			
+			$("#selectMail").change(function(){
+				if($(this).val() == ''){
+					$("#addr").attr("readonly", false);
+					$("#addr").val('');
+				}else{
+					$("#addr").attr("readonly", true);
+					$("#addr").val($(this).val());
+				}
+			});
+			
+			$("#modify").click(function(){
+				
+	  			if($("#password").val() == ""){
+	  				alert("비밀번호를 입력하세요.");
+	  				$("#password").focus();
+	  				return;
+	  			}
+	  			
+	  			if($("#passwordCheck").val() == ""){
+	  				alert("비밀번호확인을 입력하세요.");
+	  				$("#passwordCheck").focus();
+	  				return;
+	  			}
+
+				if($("#pwdCheckYn").val() == "N"){
+					alert("비밀번호를 확인 해주세요.");
+					return;
+				}
+	  			
+	  			
+	  			if($("#tel").val() == ""){
+	  				alert("핸드폰번호를 입력하세요.");
+	  				$("#tel").focus();
+	  				return;
+	  			}
+	  			
+	  			if($("#email").val() == "" || $("#addr").val() == ""){
+	  				alert("이메일 주소를 입력하세요.");
+	  				$("#email").focus();
+	  				return;
+	  			}
+				
+				var birthday = getBirthDay();
+				var email = $("#email").val() + "@" + $("#addr").val();
+				
+				$.ajax({
+      				url: "/user/mypage/myinfo"
+					, type : "post"
+      				, data : {
+      					password : $("#password").val()
+      					, birth : birthday
+      					, sex : $('input[name="sex"]:checked').val()
+      					, tel : $("#tel").val()
+      					, email : email
+      				}, success : function(data){
+      					var json = JSON.parse(data);
+      					if(json.resCode == "0000"){
+      						$(location).reload();
+      						alert("회원정보가 성공적으로 변경되었습니다.");
+      					}else{
+	      					alert(json.resMsg);
+      					}
+      				}, error : function(request, status, error){
+      					alert("error : ", request);
+      				}
+      			});
+			});
 		});
 		
 		function fn_birth(birth){
@@ -165,6 +237,14 @@
 			$("#addr").val(str[1]);
 			$("#addr").attr("readonly", true);
 		}
+		
+		function getBirthDay(){
+  			var year = $("#selectYear option:selected").val();
+  			var month = $("#selectMonth option:selected").val();
+  			var day = $("#selectDay option:selected").val();
+  			
+  			return year+month+day;
+  		}
 		
 	</script>
 </th:block>

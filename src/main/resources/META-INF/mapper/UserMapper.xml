@@ -96,4 +96,28 @@
 		WHERE USER_NO = #{userNo}
 		AND ROLE_ID = #{roleId}
 	</delete>
+	
+	<update id="updateUserPassword" parameterType="UserVO">
+		UPDATE ks_user SET
+			PASSWORD = #{password}
+			, MOD_ID = #{modId}
+			, MOD_DTTM = NOW()
+		WHERE USER_ID = #{userId}			
+	</update>
+	
+	<update id="updateUser" parameterType="UserVO">
+		UPDATE ks_user SET
+			MOD_ID = #{modId}
+			, MOD_DTTM = NOW()
+			<if test="tel != null and tel != ''">
+				, TEL = #{tel}
+			</if>
+			<if test="email != null and email != ''">
+			, EMAIL = #{email}
+			</if>
+			<if test="birth != null and birth != ''">
+			, BIRTH = #{birth}
+			</if>
+		WHERE USER_ID = #{userId}			
+	</update>
 </mapper>

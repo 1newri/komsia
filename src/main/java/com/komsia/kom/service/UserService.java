@@ -106,5 +106,53 @@ public class UserService implements UserDetailsService{
 	public void deleteAuthUser(String userNo, String auth) {
 		userMapper.deleteAuthUser(userNo, auth);
 	}
+
+	public Map<String, Object> changePassword(UserVO userVO) {
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		UserVO user = userMapper.selectUserByUserId(userVO.getUserId());
+		
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		if(passwordEncoder.matches(userVO.getPassword(), user.getPassword())) {
+			userVO.setPassword(passwordEncoder.encode(userVO.getNewPassword()));
+			userVO.setModId(userVO.getUserId());
+			
+			userMapper.updateUserPassword(userVO);
+			
+			result.put("resCode", ResponseCode.RESPONSE_OK);
+			result.put("resMsg", ResponseCode.RESPONSE_OK_MSG);
+		}else {
+			result.put("resCode", ResponseCode.INVALID_PASSWORD);
+			result.put("resMsg", ResponseCode.INVALID_PASSWORD_MSG);
+		}
+		
+		return result;
+	}
+
+	public Map<String, Object> changeMyinfo(UserVO userVO) {
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		UserVO user = userMapper.selectUserByUserId(userVO.getUserId());
+		
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		if(passwordEncoder.matches(userVO.getPassword(), user.getPassword())) {
+			
+			userMapper.updateUser(userVO);
+			
+			result.put("resCode", ResponseCode.RESPONSE_OK);
+			result.put("resMsg", ResponseCode.RESPONSE_OK_MSG);
+		}else {
+			result.put("resCode", ResponseCode.INVALID_PASSWORD);
+			result.put("resMsg", ResponseCode.INVALID_PASSWORD_MSG);
+		}
+		
+		return result;
+	}
+	
+	public void updateUserPassword(UserVO userVO) {
+		userMapper.updateUserPassword(userVO);
+	}
+	
+	
 	
 }

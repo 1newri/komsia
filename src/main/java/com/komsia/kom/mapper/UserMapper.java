@@ -22,4 +22,10 @@ public interface UserMapper {
 
 	void deleteAuthUser(@Param(value = "userNo")String userNo, @Param(value = "roleId")String auth);
 
+	int selectUser(UserVO userVO);
+
+	void updateUserPassword(UserVO userVO);
+
+	void updateUser(UserVO userVO);
+
 }

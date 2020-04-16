@@ -363,6 +363,35 @@
 	width: 300px;
 }
 
+.login-form {
+	width: 40%;
+	margin: auto;
+}
+
+.login-header h3 {
+  font-size: 36px;
+  padding-bottom: 20px;
+  padding-left: 10px;
+  color: #283d50;
+  text-align: left;
+  font-weight: 500;
+  position: relative;
+}
+
+.login-box {
+	padding-top: 20px;
+}
+
+.login-info {
+	padding-top: 20px;
+	padding-left: 15px;
+	display: inline-block;
+}
+
+.login-box button{
+	margin-left: 0px;
+}
+
 /*--------------------------------------------------------------
 # Intro Section
 --------------------------------------------------------------*/

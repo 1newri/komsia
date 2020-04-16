@@ -35,6 +35,7 @@ public class AdminController {
 	
 	private AdminService adminService;
 	
+	private UserService userSerivce;
 	
 	@GetMapping(value = "/admin")
 	public String admin(HttpServletRequest request) {
@@ -151,6 +152,26 @@ public class AdminController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
 			result = adminService.getUserList();
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+		}
+		return result;
+	}
+	
+	@PostMapping(value = "/admin/user/password/init")
+	@ResponseBody
+	public Map<String, Object> passwordInit(HttpServletRequest request
+			, @RequestParam(value = "userId") String userId){
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		UserVO userVO = new UserVO();
+		userVO.setUserId(userId);
+		userVO.setNewPassword(userId.concat("1!"));
+		String modId = (String) request.getSession().getAttribute("userId");
+		userVO.setModId(modId);
+		
+		try {
+			result = adminService.passwordInit(userVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
 		}

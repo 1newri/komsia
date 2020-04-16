@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -187,6 +189,33 @@ public class AdminServiceImpl implements AdminService{
 		result.put("resCode", resCode);
 		result.put("resMsg", resMsg);
 		return result;
+	}
+
+
+	@Override
+	public Map<String, Object> passwordInit(UserVO userVO) {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		String resCode = ResponseCode.RESPONSE_OK;
+		String resMsg = ResponseCode.RESPONSE_OK_MSG;
+		try {
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			userVO.setPassword(passwordEncoder.encode(userVO.getNewPassword()));
+			
+			userService.updateUserPassword(userVO);
+			
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			resCode = ResponseCode.RESPONSE_FAIL;
+			resMsg = ResponseCode.RESPONSE_FAIL_MSG;
+		}
+		
+		result.put("resCode", resCode);
+		result.put("resMsg", resMsg);
+		
+		return result;
+		
 	}
 
 }

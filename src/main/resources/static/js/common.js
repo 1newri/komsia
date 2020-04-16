@@ -48,6 +48,16 @@ function escapeHtml (string) {
     });
 }
 
+function checkPasswrod(password) {
+	var check1 = /(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=]{1,50})(?=.*[a-zA-Z]{2,50}).{8,50}$/.test(password);
+	
+	if(!check1){
+		alert("사용할 수 없는 비밀번호 조합입니다.\n패스워드 설정안내를 확인해 주세요.");
+		return false;
+	}
+	return true;
+}
+
 function fn_inputPhoneNumber(obj) {
 
     var number = obj.val().replace(/[^0-9]/g, "");

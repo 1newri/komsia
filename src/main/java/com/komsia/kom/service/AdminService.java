@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.komsia.kom.domain.MenuVO;
 import com.komsia.kom.domain.Role;
+import com.komsia.kom.domain.UserVO;
 
 public interface AdminService {
 
@@ -29,5 +30,7 @@ public interface AdminService {
 	Map<String, Object> getMenuAuthList(int roleId);
 
 	Map<String, Object> menuAuthRegist(int roleId, List<Integer> menuArr);
+
+	Map<String, Object> passwordInit(UserVO userVO);
 
 }
