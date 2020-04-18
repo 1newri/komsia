@@ -7329,7 +7329,7 @@ function () {
             }
           }
         }), this.button({
-//          className: 'dropdown-toggle',
+          className: 'dropdown-toggle',
           contents: this.ui.dropdownButtonContents('', this.options),
           tooltip: this.lang.color.more,
           data: {
@@ -7410,7 +7410,7 @@ function () {
 
       this.context.memo('button.style', function () {
         return _this2.ui.buttonGroup([_this2.button({
-//          className: 'dropdown-toggle',
+          className: 'dropdown-toggle',
           contents: _this2.ui.dropdownButtonContents(_this2.ui.icon(_this2.options.icons.magic), _this2.options),
           tooltip: _this2.lang.style.style,
           data: {
@@ -7528,7 +7528,7 @@ function () {
         }
 
         return _this2.ui.buttonGroup([_this2.button({
-//          className: 'dropdown-toggle',
+          className: 'dropdown-toggle',
           contents: _this2.ui.dropdownButtonContents('<span class="note-current-fontname"/>', _this2.options),
           tooltip: _this2.lang.font.name,
           data: {
@@ -7547,7 +7547,7 @@ function () {
       });
       this.context.memo('button.fontsize', function () {
         return _this2.ui.buttonGroup([_this2.button({
-//          className: 'dropdown-toggle',
+          className: 'dropdown-toggle',
           contents: _this2.ui.dropdownButtonContents('<span class="note-current-fontsize"/>', _this2.options),
           tooltip: _this2.lang.font.size,
           data: {
@@ -7563,7 +7563,7 @@ function () {
       });
       this.context.memo('button.fontsizeunit', function () {
         return _this2.ui.buttonGroup([_this2.button({
-//          className: 'dropdown-toggle',
+          className: 'dropdown-toggle',
           contents: _this2.ui.dropdownButtonContents('<span class="note-current-fontsizeunit"/>', _this2.options),
           tooltip: _this2.lang.font.sizeunit,
           data: {
@@ -7638,7 +7638,7 @@ function () {
       this.context.memo('button.indent', func.invoke(indent, 'render'));
       this.context.memo('button.paragraph', function () {
         return _this2.ui.buttonGroup([_this2.button({
-//          className: 'dropdown-toggle',
+          className: 'dropdown-toggle',
           contents: _this2.ui.dropdownButtonContents(_this2.ui.icon(_this2.options.icons.alignLeft), _this2.options),
           tooltip: _this2.lang.paragraph.paragraph,
           data: {
@@ -7654,7 +7654,7 @@ function () {
       });
       this.context.memo('button.height', function () {
         return _this2.ui.buttonGroup([_this2.button({
-//          className: 'dropdown-toggle',
+          className: 'dropdown-toggle',
           contents: _this2.ui.dropdownButtonContents(_this2.ui.icon(_this2.options.icons.textHeight), _this2.options),
           tooltip: _this2.lang.font.height,
           data: {
@@ -7670,7 +7670,7 @@ function () {
       });
       this.context.memo('button.table', function () {
         return _this2.ui.buttonGroup([_this2.button({
-//          className: 'dropdown-toggle',
+          className: 'dropdown-toggle',
           contents: _this2.ui.dropdownButtonContents(_this2.ui.icon(_this2.options.icons.table), _this2.options),
           tooltip: _this2.lang.table.table,
           data: {

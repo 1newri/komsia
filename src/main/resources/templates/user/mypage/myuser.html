@@ -11,86 +11,244 @@
 			<li class="breadcrumb-item active">내 회원관리</li>
 		</ol>
 		<h2>내 회원관리</h2>
-		<div id="search_div" class="form-inline">
-			<select class="custom-select">
-				<option value="1">제목</option>
-				<option value="2">작성자</option>
-				<option value="3">내용</option>
-			</select>
-			<input type="text" class="form-control" id="" >
-			<button class="btn btn-outline-secondary" type="submit">Search</button>
+		<div class="my-user">
+			<div class="row">
+				<div class="col-lg-6 col-md-12 col-sm-12">
+					<h5 class="title">
+                    	<span>내 회원 목록</span>
+                    </h5>
+                   	<div class="form-inline search-box">
+						<input type="text" id="myUserSearch" class="form-control">
+						<button class="btn btn-primary" id="myUserSearchBtn">조회</button>
+                   	</div>
+                   	<div class="user-list">
+						<table id="myUserTable" class="table table-hover">
+							<thead>
+								<tr>
+									<th>아이디</th>
+									<th>이름</th>
+									<th></th>
+								</tr>
+							</thead>
+						</table>
+                   	</div>
+				</div>
+				<div class="col-lg-6 col-md-12 col-sm-12">
+					<h5 class="title">
+                    	<span>회원 목록</span>
+                    </h5>
+                    <div class="form-inline search-box">
+						<input type="text" id="userSearch" class="form-control">
+						<button class="btn btn-primary" id="userSearchBtn">조회</button>
+                   	</div>
+                   	<div class="user-list">
+						<table id="userTable" class="table table-hover">
+							<thead>
+								<tr>
+									<th>아이디</th>
+									<th>이름</th>
+									<th></th>
+								</tr>
+							</thead>
+						</table>
+                   	</div>
+				</div>
+			</div>
+			<div class="modal border-primary" id="modal-delAuth" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<input type="hidden" id="delAuthUserNo" name="delAuthUserNo">
+						<div class="modal-header">
+							<h5 class="modal-title">회원삭제</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<p>
+								<span id="delAuthUserId"></span>님의을 회원 목록에서 삭제 하시겠습니까?<br>
+							</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary" id="delete">삭제</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+						</div>
+				    </div>
+				</div>
+			</div>
+			<div class="modal border-primary" id="modal-addAuth" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<input type="hidden" id="addAuthUserNo" name="addAuthUserNo">
+						<div class="modal-header">
+							<h5 class="modal-title">회원추가</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<p>
+								<span id="addAuthUserId"></span>님을 나의 회원에 추가 하시겠습니까?<br>
+							</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary" id="add">추가</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+						</div>
+				    </div>
+				</div>
+			</div>
 		</div>
-		<div>
-			<table id="unfairTable" class="table table-hover">
-        		<thead>
-        			<tr>
-        				<th>NO.</th>
-        				<th>제목</th>
-        				<th>등록자</th>
-        				<th>등록일</th>
-        				<th>조회수</th>
-        			</tr>
-        		</thead>
-        	</table>
-        	<div class="text-right">
-        		<button class="btn btn-outline-primary" id="regist">등록</button>
-        	</div>
-        </div>
 	</div>
       <!-- end content -->
-	<script>
+	<script th:inline="javascript">
 		$(function(){
-			var total = "";
-			var table = $("#unfairTable").DataTable({
+			/*<!CDATA[*/
+			var roleIds = [[${roleIds}]];
+			/*]]>*/
+			
+			var roleId = "";
+			if(roleIds.includes('1') && roleIds.includes('3')){
+				roleId = "3" ;
+			}else if(roleIds.includes('1') && roleIds.includes('4')){
+				roleId = "4";
+			}else{
+				roleId = "0";
+			}
+			
+			var table = $("#myUserTable").DataTable({
 				searching : false
 				, pageLength : 10
 				, ordering : false
 				, serverSide : true
 				, language : lang_kor
-				, dom: '<<t><p>'
-			    , paging : true
+				, dom :''
 				, ajax : {
-					url : "/sinmungo/unfair/list",
+					url : "/admin/auth/list",
 					type: 'POST',
-					dataSrc: function(data){
-						total = data.total;
-						return data.data;
-					}
+					data : {
+						roleId : roleId
+						, searchText : function() { return $("#myUserSearch").val() }   
+					}					
 				}, columns : [
-					{
-						data : "boardNo", className: 'text-center'
-						, render : function(data, type, row, meta){
-							return meta.row + meta.settings._iDisplayStart + 1;
+					 { data : "userId" , className: 'text-center'}
+					, { data : "userName" , className: 'text-center'}
+					, {
+						render : function(data, type, row, meta){
+							return '<span class="badge badge-primary" data-toggle="modal" data-target="#modal-delAuth"'+
+							'data-userno="' + row.userNo + '" data-userid="' + row.userId + '">X</span>';
 						}
-					},{ data : "title" , className: 'text-left'}
-					,{ data : "regId" , className: 'text-center'}
-					,{ data : "regDttm", className: 'text-center'}
-					,{ data : "hit", className: 'text-center'}
+					}
 				]
-	  		});
+      		});
 			
-			$(document).on('click', '#unfairTable td', function(e){
-				var click = $(this).closest('tr');
-				var boardNo = table.row(click).data()['boardNo'];
-				
-				post(boardNo);
+			$("#modal-delAuth").on('show.bs.modal', function(e){
+				var button = $(e.relatedTarget);
+				var userNo = button.data("userno");
+				var userId = button.data("userid");
+				$("#delAuthUserId").text(userId);
+				$("#delAuthUserNo").val(userNo);
 			});
 			
-			$("#regist").on("click", function(){
-				$(location).attr("href", "/sinmungo/unfair/regist");
+			$("#delete").click(function (){
+				
+				var useNo = $("#delAuthUserNo").val();
+				if(useNo == '' || useNo == null){
+					return;
+				}
+			
+                $.ajax({
+      				url: "/admin/auth/user/delete"
+   					, data :  {
+   	                    auth      : roleId 
+   	                    , userNo : useNo
+   	                }
+   					, type : "post"
+      				, success : function(data){
+      					var json = JSON.parse(data);
+						alert(json.resMsg);
+      					if(json.resCode == "0000"){
+      						table.ajax.reload();
+      						t.ajax.reload();
+							$('#modal-delAuth').modal("hide");  
+      					}
+      				}, error : function(request, status, error){
+      					alert("시스템 오류가 발생하였습니다. 관리자에게 문의하세요.");
+      				}
+      			});
+			});
+			
+			
+			$("#myUserSearchBtn").click(function(){
+				table.ajax.reload();
+			});
+			
+			var t = $("#userTable").DataTable({
+				searching : false
+				, pageLength : 10
+				, ordering : false
+				, serverSide : true
+				, language : lang_kor
+				, dom :''
+				, ajax : {
+					url : "/admin/auth/user/list",
+					type: 'POST',
+					data : {
+						roleId : roleId
+						, searchText : function() { return $("#userSearch").val() }  
+					}					
+				}, columns : [
+					{ data : "userId" , className: 'text-center'}
+					, { data : "userName" , className: 'text-center'}
+					, {
+						render : function(data, type, row, meta){
+							return '<span class="badge badge-success" data-toggle="modal" data-target="#modal-addAuth"'+
+							'data-userno="' + row.userNo + '" data-userid="' + row.userId + '">+</span>';
+						}
+					}
+				]
+      		});
+			$("#modal-addAuth").on('show.bs.modal', function(e){
+				var button = $(e.relatedTarget);
+				var userNo = button.data("userno");
+				var userId = button.data("userid");
+				$("#addAuthUserId").text(userId);
+				$("#addAuthUserNo").val(userNo);
+			});
+			// 권한 추가 로직 추가.
+			$("#add").click(function(){
+				
+				
+				var userArr = [];
+				userArr.push($("#addAuthUserNo").val());
+				
+                $.ajax({
+      				url: "/admin/auth/user/regist"
+   					, data :  {
+   	                    auth      : roleId 
+   	                    , userArr : userArr
+   	                }
+   					, type : "post"
+      				, success : function(data){
+      					var json = JSON.parse(data);
+      					
+						alert(json.resMsg);
+      					if(json.resCode == "0000"){
+      						table.ajax.reload();
+      						t.ajax.reload();
+      						$('#modal-addAuth').modal("hide");
+      					}
+      				}, error : function(request, status, error){
+      					alert("시스템 오류가 발생하였습니다. 관리자에게 문의하세요.");
+      				}
+      			});
+				
+			});
+			
+			$("#userSearchBtn").click(function(){
+				t.ajax.reload();
 			});
 		});
-			
-		function post(boardNo){
-			var $form = $("<form></form>");
-			$form.attr("method", "post");
-			$form.attr("action", "/sinmungo/unfair/detail");
-			$form.attr("id", "frm");
-			$form.appendTo('body');
-			$form.append('<input type="hidden" id="boardNo" name="boardNo" value="' + boardNo + '">');
-			
-			$("#frm").submit();
-		}
 	</script>
 </th:block>
 </html>

@@ -21,9 +21,9 @@ public interface AdminService {
 
 	List<Role> getRoleList();
 
-	Map<String, Object> getAuthUserList(int roleId);
+	Map<String, Object> getAuthUserList(String roleId, String searchText);
 
-	Map<String, Object> getNotAuthUserList(String roleId, String userId);
+	Map<String, Object> getNotAuthUserList(String roleId, String searchText);
 
 	Map<String, Object> authUserDelete(String auth, String userNo);
 

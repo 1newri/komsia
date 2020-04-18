@@ -87,6 +87,21 @@
 		)
 	</insert>
 	
+	<update id="updateNotice" parameterType="NoticeVO">
+		UPDATE ks_board_notice SET
+			TITLE = #{title}
+			, CONTENT = #{content}
+			, MOD_ID = #{modId}
+			, MOD_DTTM = NOW()
+		WHERE BOARD_NO = #{boardNo}			
+	</update>
+	
+	<update id="deleteNotice" parameterType="NoticeVO">
+		UPDATE ks_board_notice SET
+			USE_YN = 'N'
+		WHERE BOARD_NO = #{boardNo}
+	</update>
+	
 	<update id="updateHitByNotice" parameterType="NoticeVO">
 		UPDATE ks_board_notice SET
 			HIT = IFNULL(HIT, 0) + 1
@@ -193,5 +208,22 @@
 			, #{regId}
 		)
 	</insert>
-
+	
+	<update id="updateBoardForum" parameterType="BoardVO">
+		UPDATE ks_board_forum SET
+			TITLE = #{title}
+			, CONTENT = #{content}
+			, MOD_ID = #{modId}
+			, MOD_DTTM = NOW()
+		WHERE BOARD_NO = #{boardNo}
+		AND BOARD_TYPE = #{boardType}			
+	</update>
+	
+	<update id="deleteBoardForum" parameterType="BoardVO">
+		UPDATE ks_board_forum SET
+			USE_YN = 'N'
+		WHERE BOARD_NO = #{boardNo}
+		AND BOARD_TYPE = #{boardType}			
+	</update>
+	
 </mapper>

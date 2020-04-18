@@ -83,6 +83,10 @@
 		<if test="roleId != null and roleId != 0">
 			AND AR.ROLE_ID = #{roleId}
 		</if>
+		<if test="searchText != null and searchText != ''">
+			AND U.USER_ID LIKE CONCAT('%',#{searchText},'%')
+			OR  U.USER_NAME LIKE CONCAT('%',#{searchText},'%')
+		</if>
 		GROUP BY U.USER_NO
 	</select>
 	<select id="selectNotAuthUserList" resultType="AuthVO" parameterType="String">
@@ -106,11 +110,11 @@
 				, U.USER_NAME
 				, U.TEL
 				, U.EMAIL
-			FROM KS_AUTH_ROLE AR
-			JOIN KS_AUTH_AUTHORITIES AA
-				ON AR.ROLE_ID = AA.ROLE_ID
-			JOIN KS_USER U
-				ON AA.USER_NO = U.USER_NO
+			 FROM KS_USER U
+				LEFT OUTER JOIN KS_AUTH_AUTHORITIES AA
+					ON U.USER_NO = AA.USER_NO
+				LEFT OUTER JOIN KS_AUTH_ROLE AR
+					ON AA.ROLE_ID = AR.ROLE_ID
 			WHERE 1=1
 			GROUP BY USER_NO
 		) A
@@ -118,9 +122,11 @@
 		<if test="roleId != null and roleId != 0">
 			AND A.ROLE_IDS NOT LIKE CONCAT('%',#{roleId},'%')
 		</if>
-		<if test="searchId != null and searchId != ''">
-			AND A.USER_ID LIKE CONCAT('%',#{searchId},'%')
+		<if test="searchText != null and searchText != ''">
+			AND A.USER_ID LIKE CONCAT('%',#{searchText},'%')
+			OR  A.USER_NAME LIKE CONCAT('%',#{searchText},'%')
 		</if>
+		OR A.ROLE_IDS IS NULL
 	</select>
 	
 	<select id="selectMenuAuthList" resultType="MenuAuthVO" parameterType="Integer">

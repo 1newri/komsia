@@ -504,6 +504,34 @@
 
 
 /*--------------------------------------------------------------
+# My-User
+--------------------------------------------------------------*/
+.my-user{
+	padding-top: 20px;
+}
+
+.my-user .search-box {
+	padding-bottom: 10px;
+	float: right;
+}
+
+.my-user .title {
+  font-weight: bold;
+  position: relative;
+  padding-bottom: 10px;
+  margin: 10px 0;
+  border-bottom: 1px solid;
+}
+
+.my-user .user-list span{
+	cursor:pointer;
+}
+
+#default .content .my-user .user-list table{
+	padding-top: 0px;	
+}
+
+/*--------------------------------------------------------------
 # Default Section
 --------------------------------------------------------------*/
 #default {
@@ -635,7 +663,12 @@
 }
 
 .glyphicon-paperclip:before {
-  content: url(../lib/iconic/svg/paperclip.svg);
+  content: url(../lib/iconic/png/paperclip-2x.png);
+  background-size: cover;
+}
+
+.glyphicon-pencil:before {
+  content: url(../lib/iconic/png/pencil-2x.png);
   background-size: cover;
 }
 
@@ -660,6 +693,17 @@
 	text-align: right;
 	padding-top: 10px;
 	padding-bottom: 10px;
+}
+
+.btn-box {
+	text-align: right;
+}
+
+.thumbnail_youtube {
+	width: 160px;
+	height: 90px;
+	padding-bottom: 10px;
+	cursor: pointer;
 }
 
 /* Custom 등록 화면  */
@@ -894,6 +938,10 @@
 
 .menu-list .level-5{
 	padding-left: 80px;
+}
+
+.menu-list ul li{
+	list-style: inside;
 }
 
 /*--------------------------------------------------------------

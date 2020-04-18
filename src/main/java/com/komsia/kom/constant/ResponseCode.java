@@ -8,10 +8,13 @@ public class ResponseCode {
 	public static final String RESPONSE_FAIL = "9999";
 	public static final String RESPONSE_FAIL_MSG = "실패";
 	
-	public static final Object DUPLICATE_USER = "duplicate";
-	public static final Object DUPLICATE_USER_MSG = "이미 사용중인 ID 입니다.";
+	public static final String DUPLICATE_USER = "duplicate";
+	public static final String DUPLICATE_USER_MSG = "이미 사용중인 ID 입니다.";
 	
-	public static final Object INVALID_PASSWORD = "invalid";
-	public static final Object INVALID_PASSWORD_MSG = "현재 비밀번호가 일치하지 않습니다.";
+	public static final String INVALID_PASSWORD = "invalid";
+	public static final String INVALID_PASSWORD_MSG = "현재 비밀번호가 일치하지 않습니다.";
+	
+	public static final String NOT_PROCEED_LENGTH = "length";
+	public static final String NOT_PROCEED_LENGTH_MSG = "동영상은 최대 5개까지 등록가능합니다.";
 	
 }

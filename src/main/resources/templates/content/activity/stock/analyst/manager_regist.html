@@ -46,14 +46,8 @@
 		$(function(){
 			$("#save").on("click", function(){
 				
-// 			if($("#title").val() == '' || $("#title").val().length == 0){
-// 				alert("제목을 입력하세요.");
-// 				$("#title").focus();
-// 				return;
-// 			}
-			
-			// editor에 내용업데이트.
-			submitContents(this);
+			/* var content = CKEDITOR.instances.boardContent.getData();
+			$("#boardContent").val(content); */
 			
 			if($("#boardContent").val() == '' || $("#boardContent").val().length == 0){
 				alert("내용을 입력하세요.");

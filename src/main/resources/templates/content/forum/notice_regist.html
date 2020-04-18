@@ -47,15 +47,13 @@
 					return;
 				}
 				
-				
-				// editor에 내용업데이트.
-				submitContents(this);
-				
-				if($("#boardContent").val() == '' || $("#boardContent").val().length == 0){
-					alert("내용을 입력하세요.");
-					$("#boardContent").focus();
+				/* if(CKEDITOR.instances.boardContent.getData().length < 1){
+					alert("내용을 입력해 주세요.");
 					return;
 				}
+				
+				var data = CKEDITOR.instances.boardContent.getData();
+				$("#boardContent").val(data); */
 				
 				var result = confirm("게시물을 등록하시겠습니까?");
 				if(!result){
@@ -63,6 +61,7 @@
 				}
 				
 				var formData = new FormData($("#frm")[0]);
+				
 				$.ajax({
       				url: "/forum/notice/regist"
    					, data : formData

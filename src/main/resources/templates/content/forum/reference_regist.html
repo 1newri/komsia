@@ -47,9 +47,6 @@
 					return;
 				}
 				
-				// editor에 내용업데이트.
-				submitContents(this);
-				
 				if($("#boardContent").val() == '' || $("#boardContent").val().length == 0){
 					alert("내용을 입력하세요.");
 					$("#boardContent").focus();
@@ -70,7 +67,6 @@
    					, contentType : false
       				, success : function(data){
 						var json = JSON.parse(data);
-      					
 						alert(json.resMsg);
       					if(json.resCode == "0000"){
       						$(location).attr("href", "/forum/reference");	

@@ -11,25 +11,34 @@
 			<li class="breadcrumb-item active">메뉴권한관리</li>
 		</ol>
 		<h2>메뉴권한관리</h2>
-		
-		<div class="menu-auth">
-			<div class="row">
-				<div class="auth-sel col-lg-4 col-md-12 col-sm-12">
-					<select class="form-control mr-sm-2" id="authorities">
-						<option value="0">--------- 선택하세요 ---------</option>
-						<option th:each="item : ${roleList}" th:value="${item.roleId}" th:data-name="${item.roleName}" th:text="${item.roleDef}"></option>	
-					</select>
-					<button class="btn btn-primary btn-block" id="regist">등록</button>
-				</div>
-				<div class="menu-list col-lg-6 col-md-12 col-sm-12">
-			        <div th:each="list : ${menuList}" th:class="|level-${list.level}|">
-						<div class="form-group">
-							<div class="custom-control custom-checkbox">
-								<input type="checkbox" name="menu" class="custom-control-input" th:id="${list.menuId}" th:data-pid="${list.pid}" th:value="${list.menuId}">
-								<label class="custom-control-label" th:for="${list.menuId}" th:text="${list.name}"></label>
-							</div>
-						</div>
-			        </div>
+		<div class="content col-lg-12 col-md-12 col-sm-12 clearfix">
+			<div class="menu-auth">
+				<div class="row">
+					<div class="auth-sel col-lg-6 col-md-12 col-sm-12">
+						<h4 class="title">
+	                   		<span>권한그룹</span>
+	                   	</h4>
+						<select class="form-control mr-sm-2" id="authorities">
+							<option value="0">--------- 선택하세요 ---------</option>
+							<option th:each="item : ${roleList}" th:value="${item.roleId}" th:data-name="${item.roleName}" th:text="${item.roleDef}"></option>	
+						</select>
+						<button class="btn btn-primary btn-block" id="regist">등록</button>
+					</div>
+					<div class="col-lg-6 col-md-12 col-sm-12">
+						<h4 class="title">
+	                   		<span>메뉴목록</span>
+	                   	</h4>
+	                   	<div class="menu-list">
+					        <div th:each="list : ${menuList}" th:class="|level-${list.level}|">
+								<div class="form-group">
+									<div class="custom-control custom-checkbox">
+										<input type="checkbox" name="menu" class="custom-control-input" th:id="${list.menuId}" th:data-pid="${list.pid}" th:value="${list.menuId}">
+										<label class="custom-control-label" th:for="${list.menuId}" th:text="${list.name}"></label>
+									</div>
+								</div>
+					        </div>
+	                   	</div>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -101,6 +101,7 @@
 					type: 'POST',
 					data : {
 						roleId : function() { return $("#authorities option:selected").val() }
+						, searchText : ""
 					}					
 				}, columns : [
 					{ 
@@ -145,7 +146,7 @@
 					type: 'POST',
 					data : {
 						roleId : function() { return $("#authorities option:selected").val() }
-						, userId : function() { return $("#searchId").val() }
+						, searchText : function() { return $("#searchId").val() }
 					}					
 				}, columns : [
 					{	

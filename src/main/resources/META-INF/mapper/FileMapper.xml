@@ -61,4 +61,40 @@
 			, #{regId}		
 		)
 	</insert>
+	
+	<insert id="videoUpload" parameterType="VideoVO">
+		INSERT INTO ks_board_activity_video(
+			BOARD_TYPE
+			, BOARD_SUB_TYPE
+			, VIDEO_URL
+			, THUMBNAIL_URL
+			, REG_ID
+		) VALUES (
+			#{boardType}
+			, #{boardSubType}
+			, #{videoUrl}
+			, #{thumbnailUrl}
+			, #{regId}		
+		)
+	</insert>
+	
+	<update id="videoUpdate" parameterType="VideoVO">
+		UPDATE ks_board_activity_video SET
+			VIDEO_URL = #{videoUrl}
+			, THUMBNAIL_URL = #{thumbnailUrl}
+			, MOD_ID = #{modId}
+			, MOD_DTTM = NOW()
+		WHERE VIDEO_NO = #{videoNo}
+		AND BOARD_TYPE = #{boardType}
+		AND BOARD_SUB_TYPE = #{boardSubType}
+	</update>
+	
+	<select id="selectVideoList" parameterType="VideoVO" resultType="VideoVO">
+		SELECT
+			*
+		FROM ks_board_activity_video
+		WHERE BOARD_TYPE = #{boardType}
+		AND BOARD_SUB_TYPE = #{boardSubType}
+	</select>
+	
 </mapper>

@@ -12,48 +12,62 @@
 		</ol>
 		<h2>메뉴관리</h2>
 		
-		<div id="menuForm">
-			<form>
-				<fieldset>
-					<div class="form-group">
-						<label for="pid">상위메뉴</label>
-						<select class="form-control" id="pid">
-							<option th:each="item : ${list}" th:value="${item.menuId}" th:data-url="${item.url}" th:data-level="${item.level}" th:text="${item.name}"></option>
-						</select>
-						<input type="hidden" id="level" name="level">
-					</div>
-					<div class="form-group">
-						<label for="url">URL</label>
-						<input type="text" class="form-control" id="url" name="url">
-					</div>
-					<div class="form-group">
-						<label for="name">메뉴명</label>
-						<input type="text" class="form-control" id="name" name="name">
-					</div>
-					<div class="form-group">
-						<label for="type">타입</label>
-						<select class="form-control" id="type">
-							<option value="M">메뉴</option>
-							<option value="A">Ajax</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="description">설명</label>
-						<input type="text" class="form-control" id="description" name="description">
-					</div>
-					<div class="form-group">
-						<label for="ordering">메뉴순번</label>
-						<input type="text" class="form-control" id="ordering" name="ordering">
-					</div>
-				</fieldset>
-				<button type="button" id="save" class="btn btn-primary">등록</button>
-			</form>
+		<div class="content col-lg-12 col-md-12 col-sm-12 clearfix">
+			<div class="row">
+				<div class="col-lg-6 col-md-6 col-sm-12">
+					<h4 class="title">
+	                   	<span>메뉴등록</span>
+	                   </h4>
+					<form>
+						<fieldset>
+							<div class="form-group">
+								<label for="pid">상위메뉴</label>
+								<select class="form-control" id="pid">
+									<option th:each="item : ${list}" th:value="${item.menuId}" th:data-url="${item.url}" th:data-level="${item.level}" th:text="${item.name}"></option>
+								</select>
+								<input type="hidden" id="level" name="level">
+							</div>
+							<div class="form-group">
+								<label for="url">URL</label>
+								<input type="text" class="form-control" id="url" name="url">
+							</div>
+							<div class="form-group">
+								<label for="name">메뉴명</label>
+								<input type="text" class="form-control" id="name" name="name">
+							</div>
+							<div class="form-group">
+								<label for="type">타입</label>
+								<select class="form-control" id="type">
+									<option value="M">메뉴</option>
+									<option value="A">Ajax</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="description">설명</label>
+								<input type="text" class="form-control" id="description" name="description">
+							</div>
+							<div class="form-group">
+								<label for="ordering">메뉴순번</label>
+								<input type="text" class="form-control" id="ordering" name="ordering">
+							</div>
+						</fieldset>
+						<button type="button" id="save" class="btn btn-primary">등록</button>
+					</form>
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-12">
+					<h4 class="title">
+	                  	<span>메뉴목록</span>
+	               </h4>
+	               <div class="menu-list">
+				       	<ul>
+							<li th:each="list : ${menuList}" th:class="|level-${list.level}|">
+								<a th:href="${list.url}" th:text="${list.name}" th:data-menuid="${list.menuId}"></a>
+							</li>
+						</ul>
+	               </div>
+				</div>
+			</div>
 		</div>
-       	<ul class="menuList">
-			<li th:each="list : ${menuList}" th:class="|level-${list.level}|">
-				<a th:href="${list.url}" th:text="${list.name}" th:data-menuid="${list.menuId}"></a>
-			</li>
-		</ul>
 	</div>
       <!-- end content -->
 	<script>

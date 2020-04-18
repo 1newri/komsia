@@ -41,16 +41,16 @@ public class ResourceMetaSerivceImpl implements ResourceMetaSerivce{
 	}
 
 	@Override
-	public List<AuthVO> getAuthUserList(int roleId) {
+	public List<AuthVO> getAuthUserList(String roleId, String searchText) {
 		
-		List<AuthVO> list = resourceMapper.selectAuthUserList(roleId);
+		List<AuthVO> list = resourceMapper.selectAuthUserList(roleId, searchText);
 		
 		return list;
 	}
 
 	@Override
-	public List<AuthVO> getNotAuthUserList(String roleId, String userId) {
-		List<AuthVO> list = resourceMapper.selectNotAuthUserList(roleId, userId);
+	public List<AuthVO> getNotAuthUserList(String roleId, String searchText) {
+		List<AuthVO> list = resourceMapper.selectNotAuthUserList(roleId, searchText);
 		return list;
 	}
 

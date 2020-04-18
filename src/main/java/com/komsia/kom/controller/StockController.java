@@ -17,7 +17,9 @@ import com.komsia.kom.constant.CommonConstant;
 import com.komsia.kom.constant.ResponseCode;
 import com.komsia.kom.domain.ActivityVO;
 import com.komsia.kom.domain.ReplyVO;
+import com.komsia.kom.domain.VideoVO;
 import com.komsia.kom.service.ActivityService;
+import com.komsia.kom.service.FileService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 public class StockController {
 	
 	private ActivityService activityService;
+	
+	private FileService fileService;
 	
 	/**
 	 * 연구회추천주
@@ -78,6 +82,13 @@ public class StockController {
 			
 			List<ReplyVO> reply = activityService.boardActivityReplyList(activityVO);
 			model.addAttribute("list", reply);
+			
+			VideoVO videoVO = new VideoVO();
+			videoVO.setBoardType(activityVO.getBoardType());
+			videoVO.setBoardSubType(activityVO.getBoardSubType());
+			
+			List<VideoVO> video = fileService.selectVideoList(videoVO);
+			model.addAttribute("video", video);
 			
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
@@ -154,6 +165,13 @@ public class StockController {
 			
 			List<ReplyVO> reply = activityService.boardActivityReplyList(activityVO);
 			model.addAttribute("list", reply);
+			
+			VideoVO videoVO = new VideoVO();
+			videoVO.setBoardType(activityVO.getBoardType());
+			videoVO.setBoardSubType(activityVO.getBoardSubType());
+			
+			List<VideoVO> video = fileService.selectVideoList(videoVO);
+			model.addAttribute("video", video);
 			
 		} catch (Exception e) {
 			log.error("Exception : {}", e);

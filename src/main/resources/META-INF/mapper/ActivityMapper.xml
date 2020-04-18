@@ -95,6 +95,13 @@
 		)
 	</insert>
 	
+	<update id="updateBoardNoByReply" parameterType="ReplyVO">
+		UPDATE ks_board_activity_reply SET
+			BOARD_NO = #{boardNo}
+		WHERE BOARD_TYPE = #{boardType}
+		AND BOARD_SUB_TYPE = #{boardSubType}
+	</update>
+	
 	<select id="boardActivityReplyList" parameterType="ActivityVO" resultType="ReplyVO">
 		SELECT
 			A.BOARD_NO
@@ -106,7 +113,8 @@
 		    , AR.REG_DTTM AS REPLY_REG_DTTM
 		FROM ks_board_activity A
 		join ks_board_activity_reply AR
-		    ON A.board_type = AR.board_type
+			ON A.board_no = AR.board_no
+		    AND A.board_type = AR.board_type
 		    AND A.board_sub_type = AR.board_sub_type
 		WHERE A.use_yn = 'Y'
 		AND AR.USE_yN = 'Y'

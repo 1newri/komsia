@@ -2,11 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layout/defaultLayout">
-<script>
-$(function(){
-	alert("!");
-})
-</script>
 <th:block layout:fragment="content">
 	<div class="content pull-right col-lg-9 col-md-8 col-sm-9 col-xs-12 clearfix">
 		<ol class="breadcrumb">
@@ -43,7 +38,7 @@ $(function(){
 						</form>
 					</div>
 					<div id="board-box">
-						<textarea class="form-control" id="boardContent" name="content" rows="25">[[${data.vo.content}]]</textarea>
+						<span th:utext='${data.vo.content}'></span>
 					</div>
 				</div>
 				<div class="list-box">
@@ -56,10 +51,8 @@ $(function(){
 		</div>
 	</div>
       <!-- end content -->
-    <script th:src="@{/js/readonly.js}"></script>
 	<script>
 		$(function(){
-			alert("2");
 			$("#next").on('click', function(){
 				var next = $(this).children('span').data("nextno");
 				if(next == undefined){

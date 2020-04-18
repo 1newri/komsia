@@ -24,4 +24,6 @@ public interface ActivityMapper {
 
 	List<ReplyVO> boardActivityReplyList(ActivityVO activityVO);
 
+	void updateBoardNoByReply(ReplyVO replyVO);
+
 }

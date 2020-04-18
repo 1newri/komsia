@@ -21,9 +21,9 @@ public interface ResourceMapper {
 
 	List<Role> selectRoleList();
 
-	List<AuthVO> selectAuthUserList(int roleId);
+	List<AuthVO> selectAuthUserList(@Param(value="roleId") String roleId, @Param(value="searchText") String searchText);
 
-	List<AuthVO> selectNotAuthUserList(@Param(value="roleId") String roleId, @Param(value="searchId") String userId);
+	List<AuthVO> selectNotAuthUserList(@Param(value="roleId") String roleId, @Param(value="searchText") String searchText);
 
 	List<MenuAuthVO> selectMenuAuthList(int roleId);
 

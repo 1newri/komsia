@@ -99,6 +99,34 @@ public class ForumContoller {
 		return result;
 	}
 	
+	@PostMapping(value = "/forum/notice/update")
+	public String updateNotice(HttpServletRequest request
+			, @ModelAttribute NoticeVO noticeVO
+			, ModelMap model) {
+		
+		String userId = (String) request.getSession().getAttribute("userId");
+		noticeVO.setRegId(userId);
+		
+		Map<String, Object> result = forumService.getNotice(noticeVO);
+		model.addAttribute("data", result);
+		
+		return "/content/forum/notice_regist";
+	}
+	
+	/*
+	 * @PostMapping(value = "/forum/notice/update")
+	 * 
+	 * @ResponseBody public Map<String, Object> updateNotice(HttpServletRequest
+	 * request , @ModelAttribute NoticeVO noticeVO ) { Map<String, Object> result =
+	 * new HashMap<String, Object>(); String userId = (String)
+	 * request.getSession().getAttribute("userId"); noticeVO.setRegId(userId);
+	 * noticeVO.setModId(userId); try { result =
+	 * forumService.updateNotice(noticeVO); } catch (Exception e) {
+	 * log.error("Exception : {}", e); result.put("resCode",
+	 * ResponseCode.RESPONSE_FAIL); result.put("resMsg",
+	 * ResponseCode.RESPONSE_FAIL_MSG); } return result; }
+	 */
+	
 	@GetMapping(value = "/forum/press")
 	public String press(HttpServletRequest request) {
 		return "/content/forum/press";

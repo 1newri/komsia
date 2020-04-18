@@ -16,9 +16,9 @@ public interface ResourceMetaSerivce {
 
 	List<Role> getRoleList();
 
-	List<AuthVO> getAuthUserList(int roleId);
+	List<AuthVO> getAuthUserList(String roleId, String searchText);
 
-	List<AuthVO> getNotAuthUserList(String roleId, String userId);
+	List<AuthVO> getNotAuthUserList(String roleId, String searchText);
 
 	List<MenuAuthVO> getMenuAuthList(int roleId);
 

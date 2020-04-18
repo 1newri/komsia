@@ -46,4 +46,6 @@ public interface ForumMapper {
 	
 	@Options(useGeneratedKeys = true, keyProperty = "boardVO.boardNo")
 	int insertBoardForum(BoardVO boardVO);
+
+	void updateNotice(NoticeVO noticeVO);
 }

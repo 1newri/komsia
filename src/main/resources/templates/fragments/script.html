@@ -9,11 +9,16 @@
 	/*]]>*/
 	
 	if(roleIds != ''){
-		$.each(roleIds, function(index, item){
-			if(item == '1' || item == '9'){
-				$("#regist").show();
-			}
-		});
+		if(roleIds.includes( '1' ) || roleIds.includes( '9' )){
+			$("#regist").show();
+		}
+		
+		if(roleIds.includes( '2' )){
+			$("#videoUploadBtn1").hide();
+			$("#videoUploadBtn2").hide();
+			$("#modal-upload").hide();
+			$("#video-upload").hide();
+		}
 	}
 </script>
 </th:block>

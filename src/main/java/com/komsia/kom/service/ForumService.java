@@ -19,4 +19,6 @@ public interface ForumService {
 
 	Map<String, Object> boardRegister(BoardVO boardVO) throws Exception;
 
+	Map<String, Object> updateNotice(NoticeVO noticeVO);
+
 }

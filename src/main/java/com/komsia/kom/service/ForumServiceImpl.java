@@ -203,4 +203,13 @@ public class ForumServiceImpl implements ForumService{
 	}
 
 
+	@Override
+	public Map<String, Object> updateNotice(NoticeVO noticeVO) {
+
+		forumMapper.updateNotice(noticeVO);
+		
+		return null;
+	}
+
+
 }

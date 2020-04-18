@@ -39,7 +39,7 @@
 						</form>
 					</div>
 					<div id="board-box">
-						<textarea class="form-control" id="boardContent" name="content" rows="25">[[${data.vo.content}]]</textarea>
+						<span th:utext='${data.vo.content}'></span>
 					</div>
 				</div>
 				<div class="list-box">
@@ -91,6 +91,5 @@
 			$("#fm").submit();
 		}
 	</script>
-	<script th:src="@{/js/readonly.js}"></script>
 </th:block>
 </html>

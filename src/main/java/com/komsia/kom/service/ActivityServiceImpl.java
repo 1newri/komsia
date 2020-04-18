@@ -69,6 +69,16 @@ public class ActivityServiceImpl implements ActivityService{
 			}
 		}
 		
+		if(CommonConstant.BOARD_SUB_TYPE_M.equals(activityVO.getBoardSubType())
+				|| CommonConstant.BOARD_SUB_TYPE_A.equals(activityVO.getBoardSubType())) {
+			
+			ReplyVO replyVO = new ReplyVO(); 
+			replyVO.setBoardNo(boardNo);
+			replyVO.setBoardType(activityVO.getBoardType());
+			replyVO.setBoardSubType(activityVO.getBoardSubType());
+			activityMapper.updateBoardNoByReply(replyVO);
+		}
+		
 		result.put("resCode", resCode);
 		result.put("resMsg", resMsg);
 		

@@ -87,20 +87,20 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public Map<String, Object> getAuthUserList(int roleId) {
+	public Map<String, Object> getAuthUserList(String roleId, String searchText) {
 		Map<String, Object> result = new HashMap<String, Object>();
 
-		List<AuthVO> list = resourceService.getAuthUserList(roleId);
+		List<AuthVO> list = resourceService.getAuthUserList(roleId, searchText);
 		
 		result.put("data", list);
 		return result;
 	}
 
 	@Override
-	public Map<String, Object> getNotAuthUserList(String roleId, String userId) {
+	public Map<String, Object> getNotAuthUserList(String roleId, String searchText) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		
-		List<AuthVO> list = resourceService.getNotAuthUserList(roleId, userId);
+		List<AuthVO> list = resourceService.getNotAuthUserList(roleId, searchText);
 		
 		result.put("data", list);
 		return result;

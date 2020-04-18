@@ -4,6 +4,9 @@ public class CommonConstant {
 	
 	public static final String SYSTEM_ID = "komsia";
 	
+	public static final String YOUTUBE_URL = "//www.youtube.com/embed";
+	public static final String THUMBNAIL_URL = "https://img.youtube.com/vi";
+	
 	// Forum Board
 	public static final String BOARD_TYPE_N = "N";	// Notice 공지사항
 	public static final String BOARD_TYPE_P = "P";	// press 보도자료

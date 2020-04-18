@@ -192,10 +192,11 @@ public class AdminController {
 	@PostMapping(value = "/admin/auth/list")
 	@ResponseBody
 	public Map<String, Object> authList(HttpServletRequest request
-			, @RequestParam(value = "roleId") int roleId){
+			, @RequestParam(value = "roleId") String roleId
+			, @RequestParam(value = "searchText") String searchText){
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
-			result = adminService.getAuthUserList(roleId);
+			result = adminService.getAuthUserList(roleId, searchText);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
 		}
@@ -206,10 +207,10 @@ public class AdminController {
 	@ResponseBody
 	public Map<String, Object> authUserList(HttpServletRequest request
 			, @RequestParam(value = "roleId") String roleId
-			, @RequestParam(value = "userId") String userId){
+			, @RequestParam(value = "searchText") String searchText){
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
-			result = adminService.getNotAuthUserList(roleId, userId);
+			result = adminService.getNotAuthUserList(roleId, searchText);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
 		}
