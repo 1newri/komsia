@@ -26,4 +26,6 @@ public interface ActivityMapper {
 
 	void updateBoardNoByReply(ReplyVO replyVO);
 
+	void updateActivity(ActivityVO activityVO);
+
 }

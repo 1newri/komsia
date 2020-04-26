@@ -8,7 +8,7 @@ import com.komsia.kom.domain.ReplyVO;
 
 public interface ActivityService {
 
-	List<ActivityVO> selectRecommandList(ActivityVO activityVO);
+	List<ActivityVO> selectActivityList(ActivityVO activityVO);
 
 	Map<String, Object> recommandRegist(ActivityVO activityVO) throws Exception;
 
@@ -17,5 +17,6 @@ public interface ActivityService {
 	Map<String, Object> boardActivityReplyRegist(ReplyVO replyVO);
 
 	List<ReplyVO> boardActivityReplyList(ActivityVO activityVO);
+
 
 }

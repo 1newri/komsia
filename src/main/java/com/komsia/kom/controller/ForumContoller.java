@@ -77,7 +77,6 @@ public class ForumContoller {
 	@GetMapping(value = "/forum/notice/regist")
 	public String noticeRegist(HttpServletRequest request
 			, ModelMap model) {
-		
 		return "/content/forum/notice_regist";
 	}
 	
@@ -99,6 +98,27 @@ public class ForumContoller {
 		return result;
 	}
 	
+	@PostMapping(value = "/forum/notice/delete")
+	@ResponseBody
+	public Map<String, Object> deleteNotice(HttpServletRequest request
+			, @ModelAttribute NoticeVO noticeVO
+			, ModelMap model) {
+		
+		String userId = (String) request.getSession().getAttribute("userId");
+		noticeVO.setModId(userId);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			result = forumService.deleteNotice(noticeVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		
+		return result;
+	}
+	
 	@PostMapping(value = "/forum/notice/update")
 	public String updateNotice(HttpServletRequest request
 			, @ModelAttribute NoticeVO noticeVO
@@ -113,19 +133,26 @@ public class ForumContoller {
 		return "/content/forum/notice_regist";
 	}
 	
-	/*
-	 * @PostMapping(value = "/forum/notice/update")
-	 * 
-	 * @ResponseBody public Map<String, Object> updateNotice(HttpServletRequest
-	 * request , @ModelAttribute NoticeVO noticeVO ) { Map<String, Object> result =
-	 * new HashMap<String, Object>(); String userId = (String)
-	 * request.getSession().getAttribute("userId"); noticeVO.setRegId(userId);
-	 * noticeVO.setModId(userId); try { result =
-	 * forumService.updateNotice(noticeVO); } catch (Exception e) {
-	 * log.error("Exception : {}", e); result.put("resCode",
-	 * ResponseCode.RESPONSE_FAIL); result.put("resMsg",
-	 * ResponseCode.RESPONSE_FAIL_MSG); } return result; }
-	 */
+	@PostMapping(value = "/forum/notice/save")
+	@ResponseBody
+	public Map<String, Object> saveNotice(HttpServletRequest request
+			, @ModelAttribute NoticeVO noticeVO
+			, ModelMap model) {
+		
+		String userId = (String) request.getSession().getAttribute("userId");
+		noticeVO.setModId(userId);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			result = forumService.updateNotice(noticeVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		
+		return result;
+	}
 	
 	@GetMapping(value = "/forum/press")
 	public String press(HttpServletRequest request) {
@@ -189,6 +216,62 @@ public class ForumContoller {
 			result.put("resCode", ResponseCode.RESPONSE_FAIL);
 			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
 		}
+		return result;
+	}
+	
+	@PostMapping(value = "/forum/press/update")
+	public String updatePress(HttpServletRequest request
+			, @ModelAttribute BoardVO boardVO
+			, ModelMap model) {
+		
+		String userId = (String) request.getSession().getAttribute("userId");
+		boardVO.setRegId(userId);
+		boardVO.setBoardType(CommonConstant.BOARD_TYPE_P);
+		Map<String, Object> result = forumService.getBoard(boardVO);
+		model.addAttribute("data", result);
+		
+		return "/content/forum/press_regist";
+	}
+	
+	@PostMapping(value = "/forum/press/save")
+	@ResponseBody
+	public Map<String, Object> savePress(HttpServletRequest request
+			, @ModelAttribute BoardVO boardVO
+			, ModelMap model) {
+		
+		String userId = (String) request.getSession().getAttribute("userId");
+		boardVO.setModId(userId);
+		boardVO.setBoardType(CommonConstant.BOARD_TYPE_P);
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			result = forumService.updateForum(boardVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		
+		return result;
+	}
+	
+	@PostMapping(value = "/forum/press/delete")
+	@ResponseBody
+	public Map<String, Object> deletePress(HttpServletRequest request
+			, @ModelAttribute BoardVO boardVO
+			, ModelMap model) {
+		
+		String userId = (String) request.getSession().getAttribute("userId");
+		boardVO.setModId(userId);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			result = forumService.deleteForum(boardVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		
 		return result;
 	}
 	
@@ -257,6 +340,62 @@ public class ForumContoller {
 		return result;
 	}
 	
+	@PostMapping(value = "/forum/qna/update")
+	public String updateQna(HttpServletRequest request
+			, @ModelAttribute BoardVO boardVO
+			, ModelMap model) {
+		
+		String userId = (String) request.getSession().getAttribute("userId");
+		boardVO.setRegId(userId);
+		boardVO.setBoardType(CommonConstant.BOARD_TYPE_Q);
+		Map<String, Object> result = forumService.getBoard(boardVO);
+		model.addAttribute("data", result);
+		
+		return "/content/forum/qna_regist";
+	}
+	
+	@PostMapping(value = "/forum/qna/save")
+	@ResponseBody
+	public Map<String, Object> saveQna(HttpServletRequest request
+			, @ModelAttribute BoardVO boardVO
+			, ModelMap model) {
+		
+		String userId = (String) request.getSession().getAttribute("userId");
+		boardVO.setModId(userId);
+		boardVO.setBoardType(CommonConstant.BOARD_TYPE_Q);
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			result = forumService.updateForum(boardVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		
+		return result;
+	}
+	
+	@PostMapping(value = "/forum/qna/delete")
+	@ResponseBody
+	public Map<String, Object> deleteQna(HttpServletRequest request
+			, @ModelAttribute BoardVO boardVO
+			, ModelMap model) {
+		
+		String userId = (String) request.getSession().getAttribute("userId");
+		boardVO.setModId(userId);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			result = forumService.deleteForum(boardVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		
+		return result;
+	}
+	
 	@GetMapping(value = "/forum/reference")
 	public String reference(HttpServletRequest request) {
 		return "/content/forum/reference";
@@ -299,7 +438,6 @@ public class ForumContoller {
 	@GetMapping(value = "/forum/reference/regist")
 	public String referenceRegist(HttpServletRequest request
 			, ModelMap model) {
-		
 		return "/content/forum/reference_regist";
 	}
 	
@@ -319,6 +457,62 @@ public class ForumContoller {
 			result.put("resCode", ResponseCode.RESPONSE_FAIL);
 			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
 		}
+		return result;
+	}
+	
+	@PostMapping(value = "/forum/reference/update")
+	public String updateReference(HttpServletRequest request
+			, @ModelAttribute BoardVO boardVO
+			, ModelMap model) {
+		
+		String userId = (String) request.getSession().getAttribute("userId");
+		boardVO.setRegId(userId);
+		boardVO.setBoardType(CommonConstant.BOARD_TYPE_R);
+		Map<String, Object> result = forumService.getBoard(boardVO);
+		model.addAttribute("data", result);
+		
+		return "/content/forum/reference_regist";
+	}
+	
+	@PostMapping(value = "/forum/reference/save")
+	@ResponseBody
+	public Map<String, Object> saveReference(HttpServletRequest request
+			, @ModelAttribute BoardVO boardVO
+			, ModelMap model) {
+		
+		String userId = (String) request.getSession().getAttribute("userId");
+		boardVO.setModId(userId);
+		boardVO.setBoardType(CommonConstant.BOARD_TYPE_R);
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			result = forumService.updateForum(boardVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		
+		return result;
+	}
+	
+	@PostMapping(value = "/forum/reference/delete")
+	@ResponseBody
+	public Map<String, Object> deleteReference(HttpServletRequest request
+			, @ModelAttribute BoardVO boardVO
+			, ModelMap model) {
+		
+		String userId = (String) request.getSession().getAttribute("userId");
+		boardVO.setModId(userId);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			result = forumService.deleteForum(boardVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		
 		return result;
 	}
 }

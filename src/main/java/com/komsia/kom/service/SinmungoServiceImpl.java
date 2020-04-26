@@ -108,4 +108,90 @@ public class SinmungoServiceImpl implements SinmungoService{
 		return result;
 	}
 
+	@Override
+	public Map<String, Object> updateSinmungo(SinmungoVO sinmungoVO) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		String resCode = ResponseCode.RESPONSE_OK;
+		String resMsg = ResponseCode.RESPONSE_OK_MSG;
+		
+		try {
+			
+			SinmungoVO sinmungo = sinmungoMapper.selectSinmungo(sinmungoVO);
+			if(ObjectUtils.isEmpty(sinmungo)) {
+				resCode = ResponseCode.RESPONSE_FAIL;
+				resMsg = ResponseCode.RESPONSE_FAIL_MSG;
+			}else {
+				
+				if(sinmungo.getRegId().equals(sinmungoVO.getModId())) {
+					sinmungoMapper.updateSinmungo(sinmungoVO);
+					
+					int boardNo = sinmungoVO.getBoardNo();
+					
+					log.debug("boardNo : {}", boardNo);
+					if(!ObjectUtils.isEmpty(sinmungoVO.getFile())) {
+						if(!ObjectUtils.isEmpty(sinmungoVO.getFileNo())) {
+							if(sinmungoVO.getFile().getSize() > 0) {
+								FileVO fileVO = new FileVO();
+								fileVO.setFile(sinmungoVO.getFile());
+								fileVO.setFileNo(sinmungoVO.getFileNo());
+								fileVO.setBoardNo(boardNo);
+								fileVO.setBoardType(sinmungoVO.getBoardType());
+								fileVO.setModId(sinmungoVO.getModId());
+								fileSerivce.updateFile(fileVO);	
+							}
+						}
+					}
+					
+				}else {
+					resCode = ResponseCode.WRITER_AUTH_ERROR;
+					resMsg = ResponseCode.WRITER_AUTH_ERROR_MSG;
+				}
+			}
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			resCode = ResponseCode.RESPONSE_FAIL;
+			resMsg = ResponseCode.RESPONSE_FAIL_MSG;
+		}
+		
+		result.put("resCode", resCode);
+		result.put("resMsg", resMsg);
+				
+		return result;
+	}
+	
+	@Override
+	public Map<String, Object> deleteSinmungo(SinmungoVO sinmungoVO) throws Exception{
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		String resCode = ResponseCode.RESPONSE_OK;
+		String resMsg = ResponseCode.RESPONSE_OK_MSG;
+		
+		try {
+			
+			SinmungoVO sinmungo = sinmungoMapper.selectSinmungo(sinmungoVO);
+			if(ObjectUtils.isEmpty(sinmungo)) {
+				resCode = ResponseCode.RESPONSE_FAIL;
+				resMsg = ResponseCode.RESPONSE_FAIL_MSG;
+			}else {
+				
+				if(sinmungo.getRegId().equals(sinmungoVO.getModId())) {
+					sinmungoMapper.deleteSinmungo(sinmungoVO);
+				}else {
+					resCode = ResponseCode.WRITER_AUTH_ERROR;
+					resMsg = ResponseCode.WRITER_AUTH_ERROR_MSG;
+				}
+			}
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			resCode = ResponseCode.RESPONSE_FAIL;
+			resMsg = ResponseCode.RESPONSE_FAIL_MSG;
+		}
+		
+		result.put("resCode", resCode);
+		result.put("resMsg", resMsg);
+				
+		return result;
+	}
+
 }

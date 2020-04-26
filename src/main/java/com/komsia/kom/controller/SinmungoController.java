@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.komsia.kom.constant.CommonConstant;
 import com.komsia.kom.constant.ResponseCode;
+import com.komsia.kom.domain.BoardVO;
 import com.komsia.kom.domain.NoticeVO;
 import com.komsia.kom.domain.SinmungoVO;
 import com.komsia.kom.service.SinmungoService;
@@ -99,6 +100,62 @@ public class SinmungoController {
 		return result;
 	}
 	
+	@PostMapping(value = "/sinmungo/complain/update")
+	public String updateComplain(HttpServletRequest request
+			, @ModelAttribute SinmungoVO sinmungoVO
+			, ModelMap model) {
+		
+		String userId = (String) request.getSession().getAttribute("userId");
+		sinmungoVO.setRegId(userId);
+		sinmungoVO.setBoardType(CommonConstant.BOARD_TYPE_C);
+		Map<String, Object> result = sinmungoService.getSinmungo(sinmungoVO);
+		model.addAttribute("data", result);
+		
+		return "/content/sinmungo/complain_regist";
+	}
+	
+	@PostMapping(value = "/sinmungo/complain/save")
+	@ResponseBody
+	public Map<String, Object> saveComplain(HttpServletRequest request
+			, @ModelAttribute SinmungoVO sinmungoVO
+			, ModelMap model) {
+		
+		String userId = (String) request.getSession().getAttribute("userId");
+		sinmungoVO.setModId(userId);
+		sinmungoVO.setBoardType(CommonConstant.BOARD_TYPE_C);
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			result = sinmungoService.updateSinmungo(sinmungoVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		
+		return result;
+	}
+	
+	@PostMapping(value = "/sinmungo/complain/delete")
+	@ResponseBody
+	public Map<String, Object> deleteComplain(HttpServletRequest request
+			, @ModelAttribute SinmungoVO sinmungoVO
+			, ModelMap model) {
+		
+		String userId = (String) request.getSession().getAttribute("userId");
+		sinmungoVO.setModId(userId);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			result = sinmungoService.deleteSinmungo(sinmungoVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		
+		return result;
+	}
+	
 	@GetMapping(value = "/sinmungo/unfair")
 	public String unfair(HttpServletRequest request) {
 		return "/content/sinmungo/unfair";
@@ -162,4 +219,61 @@ public class SinmungoController {
 		}
 		return result;
 	}
+	
+	@PostMapping(value = "/sinmungo/unfair/update")
+	public String updateUnfair(HttpServletRequest request
+			, @ModelAttribute SinmungoVO sinmungoVO
+			, ModelMap model) {
+		
+		String userId = (String) request.getSession().getAttribute("userId");
+		sinmungoVO.setRegId(userId);
+		sinmungoVO.setBoardType(CommonConstant.BOARD_TYPE_U);
+		Map<String, Object> result = sinmungoService.getSinmungo(sinmungoVO);
+		model.addAttribute("data", result);
+		
+		return "/content/sinmungo/unfair_regist";
+	}
+	
+	@PostMapping(value = "/sinmungo/unfair/save")
+	@ResponseBody
+	public Map<String, Object> saveUnfair(HttpServletRequest request
+			, @ModelAttribute SinmungoVO sinmungoVO
+			, ModelMap model) {
+		
+		String userId = (String) request.getSession().getAttribute("userId");
+		sinmungoVO.setModId(userId);
+		sinmungoVO.setBoardType(CommonConstant.BOARD_TYPE_U);
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			result = sinmungoService.updateSinmungo(sinmungoVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		
+		return result;
+	}
+	
+	@PostMapping(value = "/sinmungo/unfair/delete")
+	@ResponseBody
+	public Map<String, Object> deleteUnfair(HttpServletRequest request
+			, @ModelAttribute SinmungoVO sinmungoVO
+			, ModelMap model) {
+		
+		String userId = (String) request.getSession().getAttribute("userId");
+		sinmungoVO.setModId(userId);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			result = sinmungoService.deleteSinmungo(sinmungoVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		
+		return result;
+	}
+	
 }

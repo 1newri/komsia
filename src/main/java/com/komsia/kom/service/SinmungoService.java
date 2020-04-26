@@ -11,4 +11,8 @@ public interface SinmungoService {
 	Map<String, Object> getSinmungo(SinmungoVO sinmungoVO);
 
 	Map<String, Object> sinmungoRegister(SinmungoVO sinmungoVO) throws Exception;
+
+	Map<String, Object> deleteSinmungo(SinmungoVO sinmungoVO) throws Exception;
+
+	Map<String, Object> updateSinmungo(SinmungoVO sinmungoVO);
 }

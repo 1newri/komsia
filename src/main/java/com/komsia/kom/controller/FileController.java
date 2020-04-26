@@ -200,11 +200,6 @@ public class FileController {
 		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
 	}
 	
-	@GetMapping(value =  "/video")
-	public String videoUrl(HttpServletRequest request, HttpServletResponse response
-			) throws IOException {
-		return "/content/video";
-	}
 	
 	@PostMapping(value =  "/video/upload")
 	@ResponseBody

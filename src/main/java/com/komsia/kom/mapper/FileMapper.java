@@ -25,5 +25,7 @@ public interface FileMapper {
 	List<VideoVO> selectVideoList(VideoVO videoVO);
 
 	void videoUpdate(VideoVO videoVO);
+
+	void updateFile(FileVO fileVO);
 	
 }

@@ -8,6 +8,9 @@ public class ResponseCode {
 	public static final String RESPONSE_FAIL = "9999";
 	public static final String RESPONSE_FAIL_MSG = "실패";
 	
+	public static final String WRITER_AUTH_ERROR = "1000";
+	public static final String WRITER_AUTH_ERROR_MSG = "작성자만 수정 또는 삭제가 가능합니다.";
+	
 	public static final String DUPLICATE_USER = "duplicate";
 	public static final String DUPLICATE_USER_MSG = "이미 사용중인 ID 입니다.";
 	

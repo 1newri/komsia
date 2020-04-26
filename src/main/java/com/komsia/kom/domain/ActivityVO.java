@@ -8,6 +8,7 @@ import lombok.Data;
 public class ActivityVO {
 	
 	private int boardNo;
+	private String boardDate;
 	private String boardType;
 	private String boardSubType;
 	

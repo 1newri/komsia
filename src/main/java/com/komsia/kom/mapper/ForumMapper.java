@@ -48,4 +48,10 @@ public interface ForumMapper {
 	int insertBoardForum(BoardVO boardVO);
 
 	void updateNotice(NoticeVO noticeVO);
+
+	void deleteNotice(NoticeVO noticeVO);
+	
+	void updateBoardForum(BoardVO boardVO);
+	
+	void deleteBoardForum(BoardVO boardVO);
 }

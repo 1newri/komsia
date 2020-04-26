@@ -205,10 +205,126 @@ public class ForumServiceImpl implements ForumService{
 
 	@Override
 	public Map<String, Object> updateNotice(NoticeVO noticeVO) {
-
-		forumMapper.updateNotice(noticeVO);
 		
-		return null;
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		String resCode = ResponseCode.RESPONSE_OK;
+		String resMsg = ResponseCode.RESPONSE_OK_MSG;
+		
+		try {
+			forumMapper.updateNotice(noticeVO);
+			int boardNo = noticeVO.getBoardNo();
+			
+			log.debug("boardNo : {}", boardNo);
+			if(!ObjectUtils.isEmpty(noticeVO.getFile())) {
+				if(!ObjectUtils.isEmpty(noticeVO.getFileNo())) {
+					if(noticeVO.getFile().getSize() > 0) {
+						FileVO fileVO = new FileVO();
+						fileVO.setFile(noticeVO.getFile());
+						fileVO.setFileNo(noticeVO.getFileNo());
+						fileVO.setBoardNo(boardNo);
+						fileVO.setBoardType(noticeVO.getBoardType());
+						fileVO.setModId(noticeVO.getModId());
+						fileSerivce.updateFile(fileVO);	
+					}
+				}
+			}
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			resCode = ResponseCode.RESPONSE_FAIL;
+			resMsg = ResponseCode.RESPONSE_FAIL_MSG;
+		}
+		
+		result.put("resCode", resCode);
+		result.put("resMsg", resMsg);
+				
+		return result;
+		
+	}
+	
+
+	@Override
+	public Map<String, Object> deleteNotice(NoticeVO noticeVO) {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		String resCode = ResponseCode.RESPONSE_OK;
+		String resMsg = ResponseCode.RESPONSE_OK_MSG;
+		
+		try {
+			forumMapper.deleteNotice(noticeVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			resCode = ResponseCode.RESPONSE_FAIL;
+			resMsg = ResponseCode.RESPONSE_FAIL_MSG;
+		}
+		
+		result.put("resCode", resCode);
+		result.put("resMsg", resMsg);
+				
+		return result;
+	}
+
+	
+	@Override
+	public Map<String, Object> updateForum(BoardVO boardVO) {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		String resCode = ResponseCode.RESPONSE_OK;
+		String resMsg = ResponseCode.RESPONSE_OK_MSG;
+		
+		try {
+			forumMapper.updateBoardForum(boardVO);
+			int boardNo = boardVO.getBoardNo();
+			
+			log.debug("boardNo : {}", boardNo);
+			if(!ObjectUtils.isEmpty(boardVO.getFile())) {
+				if(!ObjectUtils.isEmpty(boardVO.getFileNo())) {
+					if(boardVO.getFile().getSize() > 0) {
+						FileVO fileVO = new FileVO();
+						fileVO.setFile(boardVO.getFile());
+						fileVO.setFileNo(boardVO.getFileNo());
+						fileVO.setBoardNo(boardNo);
+						fileVO.setBoardType(boardVO.getBoardType());
+						fileVO.setModId(boardVO.getModId());
+						fileSerivce.updateFile(fileVO);	
+					}
+				}
+			}
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			resCode = ResponseCode.RESPONSE_FAIL;
+			resMsg = ResponseCode.RESPONSE_FAIL_MSG;
+		}
+		
+		result.put("resCode", resCode);
+		result.put("resMsg", resMsg);
+		
+		return result;
+		
+	}
+	
+
+	@Override
+	public Map<String, Object> deleteForum(BoardVO boardVO) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		String resCode = ResponseCode.RESPONSE_OK;
+		String resMsg = ResponseCode.RESPONSE_OK_MSG;
+		
+		try {
+			forumMapper.deleteBoardForum(boardVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			resCode = ResponseCode.RESPONSE_FAIL;
+			resMsg = ResponseCode.RESPONSE_FAIL_MSG;
+		}
+		
+		result.put("resCode", resCode);
+		result.put("resMsg", resMsg);
+				
+		return result;
 	}
 
 

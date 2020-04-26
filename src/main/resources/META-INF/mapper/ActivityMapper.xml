@@ -11,6 +11,8 @@
 		WHERE BOARD_TYPE = #{boardType}
 		AND BOARD_SUB_TYPE = #{boardSubType}
 		AND USE_YN = 'Y'
+		ORDER BY BOARD_DATE DESC
+		LIMIT 10
 	</select>
 	
 	<select id="selectActivityListTotalCnt" parameterType="ActivityVO" resultType="ActivityVO">
@@ -27,6 +29,7 @@
 			B.BOARD_NO
 			, B.BOARD_TYPE
 			, B.BOARD_SUB_TYPE
+			, B.BOARD_DATE
 			, B.TITLE
 			, B.CONTENT
 			, B.HIT
@@ -44,6 +47,9 @@
 		WHERE B.USE_YN = 'Y'
 		AND B.BOARD_TYPE = #{boardType}
 		AND B.BOARD_SUB_TYPE = #{boardSubType}
+		<if test="boardDate != null and boardDate != ''">
+			AND B.BOARD_DATE = #{boardDate}
+		</if>
 		ORDER BY REG_DTTM DESC
 		LIMIT 1
 	</select>
@@ -58,9 +64,13 @@
 	</update>
 	
 	<insert id="insertActivity" parameterType="ActivityVO" useGeneratedKeys="true" keyProperty="boardNo">
+		<selectKey keyProperty="boardDate" resultType="String" order="BEFORE">
+	    	select DATE_FORMAT(NOW(), '%Y%m%d') AS BOARD_DATE FROM DUAL
+		</selectKey>
 		INSERT INTO ks_board_activity(
 			BOARD_TYPE
 			, BOARD_SUB_TYPE
+			, BOARD_DATE
 			, TITLE
 			, CONTENT
 			, HIT
@@ -69,6 +79,7 @@
 		) VALUES (
 			#{boardType}
 			, #{boardSubType}
+			, #{boardDate}
 			, #{title}
 			, #{content}
 			, 0
@@ -76,6 +87,16 @@
 			, #{regId}
 		)
 	</insert>
+	
+	<update id="updateActivity" parameterType="ActivityVO">
+		UPDATE ks_board_activity SET
+			CONTENT = #{content}
+			, MOD_ID = #{modId} 
+			, MOD_DTTM = NOW()
+		WHERE BOARD_TYPE = #{boardType}
+			AND BOARD_SUB_TYPE = #{boardSubType}
+			AND BOARD_DATE = #{boardDate}
+	</update>
 	
 	<insert id="boardActivityReplyRegist" parameterType="ReplyVO" useGeneratedKeys="true" keyProperty="replyNo">
 		INSERT INTO ks_board_activity_reply(

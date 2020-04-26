@@ -22,4 +22,6 @@ public interface FileService {
 
 	Map<String, String> videoUpdate(VideoVO videoVO);
 
+	void updateFile(FileVO fileVO) throws Exception;
+
 }

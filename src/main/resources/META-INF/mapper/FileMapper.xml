@@ -32,6 +32,18 @@
 		)
 	</insert>
 	
+	<update id="updateFile" parameterType="FileVO">
+		UPDATE ks_file set
+			FILE_NM = #{fileNm}
+			, FILE_EXT = #{fileExt}
+			, FILE_DIR = #{fileDir}
+			, MOD_ID = #{modId}
+			, MOD_DTTM = NOW()
+		WHERE FILE_NO = #{fileNo}
+		AND BOARD_NO = #{boardNo}
+		AND BOARD_TYPE = #{boardType}
+	</update>
+	
 	<select id="selectFileActivity" parameterType="FileVO" resultType="FileVO">
 		SELECT
 			*

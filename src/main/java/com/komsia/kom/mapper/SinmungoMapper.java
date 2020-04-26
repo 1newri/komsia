@@ -26,5 +26,9 @@ public interface SinmungoMapper {
 
 	@Options(useGeneratedKeys = true, keyProperty = "sinmungoVO.boardNo")
 	void insertSinmungo(SinmungoVO sinmungoVO);
+
+	void deleteSinmungo(SinmungoVO sinmungoVO);
+
+	void updateSinmungo(SinmungoVO sinmungoVO);
 	
 }

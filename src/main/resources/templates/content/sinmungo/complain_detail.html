@@ -27,11 +27,11 @@
 					</ul>
 				</div>
 				<div class="content-box">
+					<input type="hidden" id="boardNo" name="boardNo" th:value="${data.vo.boardNo}">
+					<input type="hidden" id="boardType" name="boardType" th:value="${data.vo.boardType}">
 					<div class="file-box" th:if="${data.vo.fileNo} != 0">
 						<form action="/file/download" method="post">
 							<input type="hidden" id="fileNo" name="fileNo" th:value="${data.vo.fileNo}">
-							<input type="hidden" id="boardNo" name="boardNo" th:value="${data.vo.boardNo}">
-							<input type="hidden" id="boardType" name="boardType" th:value="${data.vo.boardType}">
 							첨부파일 : 
 							<button type="submit" class="btn btn-secondary btn-sm" id="download">
 								<span class="glyphicon glyphicon-paperclip"></span>[[${data.vo.fileNm}]]
@@ -48,6 +48,10 @@
 						<li><strong>이전글</strong><a id="prev"><span th:data-prevno="${data.prev.prevNo}" th:text="${data.prev.prevTitle}"></span></a></li>
 					</ul>
 				</div>
+				<div class="text-right">
+	        		<button class="btn btn-outline-info" id="userModify">수정</button>
+	        		<button class="btn btn-outline-primary" id="userDelete">삭제</button>
+	        	</div>
 			</div>
 		</div>
 	</div>
@@ -78,12 +82,52 @@
 			$("#list").on('click', function(){
 				$(location).attr("href", "/sinmungo/complain");
 			});
+			
+			$("#userModify").on('click', function(){
+				var boardNo = $("#boardNo").val();
+				update(boardNo);
+			});
+			
+			$("#userDelete").on('click', function(){
+				var result = confirm("게시글을 삭제하시겠습니까?");
+				if(result){
+					$.ajax({
+	      				url: "/sinmungo/complain/delete"
+						, type : "post"
+	      				, data : {
+	      					boardNo : $("#boardNo").val()
+	      					, boardType : $("#boardType").val()
+	      				}, success : function(data){
+	      					var json = JSON.parse(data);
+	      					if(json.resCode == "0000"){
+	      						alert("정상적으로 삭제 되었습니다.");
+	      						$(location).attr("href", "/sinmungo/complain");
+	      					}else{
+		      					alert(json.resMsg);
+	      					}
+	      				}, error : function(request, status, error){
+	      					alert("error : ", request);
+	      				}
+	      			});
+				}				
+			});
 		});
 		
 		function post(boardNo){
 			var $form = $("<form></form>");
 			$form.attr("method", "post");
 			$form.attr("action", "/sinmungo/complain/detail");
+			$form.attr("id", "fm");
+			$form.appendTo('body');
+			$form.append('<input type="hidden" id="boardNo" name="boardNo" value="' + boardNo + '">');
+			
+			$("#fm").submit();
+		}
+		
+		function update(boardNo){
+			var $form = $("<form></form>");
+			$form.attr("method", "post");
+			$form.attr("action", "/sinmungo/complain/update");
 			$form.attr("id", "fm");
 			$form.appendTo('body');
 			$form.append('<input type="hidden" id="boardNo" name="boardNo" value="' + boardNo + '">');

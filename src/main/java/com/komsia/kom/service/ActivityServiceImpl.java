@@ -15,6 +15,7 @@ import com.komsia.kom.domain.ActivityVO;
 import com.komsia.kom.domain.FileVO;
 import com.komsia.kom.domain.ReplyVO;
 import com.komsia.kom.mapper.ActivityMapper;
+import com.komsia.kom.util.DateUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,7 @@ public class ActivityServiceImpl implements ActivityService{
 	private FileService fileSerivce;
 	
 	@Override
-	public List<ActivityVO> selectRecommandList(ActivityVO activityVO) {
+	public List<ActivityVO> selectActivityList(ActivityVO activityVO) {
 
 		log.debug("board Type : {}", activityVO.getBoardType());
 		log.debug("board Sub Type : {}", activityVO.getBoardSubType());
@@ -49,9 +50,16 @@ public class ActivityServiceImpl implements ActivityService{
 		String resCode = ResponseCode.RESPONSE_OK;
 		String resMsg = ResponseCode.RESPONSE_OK_MSG;
 		
+		activityVO.setBoardDate(DateUtil.currentDate());
 			
-		log.debug("activityVO : {} ", activityVO.toString());
-		activityMapper.insertActivity(activityVO);
+		if(ObjectUtils.isEmpty(activityMapper.selectActivityStock(activityVO))) {
+			log.debug("activityVO Insert : {} ", activityVO.toString());
+			activityMapper.insertActivity(activityVO);
+		}else {
+			log.debug("activityVO Update : {} ", activityVO.toString());
+			activityVO.setModId(activityVO.getRegId());
+			activityMapper.updateActivity(activityVO);
+		}
 		
 		int boardNo = activityVO.getBoardNo();
 		log.debug("boardNo : {}", boardNo);
@@ -117,5 +125,4 @@ public class ActivityServiceImpl implements ActivityService{
 	public List<ReplyVO> boardActivityReplyList(ActivityVO activityVO) {
 		return activityMapper.boardActivityReplyList(activityVO);
 	}
-
 }

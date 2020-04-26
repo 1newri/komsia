@@ -31,36 +31,45 @@
 						<button class="btn btn-outline-primary" data-toggle="modal" data-target="#modal-upload" id="videoUploadBtn2">+</button>
 					</div>
 				</div>
-				<div th:if="${data != null}">
-					<form action="/file/activity/download" method="post">
-						<input type="hidden" id="boardNo" name="boardNo" th:value="${data.boardNo}">
-						<input type="hidden" id="boardType" name="boardType" th:value="${data.boardType}">
-						<input type="hidden" id="boardSubType" name="boardSubType" th:value="${data.boardSubType}">
-						<div class="file-box" th:if="${data.fileNo} != 0">
-						
-							<div class="reg-date">작성일 : <span th:text="${data.regDttm}"></span></div>
+				<input type="hidden" id="boardType" name="boardType" th:value="${boardType}">
+				<input type="hidden" id="boardSubType" name="boardSubType" th:value="${boardSubType}">
+				<div class="row">
+					<div th:if="${data != null}" class="col-lg-10 col-md-12 col-sm-12">
+						<input type="hidden" id="currentBoardDate" name="currentBoardDate" th:value="${data.boardDate}">
+						<form action="/file/activity/download" method="post">
+							<input type="hidden" id="boardNo" name="boardNo" th:value="${data.boardNo}">
+							<div class="file-box" th:if="${data.fileNo} != 0">
 							
-							<input type="hidden" id="fileNo" name="fileNo" th:value="${data.fileNo}">
-							첨부파일 : 
-							<button type="submit" class="btn btn-secondary btn-sm" id="download">
-								<span class="glyphicon glyphicon-paperclip"></span>[[${data.fileNm}]]
-					        </button>
+								<div class="reg-date">작성일 : <span th:text="${data.regDttm}"></span></div>
+								
+								<input type="hidden" id="fileNo" name="fileNo" th:value="${data.fileNo}">
+								첨부파일 : 
+								<button type="submit" class="btn btn-secondary btn-sm" id="download">
+									<span class="glyphicon glyphicon-paperclip"></span>[[${data.fileNm}]]
+						        </button>
+							</div>
+						</form>
+						<span th:utext='${data.content}'></span>
+					</div>
+					<div th:unless="${data != null}" class="col-lg-10 col-md-12 col-sm-12">
+						<div class="no-write">
+							<img th:src="@{/img/no-write.gif}">
 						</div>
-					</form>
-					<span th:utext='${data.content}'></span>
-				</div>
-				<div th:unless="${data != null}">
-					<div class="no-write">
-						<img th:src="@{/img/no-write.gif}">
+					</div>
+					<div id="otherDate" class="col-lg-2 col-md-12 col-sm-12">
+						<h5 class="title">목록</h5>
+						<ul class="list-group">
+							<li class="list-group-item d-flex justify-content-between align-items-center" th:each="item : ${list}" th:text="${item.boardDate}"></li>
+						</ul>
 					</div>
 				</div>
-				<div class="text-right">
-	        		<button class="btn btn-outline-primary" id="regist">등록</button>
-	        	</div>
+				<div class="btn-box">
+	        		<button class="btn btn-secondary" id="regist"><span class="glyphicon glyphicon-pencil"></span></button>
+		        </div>
 	        	<div th:if="${data != null}">
 	        	
 		        	<div class="reply-box">
-		        		<div class="reply-list" th:each="item : ${list}">
+		        		<div class="reply-list" th:each="item : ${reply}">
 		        			<div class="reply-id">
 				        		<span th:text="${item.replyRegId}"></span>
 		        			</div>
@@ -93,10 +102,12 @@
 							<p>
 								<iframe frameborder="0" id="video" src="" width="460" height="310" class="note-video-clip"></iframe>
 							</p>
+							<div class="video-upload">
+								<label>동영상 URL</label>
+								<input type="text" id="videoUrl" name="videoUrl" class="form-control"> 
+							</div>
 						</div>
-						<div class="modal-footer" id="video-upload">
-							<label>동영상 URL</label>
-							<input type="text" id="videoUrl" name="videoUrl" class="form-control"> 
+						<div class="modal-footer video-upload">
 							<input type="hidden" id="videoNo" name="videoNo" class="form-control"> 
 							<button type="button" class="btn btn-primary" id="update">업로드</button>
 						</div>
@@ -127,9 +138,24 @@
     <!-- end content -->
     <script>
 		$(function(){
+			var boardDate = $("#currentBoardDate").val();
+			var object = $("#otherDate .list-group li");
+			
+			$.each(object, function(index, item){
+				$(item).removeClass("active");
+				if(boardDate == item.textContent.trim()){
+					$(this).addClass("active");
+				}
+			});
+
+			$(object).click(function(){
+				post($(this).text());
+			});
+			
 			$("#regist").on("click", function(){
 				$(location).attr("href", "/activity/stock/analyst/chat/analyst/regist");
 			});
+			
 			$("#modal-video").on('show.bs.modal', function(e){
 				var button = $(e.relatedTarget);
 			});
@@ -222,6 +248,17 @@
 	   			});
 			});
 		});
+		
+		function post(boardDate){
+			var $form = $("<form></form>");
+			$form.attr("method", "get");
+			$form.attr("action", "/activity/stock/analyst/chat/analyst");
+			$form.attr("id", "fm");
+			$form.appendTo('body');
+			$form.append('<input type="hidden" id="boardDate" name="boardDate" value="' + boardDate + '">');
+			
+			$("#fm").submit();
+		}
 	</script>
 </th:block>
 </html>

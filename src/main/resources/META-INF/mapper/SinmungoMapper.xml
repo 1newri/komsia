@@ -104,4 +104,23 @@
 		)
 	</insert>
 	
+	<update id="updateSinmungo" parameterType="SinmungoVO">
+		UPDATE ks_board_sinmungo SET
+			TITLE = #{title}
+			, CONTENT = #{content}
+			, MOD_ID = #{modId}
+			, MOD_DTTM = NOW()
+		WHERE BOARD_NO = #{boardNo}
+		AND BOARD_TYPE = #{boardType}			
+	</update>
+	
+	<update id="deleteSinmungo" parameterType="SinmungoVO">
+		UPDATE ks_board_sinmungo SET
+			USE_YN = 'N'
+			, MOD_ID = #{modId}
+			, MOD_DTTM = NOW() 
+		WHERE BOARD_NO = #{boardNo}
+		AND BOARD_TYPE = #{boardType}			
+	</update>
+	
 </mapper>

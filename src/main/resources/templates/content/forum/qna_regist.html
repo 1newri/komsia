@@ -13,25 +13,53 @@
 		<h2>QnA</h2>
 		<div>
 			<div class="regist-box">
-				<form id="frm" enctype="multipart/form-data">
-					<fieldset>
-						<div class="form-group">
-							<label for="title">제목</label>
-							<input type="text" class="form-control" id="title" name="title">
-					    </div>
-					    <div class="form-group">
-							<label for="boardContent">내용</label>
-							<textarea class="form-control" id="boardContent" name="content" rows="10"></textarea>
-						</div>
+				<div th:if="${data == null}">
+					<form id="frm" enctype="multipart/form-data">
+						<fieldset>
+							<div class="form-group">
+								<label for="title">제목</label>
+								<input type="text" class="form-control" id="boardTitle" name="title">
+						    </div>
+						    <div class="form-group">
+								<label for="boardContent">내용</label>
+								<textarea class="form-control" id="boardContent" name="content" rows="10"></textarea>
+							</div>
+								<div class="form-group">
+									<label for="file">첨부파일</label>
+									<input type="file" class="form-control-file" id="file" name="file" aria-describedby="fileHelp">
+								</div>
+						</fieldset>
+					</form>
+				</div>
+				<div th:unless="${data == null}">
+					<form id="modiFrm" enctype="multipart/form-data">
+						<input type="hidden" id="boardNo" name="boardNo" th:value="${data.vo.boardNo}">
+						<input type="hidden" id="boardType" name="boardType" th:value="${data.vo.boardType}">
+						<input type="hidden" id="fileNo" name="fileNo" th:value="${data.vo.fileNo}">
+						<fieldset>
+							<div class="form-group">
+								<label for="title">제목</label>
+								<input type="text" class="form-control" id="boardTitle" name="title" th:value="${data.vo.title}">
+						    </div>
+						    <div class="form-group">
+								<label for="boardContent">내용</label>
+								<textarea class="form-control" id="boardContent" name="content" rows="10">[[${data.vo.content}]]</textarea>
+							</div>
 							<div class="form-group">
 								<label for="file">첨부파일</label>
 								<input type="file" class="form-control-file" id="file" name="file" aria-describedby="fileHelp">
 							</div>
-					</fieldset>
-				</form>
+						</fieldset>
+					</form>
+				</div>
 			</div>
 			<div class="text-right">
-        		<button class="btn btn-outline-primary" id="save">등록</button>
+				<div th:if="${data == null}">
+        			<button class="btn btn-outline-primary" id="save">등록</button>
+        		</div>
+        		<div th:unless="${data == null}">
+        			<button class="btn btn-outline-info" id="update">수정</button>
+        		</div>
         	</div>
 		</div>
 	</div>
@@ -41,9 +69,9 @@
 		$(function(){
 			$("#save").on("click", function(){
 				
-				if($("#title").val() == '' || $("#title").val().length == 0){
+				if($("#boardTitle").val() == '' || $("#boardTitle").val().length == 0){
 					alert("제목을 입력하세요.");
-					$("#title").focus();
+					$("#boardTitle").focus();
 					return;
 				}
 				
@@ -71,6 +99,46 @@
 						alert(json.resMsg);
       					if(json.resCode == "0000"){
       						$(location).attr("href", "/forum/qna");	
+      					}
+      				}, error : function(request, status, error){
+      					alert("시스템 오류가 발생하였습니다. 관리자에게 문의하세요.");
+      				}
+      			});
+			});
+			
+			$("#update").on("click", function(){
+				
+				if($("#boardTitle").val() == '' || $("#boardTitle").val().length == 0){
+					alert("제목을 입력하세요.");
+					$("#boardTitle").focus();
+					return;
+				}
+				
+				if($("#boardContent").val() == '' || $("#boardContent").val().length == 0){
+					alert("내용을 입력하세요.");
+					$("#boardContent").focus();
+					return;
+				}
+				
+				var result = confirm("게시물을 등록하시겠습니까?");
+				if(!result){
+					return;
+				}
+				
+				var formData = new FormData($("#modiFrm")[0]);
+				
+				$.ajax({
+      				url: "/forum/press/save"
+   					, data : formData
+   					, type : "post"
+   					, processData : false
+   					, contentType : false
+      				, success : function(data){
+      					var json = JSON.parse(data);
+      					
+						alert(json.resMsg);
+      					if(json.resCode == "0000"){
+      						$(location).attr("href", "/forum/press");	
       					}
       				}, error : function(request, status, error){
       					alert("시스템 오류가 발생하였습니다. 관리자에게 문의하세요.");

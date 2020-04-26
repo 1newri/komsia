@@ -11,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.komsia.kom.constant.CommonConstant;
@@ -70,22 +71,29 @@ public class StockController {
 	 */
 	@GetMapping(value = "/activity/stock/analyst/chat/manager")
 	public String managerChat(HttpServletRequest request
+				, @RequestParam(value = "boardDate", required = false) String boardDate
 				, ModelMap model) {
+		
+		model.addAttribute("boardType", CommonConstant.BOARD_TYPE_S);
+		model.addAttribute("boardSubType", CommonConstant.BOARD_SUB_TYPE_M);
 		
 		ActivityVO activityVO = new ActivityVO();
 		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
 		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_M);
 		try {
-			
+			activityVO.setBoardDate(boardDate);
 			activityVO = activityService.selectActivityStock(activityVO);
 			model.addAttribute("data", activityVO);
 			
+			List<ActivityVO> list = activityService.selectActivityList(activityVO);
+			model.addAttribute("list", list);
+			
 			List<ReplyVO> reply = activityService.boardActivityReplyList(activityVO);
-			model.addAttribute("list", reply);
+			model.addAttribute("reply", reply);
 			
 			VideoVO videoVO = new VideoVO();
-			videoVO.setBoardType(activityVO.getBoardType());
-			videoVO.setBoardSubType(activityVO.getBoardSubType());
+			videoVO.setBoardType(CommonConstant.BOARD_TYPE_S);
+			videoVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_M);
 			
 			List<VideoVO> video = fileService.selectVideoList(videoVO);
 			model.addAttribute("video", video);
@@ -104,7 +112,9 @@ public class StockController {
 		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
 		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_M);
 		activityVO = activityService.selectActivityStock(activityVO);
+		
 		model.addAttribute("data", activityVO);
+		
 		return "/content/activity/stock/analyst/manager_regist";
 	}
 	
@@ -153,22 +163,30 @@ public class StockController {
 	 */
 	@GetMapping(value = "/activity/stock/analyst/chat/analyst")
 	public String analystChat(HttpServletRequest request
-				, ModelMap model) {
+			, @RequestParam(value = "boardDate", required = false) String boardDate
+			, ModelMap model) {
+		
+		model.addAttribute("boardType", CommonConstant.BOARD_TYPE_S);
+		model.addAttribute("boardSubType", CommonConstant.BOARD_SUB_TYPE_A);
 		
 		ActivityVO activityVO = new ActivityVO();
 		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
 		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_A);
 		try {
 			
+			activityVO.setBoardDate(boardDate);
 			activityVO = activityService.selectActivityStock(activityVO);
 			model.addAttribute("data", activityVO);
 			
+			List<ActivityVO> list = activityService.selectActivityList(activityVO);
+			model.addAttribute("list", list);
+			
 			List<ReplyVO> reply = activityService.boardActivityReplyList(activityVO);
-			model.addAttribute("list", reply);
+			model.addAttribute("reply", reply);
 			
 			VideoVO videoVO = new VideoVO();
-			videoVO.setBoardType(activityVO.getBoardType());
-			videoVO.setBoardSubType(activityVO.getBoardSubType());
+			videoVO.setBoardType(CommonConstant.BOARD_TYPE_S);
+			videoVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_A);
 			
 			List<VideoVO> video = fileService.selectVideoList(videoVO);
 			model.addAttribute("video", video);

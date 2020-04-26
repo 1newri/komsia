@@ -21,4 +21,10 @@ public interface ForumService {
 
 	Map<String, Object> updateNotice(NoticeVO noticeVO);
 
+	Map<String, Object> deleteNotice(NoticeVO noticeVO);
+
+	Map<String, Object> deleteForum(BoardVO boardVO);
+
+	Map<String, Object> updateForum(BoardVO boardVO);
+
 }
