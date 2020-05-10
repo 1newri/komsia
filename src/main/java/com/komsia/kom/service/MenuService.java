@@ -19,4 +19,14 @@ public interface MenuService {
 
 	public MenuVO getMenuIdByUrl(String url);
 
+	public MenuVO getMenuByMenuId(String menuId);
+	
+	public List<MenuVO> selectMenuByPid(int pid);
+
+	public void insertMenuAuth(MenuVO menuVO);
+
+	public int updateMenu(MenuVO menuVO);
+
+	public int selectMenuAuth(int menuId, String userId);
+
 }

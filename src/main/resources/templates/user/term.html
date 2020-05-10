@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/mainLayout">
+
+<th:block layout:fragment="content">
+	<section id="join-section">
+		<div class="container">
+	        <header class="section-header">
+				<h3>약관동의</h3>
+	        </header>
+        	<div class="term">
+        		<div class="info"> 
+		       		<p>한국소액주주연구회 [개인정보처리자] 은(는) 홈페이지 회원가입을 위한 개인정보 수집·이용을 위하여 <strong>개인정보보호법 제15조 및 제22조</strong>에 따라 귀하의 동의를 받고자 합니다.</p>
+		       		<p>회원가입을 위해서 아래 한국소액주주연구회 '이용약관' 및 '개인정보 수집 및 이용에 대한 안내'에 대한 내용을 읽고 동의해 주세요.</p>
+        		</div>
+        		<fieldset>
+					<h3 class="title">이용약관</h3>
+					<textarea class="form-control" id="useTerm" rows="7" readonly="readonly">
+						
+					</textarea>
+					<div class="form-group agree">
+					    <div class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" id="useAgree">
+							<label class="custom-control-label" for="useAgree">위의 이용약관에 동의합니다.</label>
+						</div>
+					</div>
+					
+					<h3 class="title">개인정보 수집 및 이용에 대한 안내</h3>
+					<textarea class="form-control" id="personTerm" rows="7" readonly="readonly"></textarea>
+        			<div class="form-group agree">
+					    <div class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" id="personAgree">
+							<label class="custom-control-label" for="personAgree">위의 개인정보 수집 및 이용에 대한 안내에 동의합니다.</label>
+						</div>
+					</div>
+					<div class="agree-box text-center">
+						<div class="custom-control custom-checkbox">
+							<input type="checkbox" class="custom-control-input" id="allAgree">
+							<label class="custom-control-label" for="allAgree">위의 이용약관 및 개인정보 수집 및 이용에 대한 안내에 동의합니다.</label>
+						</div>
+					</div>
+					<div class="term-btn" >
+						<button type="button" id="confirm" class="btn btn-primary">확인</button>
+						<button type="button" id="cancel" class="btn btn-outline-primary">취소</button>
+					</div>
+        		</fieldset>
+        	</div>
+		</div>
+	</section><!-- End About Section -->
+  	<script>
+  		$(function(){
+  			$("#allAgree").click(function(){
+  				 if ($("#allAgree").is(':checked')) {
+  	                $("input[type=checkbox]").prop("checked", true);
+  	            } else {
+  	                $("input[type=checkbox]").prop("checked", false);
+  	            }	  	
+  			});
+  			
+  			$("#confirm").click(function(){
+  				
+  				if(!$("#useAgree").is(':checked')){
+  					alert("이용약관에 동의하여 주십시오.");
+  					return;
+  				}
+  				
+  				if(!$("#personAgree").is(':checked')){
+  					alert("개인정보처리방침에 동의하여 주십시오.");
+  					return;
+  				}
+  					
+  				$(location).attr("href", "/user/join");
+  			});
+  			
+  			$("#cancel").click(function(){
+  				$(location).attr("href", "/");
+  			});
+  		});
+  		
+  	</script>
+</th:block>
+</html>

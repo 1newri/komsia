@@ -117,6 +117,7 @@
 		FROM ks_board_forum
 		WHERE BOARD_TYPE = #{boardType}
 		AND USE_YN = 'Y'
+		ORDER BY REG_DTTM DESC
 		limit #{length} offset #{start}
 	</select>
 	

@@ -6,8 +6,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -72,6 +74,7 @@ public class StockController {
 	@GetMapping(value = "/activity/stock/analyst/chat/manager")
 	public String managerChat(HttpServletRequest request
 				, @RequestParam(value = "boardDate", required = false) String boardDate
+				, @RequestParam(value = "boardOrder", required = false) String boardOrder
 				, ModelMap model) {
 		
 		model.addAttribute("boardType", CommonConstant.BOARD_TYPE_S);
@@ -81,11 +84,17 @@ public class StockController {
 		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
 		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_M);
 		try {
+			if(StringUtils.isEmpty(boardOrder)) {
+				activityVO.setBoardOrder(0);
+			}else {
+				activityVO.setBoardOrder(Integer.parseInt(boardOrder));
+			}
+			
 			activityVO.setBoardDate(boardDate);
 			activityVO = activityService.selectActivityStock(activityVO);
 			model.addAttribute("data", activityVO);
 			
-			List<ActivityVO> list = activityService.selectActivityList(activityVO);
+			List<String> list = activityService.selectBoardDate(activityVO);
 			model.addAttribute("list", list);
 			
 			List<ReplyVO> reply = activityService.boardActivityReplyList(activityVO);
@@ -105,8 +114,8 @@ public class StockController {
 		return "/content/activity/stock/analyst/manager";
 	}
 	
-	@GetMapping(value = "/activity/stock/analyst/chat/manager/regist")
-	public String managerChatRegist(HttpServletRequest request
+	@GetMapping(value = "/activity/stock/analyst/chat/manager/modify")
+	public String managerChatModify(HttpServletRequest request
 			, ModelMap model) {
 		ActivityVO activityVO = new ActivityVO();
 		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
@@ -114,8 +123,40 @@ public class StockController {
 		activityVO = activityService.selectActivityStock(activityVO);
 		
 		model.addAttribute("data", activityVO);
+		model.addAttribute("crud","U");
 		
 		return "/content/activity/stock/analyst/manager_regist";
+	}
+	
+	@GetMapping(value = "/activity/stock/analyst/chat/manager/regist")
+	public String managerChatRegist(HttpServletRequest request
+			, ModelMap model) {
+		ActivityVO activityVO = new ActivityVO();
+		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
+		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_M);
+		
+		model.addAttribute("crud","C");
+		return "/content/activity/stock/analyst/manager_regist";
+	}
+	
+	@PostMapping(value = "/activity/stock/analyst/chat/manager/boardDate")
+	@ResponseBody
+	public Map<String, Object> boardListByBoardDate(HttpServletRequest request
+			, @ModelAttribute ActivityVO activityVO
+			, ModelMap model){
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		try {
+			List<ActivityVO> list = activityService.selectBoardListByBoardDate(activityVO);
+			result.put("list", list);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		
+		return result;
 	}
 	
 	@PostMapping(value = "/activity/stock/analyst/chat/manager/regist")
@@ -164,6 +205,7 @@ public class StockController {
 	@GetMapping(value = "/activity/stock/analyst/chat/analyst")
 	public String analystChat(HttpServletRequest request
 			, @RequestParam(value = "boardDate", required = false) String boardDate
+			, @RequestParam(value = "boardOrder", required = false) String boardOrder
 			, ModelMap model) {
 		
 		model.addAttribute("boardType", CommonConstant.BOARD_TYPE_S);
@@ -175,11 +217,18 @@ public class StockController {
 		try {
 			
 			activityVO.setBoardDate(boardDate);
+			if(StringUtils.isEmpty(boardOrder)) {
+				activityVO.setBoardOrder(0);
+			}else {
+				activityVO.setBoardOrder(Integer.parseInt(boardOrder));
+			}
+			
 			activityVO = activityService.selectActivityStock(activityVO);
 			model.addAttribute("data", activityVO);
 			
-			List<ActivityVO> list = activityService.selectActivityList(activityVO);
+			List<String> list = activityService.selectBoardDate(activityVO);
 			model.addAttribute("list", list);
+			
 			
 			List<ReplyVO> reply = activityService.boardActivityReplyList(activityVO);
 			model.addAttribute("reply", reply);
@@ -198,6 +247,20 @@ public class StockController {
 		return "/content/activity/stock/analyst/analyst";
 	}
 	
+	@GetMapping(value = "/activity/stock/analyst/chat/analyst/modify")
+	public String analystChatModify(HttpServletRequest request
+			, ModelMap model) {
+		ActivityVO activityVO = new ActivityVO();
+		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
+		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_A);
+		activityVO = activityService.selectActivityStock(activityVO);
+		
+		model.addAttribute("data", activityVO);
+		model.addAttribute("crud","U");
+		
+		return "/content/activity/stock/analyst/analyst_regist";
+	}
+	
 	@GetMapping(value = "/activity/stock/analyst/chat/analyst/regist")
 	public String analystChatRegist(HttpServletRequest request
 			, ModelMap model) {
@@ -206,6 +269,7 @@ public class StockController {
 		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_A);
 		activityVO = activityService.selectActivityStock(activityVO);
 		model.addAttribute("data", activityVO);
+		model.addAttribute("crud","C");
 		return "/content/activity/stock/analyst/analyst_regist";
 	}
 	
@@ -225,6 +289,26 @@ public class StockController {
 			result.put("resCode", ResponseCode.RESPONSE_FAIL);
 			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
 		}
+		return result;
+	}
+	
+	@PostMapping(value = "/activity/stock/analyst/chat/analyst/boardDate")
+	@ResponseBody
+	public Map<String, Object> analystBoardListByBoardDate(HttpServletRequest request
+			, @ModelAttribute ActivityVO activityVO
+			, ModelMap model){
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		try {
+			List<ActivityVO> list = activityService.selectBoardListByBoardDate(activityVO);
+			result.put("list", list);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		
 		return result;
 	}
 	

@@ -15,6 +15,14 @@ public class InfoController {
 	public String info(HttpServletRequest request) {
 		return "redirect:/info/hello";
 	}
+	@GetMapping(value = "/term")
+	public String term(HttpServletRequest request) {
+		return "/guide/term";
+	}
+	@GetMapping(value = "/person")
+	public String person(HttpServletRequest request) {
+		return "/guide/person";
+	}
 	
 	@GetMapping(value = "/info/hello")
 	public String hello(HttpServletRequest request) {

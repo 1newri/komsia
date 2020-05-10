@@ -120,4 +120,17 @@
 			</if>
 		WHERE USER_ID = #{userId}			
 	</update>
+	
+	<select id="getAdminUserList" resultType="UserVO">
+		SELECT 
+			U.USER_NO
+		    , USER_ID
+		    , USER_NAME
+		FROM ks_user U
+		JOIN ks_auth_authorities AA
+			ON U.USER_NO = AA.USER_NO
+		JOIN ks_auth_role AR
+			ON AA.ROLE_ID = AR.ROLE_ID
+		WHERE AR.ROLE_ID = 1
+	</select>
 </mapper>

@@ -49,6 +49,9 @@ public class AdminController {
 		List<MenuVO> list = adminService.getParentMenuList();
 		model.put("list", list);
 		
+		List<UserVO> admin = adminService.getAdminUserList();
+		model.put("admin", admin);
+		
 		Map<String, Object> result = adminService.getMenuList();
 		model.put("menuList", result.get("data"));
 		
@@ -60,6 +63,19 @@ public class AdminController {
 	public List<MenuVO> menuPid(HttpServletRequest request){
 		List<MenuVO> list = adminService.getParentMenuList();
 		return list;
+	}
+	
+	@PostMapping(value = "/admin/menu")
+	@ResponseBody
+	public Map<String, Object> menu(HttpServletRequest request
+			, @RequestParam(value = "menuId") String menuId){
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			result = adminService.getMenuByMenuId(menuId);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+		}
+		return result;
 	}
 	
 	@PostMapping(value = "/admin/menu/list")

@@ -102,7 +102,6 @@
 		</if>
 	</select>
 	
-	
 	<insert id="insertMenu" parameterType="MenuVO">
 		INSERT INTO KS_MENU (
 			LEVEL
@@ -123,5 +122,77 @@
 			, #{ordering}
 			, #{regId}
 		)
+	</insert>
+	
+	<update id="updateMenu" parameterType="MenuVO">
+		UPDATE KS_MENU SET
+			LEVEL = #{level}
+			, URL = #{url}
+			, PID = #{pid}
+			, NAME = #{name}
+			, TYPE = #{type}
+			, DESCRIPTION = #{description}
+			, ORDERING = #{ordering}
+			, MOD_ID = #{modId}
+			, MOD_DTTM = NOW()
+		WHERE MENU_ID = #{menuId}
+	</update>
+	
+	<select id="selectMenuByMenuId" parameterType="String" resultType="MenuVO">
+		SELECT
+			M.MENU_ID
+			, LEVEL
+			, URL
+			, PID
+			, NAME
+			, TYPE
+			, DESCRIPTION
+			, ORDERING
+			, USE_YN
+			, REG_ID
+			, REG_DTTM
+			, MOD_ID
+			, MOD_DTTM
+			, USER_NO
+		FROM ks_menu M
+		LEFT OUTER JOIN ks_menu_auth MA
+			ON M.MENU_ID = MA.MENU_ID
+		WHERE 1=1
+		AND M.MENU_ID = #{menuId}
+		AND TYPE = 'M' 
+	</select>
+	
+	<select id="selectMenuByPid" parameterType="Integer" resultType="MenuVO">
+		SELECT
+			*
+		FROM ks_menu M
+		WHERE 1=1
+		AND (PID = #{menuId} OR MENU_ID = #{menuId})
+		AND TYPE = 'M' 
+	</select>
+	
+	
+	<select id="selectMenuAuth" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM ks_menu_auth
+		WHERE MENU_ID = #{menuId}
+		AND USER_NO = (
+			SELECT
+				USER_NO
+			FROM ks_user
+			WHERE USER_ID = #{userId}
+		);
+	</select>
+	
+	<insert id="insertMenuAuth" parameterType="MenuVO">
+		INSERT INTO KS_MENU_AUTH(
+			MENU_ID
+			, USER_NO
+		) VALUES(
+			#{menuId}
+			, #{userNo}
+		) ON DUPLICATE KEY UPDATE
+			MENU_ID = #{menuId}
 	</insert>
 </mapper>

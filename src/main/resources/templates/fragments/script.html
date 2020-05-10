@@ -8,6 +8,10 @@
 	$("#modify").hide();
 	
 	$("#userRegist").hide();
+	$("#userUpdate").hide();
+	$("#userModify").hide();
+	$("#userDelete").hide();
+	
 	$("#videoUploadBtn1").hide();
 	$("#videoUploadBtn2").hide();
 	$("#modal-upload").hide();
@@ -15,22 +19,29 @@
 	
 	/*<!CDATA[*/
 	var roleIds = [[${roleIds}]];
+	var menuAuth = [[${menuAuth}]];
 	/*]]>*/
 	
 	if(roleIds != ''){
-		if(roleIds.includes('1') || roleIds.includes('9')){
+		if(menuAuth == true || (roleIds.indexOf('9') != -1)){
 			$("#regist").show();
 			$("#delete").show();
 			$("#modify").show();
+			
 			$("#userRegist").show();
+			$("#userUpdate").show();
+			$("#userModify").show();
+			$("#userDelete").show();
+			
 			$("#videoUploadBtn1").show();
 			$("#videoUploadBtn2").show();
 			$(".video-upload").show();
 		}
 		
-		if(roleIds.includes( '2' )){
+		if(roleIds.indexOf( '2' ) != -1){
 			$("#userRegist").show();
 			$("#userUpdate").show();
+			$("#userModify").show();
 			$("#userDelete").show();
 		}
 	}

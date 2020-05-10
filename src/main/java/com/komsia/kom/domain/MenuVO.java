@@ -21,6 +21,8 @@ public class MenuVO {
 	private String modId;
 	private String modDttm;
 	
+	private int userNo;
+	
 	@JsonIgnore
 	private int start;
 	@JsonIgnore

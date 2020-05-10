@@ -116,6 +116,7 @@
 				LEFT OUTER JOIN KS_AUTH_ROLE AR
 					ON AA.ROLE_ID = AR.ROLE_ID
 			WHERE 1=1
+			AND AR.ROLE_ID != '9'
 			GROUP BY USER_NO
 		) A
 		WHERE 1=1 
@@ -150,4 +151,5 @@
 			, #{menuId}
 		)
 	</insert>
+	
 </mapper>

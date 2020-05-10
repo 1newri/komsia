@@ -52,7 +52,8 @@ public class ActivityServiceImpl implements ActivityService{
 		
 		activityVO.setBoardDate(DateUtil.currentDate());
 			
-		if(ObjectUtils.isEmpty(activityMapper.selectActivityStock(activityVO))) {
+//		if(ObjectUtils.isEmpty(activityMapper.selectActivityStock(activityVO))) {
+		if("C".equals(activityVO.getCrud())) {
 			log.debug("activityVO Insert : {} ", activityVO.toString());
 			activityMapper.insertActivity(activityVO);
 		}else {
@@ -124,5 +125,15 @@ public class ActivityServiceImpl implements ActivityService{
 	@Override
 	public List<ReplyVO> boardActivityReplyList(ActivityVO activityVO) {
 		return activityMapper.boardActivityReplyList(activityVO);
+	}
+
+	@Override
+	public List<ActivityVO> selectBoardListByBoardDate(ActivityVO activityVO) {
+		return activityMapper.selectBoardListByBoardDate(activityVO);
+	}
+
+	@Override
+	public List<String> selectBoardDate(ActivityVO activityVO) {
+		return activityMapper.selectBoardDate(activityVO);
 	}
 }

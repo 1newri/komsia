@@ -28,4 +28,6 @@ public interface UserMapper {
 
 	void updateUser(UserVO userVO);
 
+	List<UserVO> getAdminUserList();
+
 }

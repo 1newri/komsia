@@ -37,52 +37,61 @@
 				</form>
 			</div>
 			<div class="text-right">
-        		<button class="btn btn-outline-primary" id="save">등록</button>
+<!--         		<button class="btn btn-outline-primary" id="remove">clear</button> -->
+        		<button class="btn btn-primary" id="save">등록</button>
+        		<button class="btn btn-info" id="cancel">취소</button>
         	</div>
 		</div>
 	</div>
     <!-- end content -->
 	<script>
 		$(function(){
+			$("#cancel").click(function(){
+				var result = confirm("작성중이던 글은 저장되지 않습니다. 글 작성을 취소하시겠습니까?");
+				if(result){
+					$(location).attr("href", "/activity/stock/recommend/type");	
+				}
+			});
+			
 			$("#save").on("click", function(){
 				
-// 			if($("#title").val() == '' || $("#title").val().length == 0){
-// 				alert("제목을 입력하세요.");
-// 				$("#title").focus();
-// 				return;
-// 			}
-			
-			if($("#boardContent").val() == '' || $("#boardContent").val().length == 0){
-				alert("내용을 입력하세요.");
-				$("#boardContent").focus();
-				return;
-			}
-			
-			var result = confirm("게시물을 등록하시겠습니까?");
-			if(!result){
-				return;
-			}
-			
-			var formData = new FormData($("#frm")[0]);
-			$.ajax({
-   				url: "/activity/stock/recommend/type/regist"
-				, data : formData
-				, type : "post"
-				, processData : false
-				, contentType : false
-   				, success : function(data){
-					var json = JSON.parse(data);
-   					
-					alert(json.resMsg);
-   					if(json.resCode == "0000"){
-   						$(location).attr("href", "/activity/stock/recommend/type");	
-   					}
-   				}, error : function(request, status, error){
-   					alert("시스템 오류가 발생하였습니다. 관리자에게 문의하세요.");
-   				}
-   			});
+	// 			if($("#title").val() == '' || $("#title").val().length == 0){
+	// 				alert("제목을 입력하세요.");
+	// 				$("#title").focus();
+	// 				return;
+	// 			}
+				
+				if($("#boardContent").val() == '' || $("#boardContent").val().length == 0){
+					alert("내용을 입력하세요.");
+					$("#boardContent").focus();
+					return;
+				}
+				
+				var result = confirm("게시물을 등록하시겠습니까?");
+				if(!result){
+					return;
+				}
+				
+				var formData = new FormData($("#frm")[0]);
+				$.ajax({
+	   				url: "/activity/stock/recommend/type/regist"
+					, data : formData
+					, type : "post"
+					, processData : false
+					, contentType : false
+	   				, success : function(data){
+						var json = JSON.parse(data);
+	   					
+						alert(json.resMsg);
+	   					if(json.resCode == "0000"){
+	   						$(location).attr("href", "/activity/stock/recommend/type");	
+	   					}
+	   				}, error : function(request, status, error){
+	   					alert("시스템 오류가 발생하였습니다. 관리자에게 문의하세요.");
+	   				}
+	   			});
+			});
 		});
-	});
 	</script>
 	<script th:src="@{/js/editor.js}"></script>
 </th:block>

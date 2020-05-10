@@ -32,6 +32,11 @@ public class UserController {
 	
 	private UserService userService;
 	
+	@GetMapping(value = "/user/term")
+	public String termForm(HttpServletRequest request) {
+		return "/user/term";
+	}
+	
 	@GetMapping(value = "/user/join")
 	public String joinForm(HttpServletRequest request) {
 		return "/user/join";

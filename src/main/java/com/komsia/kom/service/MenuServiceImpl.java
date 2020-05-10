@@ -55,5 +55,30 @@ public class MenuServiceImpl implements MenuService{
 		return menuMapper.getMenuIdByUrl(url);
 	}
 
+	@Override
+	public MenuVO getMenuByMenuId(String menuId) {
+		return menuMapper.selectMenuByMenuId(menuId);
+	}
+	
+	@Override
+	public List<MenuVO> selectMenuByPid(int pid) {
+		return menuMapper.selectMenuByPid(pid);
+	}
+
+	@Override
+	public void insertMenuAuth(MenuVO menuVO) {
+		menuMapper.insertMenuAuth(menuVO);
+	}
+
+	@Override
+	public int updateMenu(MenuVO menuVO) {
+		return menuMapper.updateMenu(menuVO);
+	}
+
+	@Override
+	public int selectMenuAuth(int menuId, String userId) {
+		return menuMapper.selectMenuAuth(menuId, userId);
+	}
+
 
 }

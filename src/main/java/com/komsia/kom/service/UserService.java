@@ -152,6 +152,10 @@ public class UserService implements UserDetailsService{
 	public void updateUserPassword(UserVO userVO) {
 		userMapper.updateUserPassword(userVO);
 	}
+
+	public List<UserVO> getAdminUserList() {
+		return userMapper.getAdminUserList();
+	}
 	
 	
 	

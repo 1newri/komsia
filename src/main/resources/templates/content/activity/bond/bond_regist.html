@@ -15,10 +15,17 @@
 			<div class="regist-box">
 				<form id="frm">
 					<fieldset>
-<!-- 						<div class="form-group"> -->
-<!-- 							<label for="title">제목</label> -->
-<!-- 							<input type="text" class="form-control" id="title" name="title"> -->
-<!-- 					    </div> -->
+						<div class="form-group">
+							<label for="title">제목</label>
+							<input type="hidden" id="crud" name="crud" th:value="${crud}">
+							<div th:if="${data != null}">
+								<input type="text" class="form-control" id="boardTitle" name="title" th:value="${data.title}">
+								<input type="hidden" class="form-control" id="boardOrder" name="boardOrder" th:value="${data.boardOrder}">
+							</div>
+							<div th:unless="${data != null}">
+								<input type="text" class="form-control" id="boardTitle" name="title">
+							</div>
+					    </div>
 					    <div class="form-group">
 							<div th:if="${data != null}">
 								<textarea class="form-control" id="boardContent" name="content" rows="30">[[${data.content}]]</textarea>
@@ -35,52 +42,62 @@
 				</form>
 			</div>
 			<div class="text-right">
-        		<button class="btn btn-outline-primary" id="save">등록</button>
+<!--         		<button class="btn btn-outline-primary" id="remove">clear</button> -->
+        		<button class="btn btn-primary" id="save">등록</button>
+        		<button class="btn btn-info" id="cancel">취소</button>
         	</div>
 		</div>
 	</div>
     <!-- end content -->
 	<script>
 		$(function(){
+			
+			$("#cancel").click(function(){
+				var result = confirm("작성중이던 글은 저장되지 않습니다. 글 작성을 취소하시겠습니까?");
+				if(result){
+					$(location).attr("href", "/activity/bond");	
+				}
+			});
+			
 			$("#save").on("click", function(){
 				
-// 			if($("#title").val() == '' || $("#title").val().length == 0){
-// 				alert("제목을 입력하세요.");
-// 				$("#title").focus();
-// 				return;
-// 			}
-			
-			if($("#boardContent").val() == '' || $("#boardContent").val().length == 0){
-				alert("내용을 입력하세요.");
-				$("#boardContent").focus();
-				return;
-			}
-			
-			var result = confirm("게시물을 등록하시겠습니까?");
-			if(!result){
-				return;
-			}
-			
-			var formData = new FormData($("#frm")[0]);
-			$.ajax({
-   				url: "/activity/bond/regist"
-				, data : formData
-				, type : "post"
-				, processData : false
-				, contentType : false
-   				, success : function(data){
-					var json = JSON.parse(data);
-   					
-					alert(json.resMsg);
-   					if(json.resCode == "0000"){
-   						$(location).attr("href", "/activity/bond");	
-   					}
-   				}, error : function(request, status, error){
-   					alert("시스템 오류가 발생하였습니다. 관리자에게 문의하세요.");
-   				}
-   			});
+				if($("#boardTitle").val() == '' || $("#boardTitle").val().length == 0){
+					alert("제목을 입력하세요.");
+					$("#boardTitle").focus();
+					return;
+				}
+				
+				if($("#boardContent").val() == '' || $("#boardContent").val().length == 0){
+					alert("내용을 입력하세요.");
+					$("#boardContent").focus();
+					return;
+				}
+				
+				var result = confirm("게시물을 등록하시겠습니까?");
+				if(!result){
+					return;
+				}
+				
+				var formData = new FormData($("#frm")[0]);
+				$.ajax({
+	   				url: "/activity/bond/regist"
+					, data : formData
+					, type : "post"
+					, processData : false
+					, contentType : false
+	   				, success : function(data){
+						var json = JSON.parse(data);
+	   					
+						alert(json.resMsg);
+	   					if(json.resCode == "0000"){
+	   						$(location).attr("href", "/activity/bond");	
+	   					}
+	   				}, error : function(request, status, error){
+	   					alert("시스템 오류가 발생하였습니다. 관리자에게 문의하세요.");
+	   				}
+	   			});
+			});
 		});
-	});
 	</script>
 	<script th:src="@{/js/editor.js}"></script>
 </th:block>

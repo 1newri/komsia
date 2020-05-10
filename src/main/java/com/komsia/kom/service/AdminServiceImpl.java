@@ -70,7 +70,25 @@ public class AdminServiceImpl implements AdminService{
 		menuVO.setLevel(menuVO.getLevel() + 1);
 		menuVO.setRegId(CommonConstant.SYSTEM_ID);
 		
-		if(menuService.insertMenu(menuVO) > 0) {
+		log.debug("============================= menuId : {}", menuVO.getMenuId());
+		
+		int success = 0;
+		if(ObjectUtils.isEmpty(menuVO.getMenuId())) {
+			log.debug("INSERT MENU");
+			success = menuService.insertMenu(menuVO);
+		}else {
+			log.debug("UPDATE MENU");
+			success = menuService.updateMenu(menuVO);
+		}
+
+		if(success > 0) {
+			List<MenuVO> menuList = menuService.selectMenuByPid(menuVO.getMenuId());
+			for(MenuVO menu : menuList) {
+				log.debug("menuId : {}, menu : {}", menuVO.getMenuId(), menu.toString());
+				menu.setUserNo(menuVO.getUserNo());
+				menuService.insertMenuAuth(menu);
+			}
+			
 			resCode = ResponseCode.RESPONSE_OK;
 			resMsg = ResponseCode.RESPONSE_OK_MSG;
 		}
@@ -216,6 +234,33 @@ public class AdminServiceImpl implements AdminService{
 		
 		return result;
 		
+	}
+
+
+	@Override
+	public List<UserVO> getAdminUserList() {
+		return userService.getAdminUserList();
+	}
+
+
+	@Override
+	public Map<String, Object> getMenuByMenuId(String menuId) {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		String resCode = ResponseCode.RESPONSE_OK;
+		String resMsg = ResponseCode.RESPONSE_OK_MSG;
+		
+		MenuVO menuVO = menuService.getMenuByMenuId(menuId);
+		if(ObjectUtils.isEmpty(menuVO)) {
+			log.error("Exception : {} is Null", menuId);
+			resCode = ResponseCode.RESPONSE_FAIL;
+			resMsg = ResponseCode.RESPONSE_FAIL_MSG;
+		}
+		result.put("menu", menuVO);
+		result.put("resCode", resCode);
+		result.put("resMsg", resMsg);
+		return result;
 	}
 
 }

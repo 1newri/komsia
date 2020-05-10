@@ -28,4 +28,8 @@ public interface ActivityMapper {
 
 	void updateActivity(ActivityVO activityVO);
 
+	List<ActivityVO> selectBoardListByBoardDate(ActivityVO activityVO);
+
+	List<String> selectBoardDate(ActivityVO activityVO);
+
 }

@@ -30,6 +30,7 @@
 			, B.BOARD_TYPE
 			, B.BOARD_SUB_TYPE
 			, B.BOARD_DATE
+			, B.BOARD_ORDER
 			, B.TITLE
 			, B.CONTENT
 			, B.HIT
@@ -50,8 +51,36 @@
 		<if test="boardDate != null and boardDate != ''">
 			AND B.BOARD_DATE = #{boardDate}
 		</if>
-		ORDER BY REG_DTTM DESC
+		<if test="boardOrder != 0">
+			AND B.BOARD_ORDER = #{boardOrder}
+		</if>
+		ORDER BY REG_DTTM DESC, BOARD_ORDER DESC
 		LIMIT 1
+	</select>
+	
+	<select id="selectBoardDate" parameterType="ActivityVO" resultType="String">
+		SELECT 
+			BOARD_DATE
+		FROM ks_board_activity
+		WHERE BOARD_TYPE = #{boardType}
+		AND BOARD_SUB_TYPE = #{boardSubType}
+		GROUP BY BOARD_DATE
+		ORDER BY BOARD_DATE DESC
+	</select>
+	
+	<select id="selectBoardListByBoardDate" parameterType="ActivityVO" resultType="ActivityVO">
+		SELECT 
+			BOARD_NO
+			, BOARD_ORDER
+		    , BOARD_DATE
+		    , BOARD_TYPE
+		    , BOARD_SUB_TYPE
+		    , TITLE
+		FROM komsia.ks_board_activity
+		WHERE BOARD_TYPE = #{boardType}
+		AND BOARD_SUB_TYPE = #{boardSubType}
+		AND BOARD_DATE = #{boardDate}
+		ORDER BY BOARD_ORDER
 	</select>
 	
 	<update id="updateHitByActivity" parameterType="ActivityVO">
@@ -68,18 +97,26 @@
 	    	select DATE_FORMAT(NOW(), '%Y%m%d') AS BOARD_DATE FROM DUAL
 		</selectKey>
 		INSERT INTO ks_board_activity(
-			BOARD_TYPE
+			BOARD_DATE
+			, BOARD_TYPE
 			, BOARD_SUB_TYPE
-			, BOARD_DATE
+			, BOARD_ORDER
 			, TITLE
 			, CONTENT
 			, HIT
 			, USE_YN
 			, REG_ID
 		) VALUES (
-			#{boardType}
+			#{boardDate}
+			, #{boardType}
 			, #{boardSubType}
-			, #{boardDate}
+			, (SELECT 
+				IFNULL(MAX(A.BOARD_ORDER) + 1, 1) BOARD_ORDER
+			  FROM ks_board_activity A
+			  WHERE A.BOARD_DATE = #{boardDate}
+			  AND A.BOARD_TYPE = #{boardType}			  
+			  AND A.BOARD_SUB_TYPE = #{boardSubType}
+			  )
 			, #{title}
 			, #{content}
 			, 0
@@ -90,12 +127,14 @@
 	
 	<update id="updateActivity" parameterType="ActivityVO">
 		UPDATE ks_board_activity SET
-			CONTENT = #{content}
+			TITLE = #{title}
+			, CONTENT = #{content}
 			, MOD_ID = #{modId} 
 			, MOD_DTTM = NOW()
 		WHERE BOARD_TYPE = #{boardType}
 			AND BOARD_SUB_TYPE = #{boardSubType}
 			AND BOARD_DATE = #{boardDate}
+			AND BOARD_ORDER = #{boardOrder}
 	</update>
 	
 	<insert id="boardActivityReplyRegist" parameterType="ReplyVO" useGeneratedKeys="true" keyProperty="replyNo">
@@ -125,22 +164,17 @@
 	
 	<select id="boardActivityReplyList" parameterType="ActivityVO" resultType="ReplyVO">
 		SELECT
-			A.BOARD_NO
-		    , A.BOARD_TYPE
-		    , A.BOARD_SUB_TYPE
+			REPLY_NO
+			, BOARD_TYPE
+		    , BOARD_SUB_TYPE
 		    , REPLY_NO
 		    , REPLY_CONTENT
-		    , AR.REG_ID AS REPLY_REG_ID
-		    , AR.REG_DTTM AS REPLY_REG_DTTM
-		FROM ks_board_activity A
-		join ks_board_activity_reply AR
-			ON A.board_no = AR.board_no
-		    AND A.board_type = AR.board_type
-		    AND A.board_sub_type = AR.board_sub_type
-		WHERE A.use_yn = 'Y'
-		AND AR.USE_yN = 'Y'
-		AND A.BOARD_TYPE = #{boardType}
-		AND A.BOARD_SUB_TYPE = #{boardSubType}
-		ORDER BY AR.REG_DTTM 
+		    , REG_ID AS REPLY_REG_ID
+		    , REG_DTTM AS REPLY_REG_DTTM
+		FROM ks_board_activity_reply 
+		WHERE USE_YN = 'Y'
+		AND BOARD_TYPE = #{boardType}
+		AND BOARD_SUB_TYPE = #{boardSubType}
+		ORDER BY REG_DTTM 
 	</select>
 </mapper>

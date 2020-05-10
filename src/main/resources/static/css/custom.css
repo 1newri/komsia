@@ -392,6 +392,35 @@
 	margin-left: 0px;
 }
 
+#join-section .container .term{
+	width: 60%;
+	margin: auto;
+}
+
+.term .info{
+	padding-top: 20px;
+}
+
+.term .agree{
+	padding-top: 10px;
+}
+
+.term .agree-box{
+	padding: 15px;
+	border: 1px solid #c0c0c0;
+	border-radius: 5px;
+}
+
+.term .term-btn {
+	padding-top: 10px;
+	text-align: center;
+}
+
+#useTerm,
+#personTerm {
+	resize: none;
+	background-color: #ffffff;
+}
 /*--------------------------------------------------------------
 # Intro Section
 --------------------------------------------------------------*/
@@ -707,6 +736,12 @@
 	cursor: pointer;
 }
 
+.data-content{
+	height: 800px;
+	overflow: auto;
+	
+}
+
 /* Custom 등록 화면  */
 .regist-box{
 	padding-top: 20px;
@@ -745,6 +780,11 @@
 	margin-bottom: 15px;
 	margin-left: 10px;
 	margin-right: 10px;
+}
+
+
+.reply-box {
+	padding-top: 20px;
 }
 
 .reply-box textarea{
@@ -907,8 +947,14 @@
 	text-align: left;
 }
 
-.list-group{
-	cursor: pointer;
+.title-list {
+	width:160px;
+	padding-left: 10px;
+}
+
+.title-list li{
+	list-style: none;
+	padding-top: 10px;
 }
 
 /*--------------------------------------------------------------

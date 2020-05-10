@@ -57,6 +57,7 @@ public class HttpInterceptor extends HandlerInterceptorAdapter{
 		log.info("================ Method Executed");
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		List<String> roleNameList = new ArrayList<String>();
+		boolean menuAuth = false;
 		if(modelAndView != null && authentication != null) {
 			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 			
@@ -83,6 +84,13 @@ public class HttpInterceptor extends HandlerInterceptorAdapter{
 			MenuVO menuVO = menuService.getMenuIdByUrl(url);
 			if(!ObjectUtils.isEmpty(menuVO)) {
 				request.setAttribute("menuId", menuVO.getMenuId());
+				
+				
+				if(menuService.selectMenuAuth(menuVO.getMenuId(), userId) > 0) {
+					menuAuth = true;
+				}
+				
+				request.setAttribute("menuAuth", menuAuth);
 			}
 		
 			Pattern pattern = Pattern.compile("((^\\/[^\\s/\\/]+))");

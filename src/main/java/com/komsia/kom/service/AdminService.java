@@ -33,4 +33,8 @@ public interface AdminService {
 
 	Map<String, Object> passwordInit(UserVO userVO);
 
+	List<UserVO> getAdminUserList();
+
+	Map<String, Object> getMenuByMenuId(String menuId);
+
 }

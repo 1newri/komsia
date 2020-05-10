@@ -13,6 +13,12 @@
 		<h2>내 회원관리</h2>
 		<div class="my-user">
 			<div class="row">
+				<input type="radio">
+				<label>특별회원에게만 공개</label>
+				<input type="radio">
+				<label>전체공개</label>
+			</div>
+			<div class="row">
 				<div class="col-lg-6 col-md-12 col-sm-12">
 					<h5 class="title">
                     	<span>내 회원 목록</span>
@@ -108,10 +114,12 @@
 			/*]]>*/
 			
 			var roleId = "";
-			if(roleIds.includes('1') && roleIds.includes('3')){
+			if((roleIds.indexOf('1') != -1) && (roleIds.indexOf('3') != -1)){
 				roleId = "3" ;
-			}else if(roleIds.includes('1') && roleIds.includes('4')){
+			}else if((roleIds.indexOf('1') != -1) && (roleIds.indexOf('4') != -1)){
 				roleId = "4";
+			}else if(roleIds.indexOf('9') != -1){
+				roleId = "9";
 			}else{
 				roleId = "0";
 			}

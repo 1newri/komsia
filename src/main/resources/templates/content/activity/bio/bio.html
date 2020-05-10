@@ -13,59 +13,89 @@
 		<h2>바이오소액투자자포럼</h2>
 		<div>
 			<div class="detail-box">
+				<input type="hidden" id="boardType" name="boardType" th:value="${boardType}">
+				<input type="hidden" id="boardSubType" name="boardSubType" th:value="${boardSubType}">
 				<div class="row">
-					<div th:each="item : ${video}">
-						<div class="col-lg-3 col-md-4 col-sm-12">
-							<div class="">
-								<img alt="" th:src="${item.thumbnailUrl}" class="thumbnail_youtube" th:data-no="${item.videoNo}" 
-									th:data-url="${item.videoUrl}" data-toggle="modal" data-target="#modal-video">
+					<div th:if="${data != null}" class="col-lg-10 col-md-12 col-sm-12">
+						<button class="btn btn-outline-primary" id="regist" style="display: inline-block;float: right;">등록</button>
+						<button class="btn btn-outline-info" id="modify" style="display: inline-block;float: right;">수정</button>
+						<h5 class="title" th:text="${data.title}"></h5>
+						<input type="hidden" id="currentBoardDate" name="currentBoardDate" th:value="${data.boardDate}">
+						<form action="/file/activity/download" method="post">
+							<input type="hidden" id="boardNo" name="boardNo" th:value="${data.boardNo}">
+							<div class="reg-date">작성일 : <span th:text="${data.regDttm}"></span></div>
+							<!-- <div class="file-box" th:if="${data.fileNo} != 0">
+								<input type="hidden" id="fileNo" name="fileNo" th:value="${data.fileNo}">
+								첨부파일 : 
+								<button type="submit" class="btn btn-secondary btn-sm" id="download">
+									<span class="glyphicon glyphicon-paperclip"></span>[[${data.fileNm}]]
+						        </button>
+							</div> -->
+						</form>
+						<div class="data-content">
+							<span th:utext='${data.content}'></span>
+						</div>
+					</div>
+					<div th:unless="${data != null}" class="col-lg-10 col-md-12 col-sm-12">
+						<button class="btn btn-outline-primary" id="regist" style="display: inline-block;float: right;">등록</button>
+						<div class="no-write">
+							<img th:src="@{/img/no-write.gif}">
+						</div>
+					</div>
+					<div class="col-lg-2 col-md-12 col-sm-12">
+						<div class="row">
+							<div class="video-group">
+								<div th:if="${#lists.isEmpty(video)}">
+									<button class="btn btn-outline-primary" data-toggle="modal" data-target="#modal-upload" id="videoUploadBtn1" style="display: inline-block;float: right;">+</button>
+								</div>
+								<div th:unless="${#lists.isEmpty(video)}">
+									<button class="btn btn-outline-primary" data-toggle="modal" data-target="#modal-upload" id="videoUploadBtn2" style="display: inline-block;float: right;">+</button>
+								</div>
+								<h5 class="title">동영상</h5>
+								<div th:each="item : ${video}">
+									<div class="">
+										<img alt="" th:src="${item.thumbnailUrl}" class="thumbnail_youtube" th:data-no="${item.videoNo}" 
+											th:data-url="${item.videoUrl}" data-toggle="modal" data-target="#modal-video">
+									</div>
+								</div>
+								<div th:if="${#lists.isEmpty(video)}">
+									<div class="thumbnail_youtube">
+									</div>
+								</div>
+							</div>
+							<div class="list-group">
+								<h5 class="title">글 목록</h5>
+								<select id="boardDateSel" class="custom-select">
+									<option th:each="item : ${list}" th:value="${item}" th:text="${item}">
+								</select>
+								<ul class="title-list" id="titleList">
+									
+								</ul>
 							</div>
 						</div>
 					</div>
-					<div th:if="${#lists.isEmpty(video)}">
-						<button class="btn btn-outline-primary" data-toggle="modal" data-target="#modal-upload" id="videoUploadBtn1">동영상 업로드 +</button>
-					</div>
-					<div th:unless="${#lists.isEmpty(video)}">
-						<button class="btn btn-outline-primary" data-toggle="modal" data-target="#modal-upload" id="videoUploadBtn2">+</button>
-					</div>
 				</div>
-				<input type="hidden" id="boardType" name="boardType" th:value="${boardType}">
-				<input type="hidden" id="boardSubType" name="boardSubType" th:value="${boardSubType}">
-				<div th:if="${data != null}">
-					<input type="hidden" id="boardNo" name="boardNo" th:value="${data.boardNo}">
-					<div class="reg-date">작성일 : <span th:text="${data.regDttm}"></span></div>
-					<span th:utext='${data.content}'></span>
-				</div>
-				<div th:unless="${data != null}">
-					<div class="no-write">
-						<img th:src="@{/img/no-write.gif}">
-					</div>
-				</div>	
-			</div>
-			<div class="btn-box">
-        		<button class="btn btn-secondary" id="regist"><span class="glyphicon glyphicon-pencil"></span></button>
-	        </div>
-        	<div th:if="${data != null}">
-        	
-	        	<div class="reply-box">
-	        		<div class="reply-list" th:each="item : ${list}">
-	        			<div class="reply-id">
-			        		<span th:text="${item.replyRegId}"></span>
-	        				<small><span th:text="${item.replyRegDttm}"></span></small>
-	        			</div>
-	        			<div class="reply-content">
-	        				<span th:text="${item.replyContent}"></span>
-	        			</div>
-	        		</div>
-		        	<div class="card">
-						<div class="card-body">
-							<h5 class="card-subtitle mb-2 text-muted">[[${userId}]]</h5>
-							<textarea class="form-control" id="replyContent" rows="3"></textarea>
-							<button class="btn btn-primary" id="replyRegist">등록</button>
-		  				</div>
-		  			</div>
-		  		</div>	
-	  		</div>
+		        <div th:if="${data != null}">
+		        	<div class="reply-box">
+		        		<div class="reply-list" th:each="item : ${reply}">
+		        			<div class="reply-id">
+				        		<span th:text="${item.replyRegId}"></span>
+		        				<small><span th:text="${item.replyRegDttm}"></span></small>
+		        			</div>
+		        			<div class="reply-content">
+		        				<span th:text="${item.replyContent}"></span>
+		        			</div>
+		        		</div>
+			        	<div class="card">
+							<div class="card-body">
+								<h5 class="card-subtitle mb-2 text-muted">[[${userId}]]</h5>
+								<textarea class="form-control" id="replyContent" rows="3"></textarea>
+								<button class="btn btn-primary" id="replyRegist">등록</button>
+			  				</div>
+			  			</div>
+			  		</div>	
+		  		</div>
+		  	</div>
         	<div class="modal border-primary" id="modal-video" aria-hidden="true">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
@@ -112,8 +142,25 @@
     <!-- end content -->
 	<script>
 		$(function(){
+
+			var object = $("#titleList li");
+			$(object).click(function(){
+				post($(this).val());
+			});
+			
+			boardDate(); 
+			
+			$("#boardDateSel").change(function(){
+				$("#titleList").empty();
+				boardDate();
+			});
+
 			$("#regist").on("click", function(){
 				$(location).attr("href", "/activity/bio/regist");
+			});
+			
+			$("#modify").on("click", function(){
+				$(location).attr("href", "/activity/bio/modify");
 			});
 			
 			$("#modal-video").on('show.bs.modal', function(e){
@@ -208,6 +255,39 @@
 	   			});
 			});
 		});
+		
+		function boardDate(){
+			var boardDate = $("#boardDateSel option:selected").val();
+			$.ajax({
+   				url: "/activity/bio/boardDate"
+				, data : {
+					boardType : $("#boardType").val()
+					, boardSubType : $("#boardSubType").val()
+					, boardDate : boardDate
+				}
+				, type : "post"
+   				, success : function(data){
+					var json = JSON.parse(data);
+						$.each(json.list, function(index, item){
+   						$("#titleList").append("<li value='"+item.boardNo+"'><a href='javascript:post("+item.boardDate+", "+ item.boardOrder+")'>"+ item.title +"</a></li>")
+					}); 
+   				}, error : function(request, status, error){
+   					alert("시스템 오류가 발생하였습니다. 관리자에게 문의하세요.");
+   				}
+   			});
+		}
+		
+		function post(boardDate, boardOrder){
+			var $form = $("<form></form>");
+			$form.attr("method", "get");
+			$form.attr("action", "/activity/bio");
+			$form.attr("id", "fm");
+			$form.appendTo('body');
+			$form.append('<input type="hidden" id="boardDate" name="boardDate" value="' + boardDate + '">');
+			$form.append('<input type="hidden" id="boardOrder" name="boardOrder" value="' + boardOrder + '">');
+			
+			$("#fm").submit();
+		}
 	</script>
 </th:block>
 </html>

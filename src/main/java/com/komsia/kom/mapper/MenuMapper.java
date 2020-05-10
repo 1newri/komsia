@@ -26,4 +26,14 @@ public interface MenuMapper {
 
 	MenuVO getMenuIdByUrl(String url);
 
+	MenuVO selectMenuByMenuId(String menuId);
+	
+	List<MenuVO> selectMenuByPid(int pid);
+
+	void insertMenuAuth(MenuVO menuVO);
+
+	int updateMenu(MenuVO menuVO);
+	
+	int selectMenuAuth(@Param(value = "menuId") int menuId, @Param(value = "userId") String userId);
+
 }
