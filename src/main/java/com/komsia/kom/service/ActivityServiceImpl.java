@@ -50,11 +50,10 @@ public class ActivityServiceImpl implements ActivityService{
 		String resCode = ResponseCode.RESPONSE_OK;
 		String resMsg = ResponseCode.RESPONSE_OK_MSG;
 		
-		activityVO.setBoardDate(DateUtil.currentDate());
-			
 //		if(ObjectUtils.isEmpty(activityMapper.selectActivityStock(activityVO))) {
 		if("C".equals(activityVO.getCrud())) {
 			log.debug("activityVO Insert : {} ", activityVO.toString());
+			activityVO.setBoardDate(DateUtil.currentDate());
 			activityMapper.insertActivity(activityVO);
 		}else {
 			log.debug("activityVO Update : {} ", activityVO.toString());

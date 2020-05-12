@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.komsia.kom.constant.CommonConstant;
 import com.komsia.kom.constant.ResponseCode;
 import com.komsia.kom.domain.MenuVO;
+import com.komsia.kom.domain.UserMenuVO;
 import com.komsia.kom.mapper.AdminMapper;
 import com.komsia.kom.mapper.MenuMapper;
 
@@ -78,6 +79,16 @@ public class MenuServiceImpl implements MenuService{
 	@Override
 	public int selectMenuAuth(int menuId, String userId) {
 		return menuMapper.selectMenuAuth(menuId, userId);
+	}
+
+	@Override
+	public List<UserMenuVO> getMenuUserByMenuId(String menuId) {
+		return menuMapper.selectMenuUserByMenuId(menuId);
+	}
+
+	@Override
+	public void menuUserAuthDel(int menuId, int userNo) {
+		menuMapper.menuUserAuthDel(menuId, userNo);
 	}
 
 

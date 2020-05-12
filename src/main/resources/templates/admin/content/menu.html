@@ -57,6 +57,13 @@
 									<option value="0">--선택하세요--</option>
 									<option th:each="item : ${admin}" th:value="${item.userNo}" th:text="${item.userId}"></option>
 								</select>
+								
+								<ul id="user-list" class="list-group">
+								
+								</ul>
+								
+								<ul class="list-group">
+  								</ul>
 							</div>
 						</fieldset>
 						<button type="button" id="add" class="btn btn-outline-primary">메뉴추가</button>
@@ -90,10 +97,19 @@
 			});
 			
 			$("#add").click(function(){
-				location.reload();
+				$("#pid").val(1)
+				$("#url").val('')
+				$("#name").val('')
+				$("#type").val('M')
+				$("#description").val('')
+				$("#ordering").val('')
+				$("#pid option:selected").data("level")
+				$("#menuId").val('')
+				$("#user").val(0)
 			});
 			
 			$(".menu-list ul li a").click(function(){
+				$("#user-list").empty();
 				$.ajax({
 					url: "/admin/menu"
 					, type : "post"
@@ -109,7 +125,13 @@
 							$("#description").val(json.menu.description);
 							$("#ordering").val(json.menu.ordering);
 							$("#menuId").val(json.menu.menuId);
-							$("#user").val(json.menu.userNo);
+							$.each(json.users, function(index, item){
+								var className = "list-group-item d-flex justify-content-between align-items-center";
+		   						$("#user-list").append('<li class="'+className+'">' + item.userId + '('+ item.userName + ')'
+		   								+ '<button type="button" class="close" onclick="javascript:delUser(' + item.userNo +','+ item.menuId+')">&times;</button>'
+		   								+'</li>');
+							});
+							
 						}
 					}, error : function(request, status, error){
       					alert("시스템 오류가 발생하였습니다. 관리자에게 문의하세요.");
@@ -118,8 +140,6 @@
 			});
 			
       		$("#save").click(function(){
-      			alert($("#pid option:selected").val());
-      			
       			var result = confirm("메뉴를 등록 및 수정하시겠습니까?");
       			if(!result){
       				return;
@@ -166,7 +186,29 @@
       		});
 		});
       	
-	
+		function delUser(userNo, menuId){
+			var result = confirm("관리자를 삭제하시겠습니까?");
+			if(!result){
+				return;
+			}
+			
+			$.ajax({
+  				url: "/admin/menu/user/del"
+				, type : "POST"
+  				, data : {
+  					menuId : menuId
+  					, userNo : userNo
+  				}, success : function(data){
+  					var json = JSON.parse(data);
+  					if(json.resCode == "0000"){
+						alert(json.resMsg);
+						location.reload();
+  					}
+  				}, error : function(request, status, error){
+  					alert("시스템 오류가 발생하였습니다. 관리자에게 문의하세요.");
+  				}
+  			});
+		}
 	</script>
 </th:block>
 </html>

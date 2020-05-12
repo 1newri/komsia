@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.komsia.kom.domain.MenuVO;
+import com.komsia.kom.domain.UserMenuVO;
 
 public interface MenuService {
 	
@@ -28,5 +29,9 @@ public interface MenuService {
 	public int updateMenu(MenuVO menuVO);
 
 	public int selectMenuAuth(int menuId, String userId);
+
+	public List<UserMenuVO> getMenuUserByMenuId(String menuId);
+
+	public void menuUserAuthDel(int menuId, int userNo);
 
 }

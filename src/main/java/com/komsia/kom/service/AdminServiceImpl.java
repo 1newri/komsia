@@ -1,10 +1,12 @@
 package com.komsia.kom.service;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +17,7 @@ import com.komsia.kom.domain.AuthVO;
 import com.komsia.kom.domain.MenuAuthVO;
 import com.komsia.kom.domain.MenuVO;
 import com.komsia.kom.domain.Role;
+import com.komsia.kom.domain.UserMenuVO;
 import com.komsia.kom.domain.UserVO;
 
 import lombok.AllArgsConstructor;
@@ -252,14 +255,40 @@ public class AdminServiceImpl implements AdminService{
 		String resMsg = ResponseCode.RESPONSE_OK_MSG;
 		
 		MenuVO menuVO = menuService.getMenuByMenuId(menuId);
+		
+		List<UserMenuVO> userList = menuService.getMenuUserByMenuId(menuId);
+		
 		if(ObjectUtils.isEmpty(menuVO)) {
 			log.error("Exception : {} is Null", menuId);
 			resCode = ResponseCode.RESPONSE_FAIL;
 			resMsg = ResponseCode.RESPONSE_FAIL_MSG;
 		}
+		result.put("users", userList);
 		result.put("menu", menuVO);
 		result.put("resCode", resCode);
 		result.put("resMsg", resMsg);
+		return result;
+	}
+
+
+	@Override
+	public Map<String, Object> menuUserAuthDel(int menuId, int userNo) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		String resCode = ResponseCode.RESPONSE_OK;
+		String resMsg = ResponseCode.RESPONSE_OK_MSG;
+		
+		try {
+			menuService.menuUserAuthDel(menuId, userNo);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			resCode = ResponseCode.RESPONSE_FAIL;
+			resMsg = ResponseCode.RESPONSE_FAIL_MSG;
+		}
+		
+		result.put("resCode", resCode);
+		result.put("resMsg", resMsg);
+		
 		return result;
 	}
 

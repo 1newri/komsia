@@ -141,25 +141,40 @@
 	<select id="selectMenuByMenuId" parameterType="String" resultType="MenuVO">
 		SELECT
 			M.MENU_ID
-			, LEVEL
-			, URL
-			, PID
-			, NAME
-			, TYPE
-			, DESCRIPTION
-			, ORDERING
-			, USE_YN
-			, REG_ID
-			, REG_DTTM
-			, MOD_ID
-			, MOD_DTTM
-			, USER_NO
+			, M.LEVEL
+			, M.URL
+			, M.PID
+			, M.NAME
+			, M.TYPE
+			, M.DESCRIPTION
+			, M.ORDERING
+			, M.USE_YN
+			, M.REG_ID
+			, M.REG_DTTM
+			, M.MOD_ID
+			, M.MOD_DTTM
+			, GROUP_CONCAT(CONCAT(U.USER_NAME,'(', CONCAT(U.USER_ID, ')')) SEPARATOR ',') USERS
 		FROM ks_menu M
 		LEFT OUTER JOIN ks_menu_auth MA
 			ON M.MENU_ID = MA.MENU_ID
+		LEFT OUTER JOIN ks_user U
+			ON MA.USER_NO = U.USER_NO
 		WHERE 1=1
 		AND M.MENU_ID = #{menuId}
 		AND TYPE = 'M' 
+	</select>
+	
+	<select id="selectMenuUserByMenuId" parameterType="String" resultType="UserMenuVO">
+		SELECT
+			MA.MENU_ID
+			, U.USER_NO
+			, U.USER_ID
+			, U.USER_NAME
+		FROM ks_menu_auth MA
+		LEFT OUTER JOIN ks_user U
+			ON MA.USER_NO = U.USER_NO
+		WHERE 1=1
+		AND MA.MENU_ID = #{menuId}
 	</select>
 	
 	<select id="selectMenuByPid" parameterType="Integer" resultType="MenuVO">
@@ -171,6 +186,11 @@
 		AND TYPE = 'M' 
 	</select>
 	
+	<delete id="menuUserAuthDel" parameterType="Integer">
+		DELETE FROM ks_menu_auth
+		WHERE MENU_ID = #{menuId}
+		AND USER_NO = #{userNo}
+	</delete>
 	
 	<select id="selectMenuAuth" resultType="Integer">
 		SELECT

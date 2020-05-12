@@ -22,6 +22,9 @@
 							<input type="hidden" id="crud" name="crud" th:value="${crud}">
 							<div th:if="${data != null}">
 								<input type="text" class="form-control" id="boardTitle" name="title" th:value="${data.title}">
+											<input type="hidden" class="form-control" id="boardType" name="boardType" th:value="${data.boardType}">
+								<input type="hidden" class="form-control" id="boardSubType" name="boardSubType" th:value="${data.boardSubType}">
+								<input type="hidden" class="form-control" id="boardDate" name="boardDate" th:value="${data.boardDate}">
 								<input type="hidden" class="form-control" id="boardOrder" name="boardOrder" th:value="${data.boardOrder}">
 							</div>
 							<div th:unless="${data != null}">

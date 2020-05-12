@@ -20,7 +20,8 @@
 						<button class="btn btn-outline-primary" id="regist" style="display: inline-block;float: right;">등록</button>
 						<button class="btn btn-outline-info" id="modify" style="display: inline-block;float: right;">수정</button>
 						<h5 class="title" th:text="${data.title}"></h5>
-						<input type="hidden" id="currentBoardDate" name="currentBoardDate" th:value="${data.boardDate}">
+						<input type="hidden" id="boardDate" name="boardDate" th:value="${data.boardDate}">
+						<input type="hidden" id="boardOrder" name="boardOrder" th:value="${data.boardOrder}">
 						<form action="/file/activity/download" method="post">
 							<input type="hidden" id="boardNo" name="boardNo" th:value="${data.boardNo}">
 							<div class="reg-date">작성일 : <span th:text="${data.regDttm}"></span></div>
@@ -160,7 +161,19 @@
 			});
 			
 			$("#modify").on("click", function(){
-				$(location).attr("href", "/activity/futures/modify");
+				
+				var boardDate = $("#boardDate").val();
+				var boardOrder = $("#boardOrder").val();
+				
+				var $form = $("<form></form>");
+				$form.attr("method", "get");
+				$form.attr("action", "/activity/futures/modify");
+				$form.attr("id", "frm");
+				$form.appendTo('body');
+				$form.append('<input type="hidden" id="boardDate" name="boardDate" value="' + boardDate + '">');
+				$form.append('<input type="hidden" id="boardOrder" name="boardOrder" value="' + boardOrder + '">');
+				
+				$("#frm").submit();
 			});
 			
 			$("#modal-video").on('show.bs.modal', function(e){

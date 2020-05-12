@@ -116,11 +116,17 @@ public class StockController {
 	
 	@GetMapping(value = "/activity/stock/analyst/chat/manager/modify")
 	public String managerChatModify(HttpServletRequest request
+			, @RequestParam(value = "boardDate", required = true) String boardDate
+			, @RequestParam(value = "boardOrder", required = true) int boardOrder
 			, ModelMap model) {
 		ActivityVO activityVO = new ActivityVO();
 		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
 		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_M);
+		activityVO.setBoardDate(boardDate);
+		activityVO.setBoardOrder(boardOrder);
+		
 		activityVO = activityService.selectActivityStock(activityVO);
+		
 		
 		model.addAttribute("data", activityVO);
 		model.addAttribute("crud","U");
@@ -249,10 +255,14 @@ public class StockController {
 	
 	@GetMapping(value = "/activity/stock/analyst/chat/analyst/modify")
 	public String analystChatModify(HttpServletRequest request
+			, @RequestParam(value = "boardDate", required = true) String boardDate
+			, @RequestParam(value = "boardOrder", required = true) int boardOrder
 			, ModelMap model) {
 		ActivityVO activityVO = new ActivityVO();
 		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
 		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_A);
+		activityVO.setBoardDate(boardDate);
+		activityVO.setBoardOrder(boardOrder);
 		activityVO = activityService.selectActivityStock(activityVO);
 		
 		model.addAttribute("data", activityVO);

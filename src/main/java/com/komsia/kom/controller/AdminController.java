@@ -108,6 +108,22 @@ public class AdminController {
 		return result;
 	}
 	
+	@PostMapping(value = "/admin/menu/user/del")
+	@ResponseBody
+	public Map<String, Object> menuUserAuthDel(HttpServletRequest request
+			,@RequestParam(value = "menuId") int menuId
+			,@RequestParam(value = "userNo") int userNo){
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			result = adminService.menuUserAuthDel(menuId, userNo);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		return result;
+	}
+	
 	@GetMapping(value = "/admin/menu/auth")
 	public String menuAuth(HttpServletRequest request,
 			ModelMap model) {

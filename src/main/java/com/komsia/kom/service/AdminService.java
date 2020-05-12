@@ -37,4 +37,6 @@ public interface AdminService {
 
 	Map<String, Object> getMenuByMenuId(String menuId);
 
+	Map<String, Object> menuUserAuthDel(int menuId, int userNo);
+
 }
