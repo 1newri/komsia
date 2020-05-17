@@ -742,6 +742,12 @@
 	
 }
 
+.data-group-content{
+	height: 400px;
+	overflow: auto;
+	
+}
+
 /* Custom 등록 화면  */
 .regist-box{
 	padding-top: 20px;

@@ -20,6 +20,7 @@
 							<input type="hidden" id="crud" name="crud" th:value="${crud}">
 							<div th:if="${data != null}">
 								<input type="text" class="form-control" id="boardTitle" name="title" th:value="${data.title}">
+								<input type="hidden" class="form-control" id="boardNo" name="boardNo" th:value="${data.boardNo}">
 								<input type="hidden" class="form-control" id="boardType" name="boardType" th:value="${data.boardType}">
 								<input type="hidden" class="form-control" id="boardSubType" name="boardSubType" th:value="${data.boardSubType}">
 								<input type="hidden" class="form-control" id="boardDate" name="boardDate" th:value="${data.boardDate}">
@@ -37,10 +38,10 @@
 								<textarea class="form-control" id="boardContent" name="content" rows="30"></textarea>
 							</div>
 						</div>
-<!-- 							<div class="form-group"> -->
-<!-- 								<label for="file">첨부파일</label> -->
-<!-- 								<input type="file" class="form-control-file" id="file" name="file" aria-describedby="fileHelp"> -->
-<!-- 							</div> -->
+							<div class="form-group">
+								<label for="file">첨부파일</label>
+								<input type="file" class="form-control-file" id="file" name="file" aria-describedby="fileHelp">
+							</div>
 					</fieldset>
 				</form>
 			</div>

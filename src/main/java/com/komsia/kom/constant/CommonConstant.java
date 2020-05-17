@@ -24,6 +24,11 @@ public class CommonConstant {
 	public static final String BOARD_TYPE_B = "B";	// Bond 채권
 	public static final String BOARD_TYPE_O = "O";	// biO 바이오
 	
+	// Group Board(G + seq(순차부여))
+	public static final String BOARD_TYPE_G01 = "G01";	// 성창기업
+	public static final String BOARD_TYPE_G02 = "G02";	// 메이슨캐피탈
+	public static final String BOARD_TYPE_G03 = "G03";	// 삼성전자
+	
 	// Activity Stock Board
 	public static final String BOARD_SUB_TYPE_T = "T";	//연구회관심종목
 	public static final String BOARD_SUB_TYPE_D = "D";	//데이트레이딩
@@ -42,4 +47,6 @@ public class CommonConstant {
 
 	public static final String YN_Y = "Y";
 	public static final String YN_N = "N";
+	
+	public static final String CODE_NO_GROUP = "G_001";
 }

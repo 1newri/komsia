@@ -125,7 +125,7 @@ public class FileServiceImpl implements FileService{
 
 	@Override
 	public List<VideoVO> selectVideoList(VideoVO videoVO) {
-		return fileMapper.selectVideoList(videoVO);
+		return fileMapper.selectVideoListByGroup(videoVO);
 	}
 	
 	private String youtubeRegex(String videoUrl) {
@@ -195,6 +195,127 @@ public class FileServiceImpl implements FileService{
 			fileVO.getFile().transferTo(file);
 			
 			fileMapper.updateFile(fileVO);
+		}
+		
+	}
+	
+	@Override
+	public void updateFileActivity(FileVO fileVO) throws Exception {
+		if(!ObjectUtils.isEmpty(fileVO.getFile())) {
+			String oriFileNm = fileVO.getFile().getOriginalFilename();
+			String extension = StringUtils.getFilenameExtension(oriFileNm);
+			
+			fileVO.setFileSeq(0);
+			fileVO.setFileNm(oriFileNm);
+			fileVO.setFileExt(extension);
+			fileVO.setUseYn(CommonConstant.YN_Y);
+			
+			String fileNm = fileVO.getBoardType() + DateUtil.currentDate();
+			String path = filePath + File.separator + fileNm + "." + extension;
+			
+			fileVO.setFileDir(path);
+			
+			File file = new File(path);
+			fileVO.getFile().transferTo(file);
+			
+			fileMapper.updateFileActivity(fileVO);
+		}
+		
+	}
+
+	@Override
+	public Map<String, String> videoUploadByGroup(VideoVO videoVO) {
+		Map<String, String> result = new HashMap<String, String>();
+		
+		String resCode = ResponseCode.RESPONSE_OK;
+		String resMsg = ResponseCode.RESPONSE_OK_MSG;
+		
+		if(fileMapper.selectVideoList(videoVO).size() >= 5) {
+			resCode = ResponseCode.NOT_PROCEED_LENGTH;
+			resMsg = ResponseCode.NOT_PROCEED_LENGTH_MSG;
+		}else {
+			if(!StringUtils.isEmpty(videoVO.getVideoUrl())){
+				String videoUrl = youtubeRegex(videoVO.getVideoUrl());
+				videoVO.setVideoUrl(videoUrl);
+				
+				String thumbnailUrl = thumbnailRegex(videoVO.getVideoUrl());
+				videoVO.setThumbnailUrl(thumbnailUrl);
+			}
+			
+			fileMapper.videoUploadByGroup(videoVO);
+		}
+		result.put("resCode", resCode);
+		result.put("resMsg", resMsg);
+		
+		return result;
+	}
+
+	@Override
+	public Map<String, String> videoUpdateByGroup(VideoVO videoVO) {
+		Map<String, String> result = new HashMap<String, String>();
+		
+		String resCode = ResponseCode.RESPONSE_OK;
+		String resMsg = ResponseCode.RESPONSE_OK_MSG;
+		
+		if(!StringUtils.isEmpty(videoVO.getVideoUrl())){
+			String videoUrl = youtubeRegex(videoVO.getVideoUrl());
+			videoVO.setVideoUrl(videoUrl);
+			
+			String thumbnailUrl = thumbnailRegex(videoVO.getVideoUrl());
+			videoVO.setThumbnailUrl(thumbnailUrl);
+		}
+		
+		fileMapper.videoUpdateByGroup(videoVO);
+		
+		result.put("resCode", resCode);
+		result.put("resMsg", resMsg);
+		
+		return result;	
+	}
+
+	@Override
+	public void saveFileBoardGroup(FileVO fileVO) throws Exception {
+		if(!ObjectUtils.isEmpty(fileVO.getFile())) {
+			String oriFileNm = fileVO.getFile().getOriginalFilename();
+			String extension = StringUtils.getFilenameExtension(oriFileNm);
+			
+			fileVO.setFileSeq(0);
+			fileVO.setFileNm(oriFileNm);
+			fileVO.setFileExt(extension);
+			fileVO.setUseYn(CommonConstant.YN_Y);
+			
+			String fileNm = fileVO.getBoardType() + DateUtil.currentDate();
+			String path = filePath + File.separator + fileNm + "." + extension;
+			
+			fileVO.setFileDir(path);
+			
+			File file = new File(path);
+			fileVO.getFile().transferTo(file);
+			
+			fileMapper.insertFileGroup(fileVO);
+		}
+	}
+	
+	@Override
+	public void updateFileGroup(FileVO fileVO) throws Exception {
+		if(!ObjectUtils.isEmpty(fileVO.getFile())) {
+			String oriFileNm = fileVO.getFile().getOriginalFilename();
+			String extension = StringUtils.getFilenameExtension(oriFileNm);
+			
+			fileVO.setFileSeq(0);
+			fileVO.setFileNm(oriFileNm);
+			fileVO.setFileExt(extension);
+			fileVO.setUseYn(CommonConstant.YN_Y);
+			
+			String fileNm = fileVO.getBoardType() + DateUtil.currentDate();
+			String path = filePath + File.separator + fileNm + "." + extension;
+			
+			fileVO.setFileDir(path);
+			
+			File file = new File(path);
+			fileVO.getFile().transferTo(file);
+			
+			fileMapper.updateFileGroup(fileVO);
 		}
 		
 	}

@@ -16,7 +16,7 @@ public interface ActivityMapper {
 	List<ActivityVO> selectActivityList(ActivityVO activityVO);
 
 	@Options(useGeneratedKeys = true, keyProperty = "activityVO.boardNo")
-	void insertActivity(ActivityVO activityVO);
+	int insertActivity(ActivityVO activityVO);
 
 	ActivityVO selectActivityStock(ActivityVO activityVO);
 
@@ -31,5 +31,7 @@ public interface ActivityMapper {
 	List<ActivityVO> selectBoardListByBoardDate(ActivityVO activityVO);
 
 	List<String> selectBoardDate(ActivityVO activityVO);
+	
+	int selectBoardOrder(ActivityVO activityVO);
 
 }

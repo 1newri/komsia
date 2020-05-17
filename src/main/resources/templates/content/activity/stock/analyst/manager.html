@@ -22,10 +22,12 @@
 						<button class="btn btn-outline-primary" id="regist" style="display: inline-block;float: right;">등록</button>
 						<button class="btn btn-outline-info" id="modify" style="display: inline-block;float: right;">수정</button>
 						<h5 class="title" th:text="${data.title}"></h5>
-						<input type="hidden" id="boardDate" name="boardDate" th:value="${data.boardDate}">
-						<input type="hidden" id="boardOrder" name="boardOrder" th:value="${data.boardOrder}">
-						<form action="/file/activity/download" method="post">
+						<form id="fileFrm" method="post" action="/file/activity/download">
 							<input type="hidden" id="boardNo" name="boardNo" th:value="${data.boardNo}">
+							<input type="hidden" id="boardDate" name="boardDate" th:value="${data.boardDate}">
+							<input type="hidden" id="boardOrder" name="boardOrder" th:value="${data.boardOrder}">
+							<input type="hidden" id="fileBoardType" name="boardType" th:value="${boardType}">
+							<input type="hidden" id="fileBboardSubType" name="boardSubType" th:value="${boardSubType}">
 							<div class="reg-date">작성일 : <span th:text="${data.regDttm}"></span></div>
 							<div class="file-box" th:if="${data.fileNo} != 0">
 								<input type="hidden" id="fileNo" name="fileNo" th:value="${data.fileNo}">
@@ -149,6 +151,13 @@
 	<script>
 		$(function(){
 
+			var object = $("#titleList li");
+			$(object).click(function(){
+				post($(this).val());
+			});
+			
+			boardDate(); 
+			
 			$("#boardDateSel").change(function(){
 				$("#titleList").empty();
 				boardDate();
@@ -268,6 +277,7 @@
 	   				}
 	   			});
 			});
+			
 		});
 		
 		function boardDate(){

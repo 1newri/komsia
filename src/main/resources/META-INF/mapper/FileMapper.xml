@@ -8,7 +8,7 @@
 			*
 		FROM ks_file
 		WHERE FILE_NO = #{fileNo}
-		AND BOARD_NO = #{boardNo}
+		AND BOARD_NO = #{boardNo} 
 		AND BOARD_TYPE = #{boardType}
 	</select>
 	
@@ -50,6 +50,7 @@
 		FROM ks_file_activity
 		WHERE FILE_NO = #{fileNo}
 		AND BOARD_NO = #{boardNo}
+		AND BOARD_ORDER = #{boardOrder}
 		AND BOARD_TYPE = #{boardType}
 		AND BOARD_SUB_TYPE = #{boardSubType}
 	</select>
@@ -59,6 +60,7 @@
 			BOARD_TYPE
 			, BOARD_SUB_TYPE
 			, BOARD_NO
+			, BOARD_ORDER
 			, FILE_NM
 			, FILE_EXT
 			, FILE_DIR
@@ -67,12 +69,27 @@
 			#{boardType}
 			, #{boardSubType}
 			, #{boardNo}
+			, #{boardOrder}
 			, #{fileNm}		
 			, #{fileExt}		
 			, #{fileDir}		
 			, #{regId}		
 		)
 	</insert>
+	
+	<update id="updateFileActivity" parameterType="FileVO">
+		UPDATE ks_file_activity set
+			FILE_NM = #{fileNm}
+			, FILE_EXT = #{fileExt}
+			, FILE_DIR = #{fileDir}
+			, MOD_ID = #{modId}
+			, MOD_DTTM = NOW()
+		WHERE FILE_NO = #{fileNo}
+		AND BOARD_NO = #{boardNo}
+		AND BOARD_ORDER = #{boardOrder}
+		AND BOARD_TYPE = #{boardType}
+		AND BOARD_SUB_TYPE = #{boardSubType}
+	</update>
 	
 	<insert id="videoUpload" parameterType="VideoVO">
 		INSERT INTO ks_board_activity_video(
@@ -107,6 +124,80 @@
 		FROM ks_board_activity_video
 		WHERE BOARD_TYPE = #{boardType}
 		AND BOARD_SUB_TYPE = #{boardSubType}
+	</select>
+	
+	<select id="selectFileGroup" parameterType="FileVO" resultType="FileVO">
+		SELECT
+			*
+		FROM ks_file_group
+		WHERE FILE_NO = #{fileNo}
+		AND BOARD_NO = #{boardNo}
+		AND BOARD_ORDER = #{boardOrder}
+		AND BOARD_TYPE = #{boardType}
+	</select>
+	
+	<insert id="insertFileGroup" parameterType="FileVO">
+		INSERT INTO ks_file_group(
+			BOARD_TYPE
+			, BOARD_NO
+			, BOARD_ORDER
+			, FILE_NM
+			, FILE_EXT
+			, FILE_DIR
+			, REG_ID
+		) VALUES (
+			#{boardType}
+			, #{boardNo}
+			, #{boardOrder}
+			, #{fileNm}		
+			, #{fileExt}		
+			, #{fileDir}		
+			, #{regId}		
+		)
+	</insert>
+	
+	<update id="updateFileGroup" parameterType="FileVO">
+		UPDATE ks_file_group set
+			FILE_NM = #{fileNm}
+			, FILE_EXT = #{fileExt}
+			, FILE_DIR = #{fileDir}
+			, MOD_ID = #{modId}
+			, MOD_DTTM = NOW()
+		WHERE FILE_NO = #{fileNo}
+		AND BOARD_NO = #{boardNo}
+		AND BOARD_ORDER = #{boardOrder}
+		AND BOARD_TYPE = #{boardType}
+	</update>
+	
+	<insert id="videoUploadByGroup" parameterType="VideoVO">
+		INSERT INTO ks_board_group_video(
+			BOARD_TYPE
+			, VIDEO_URL
+			, THUMBNAIL_URL
+			, REG_ID
+		) VALUES (
+			#{boardType}
+			, #{videoUrl}
+			, #{thumbnailUrl}
+			, #{regId}		
+		)
+	</insert>
+	
+	<update id="videoUpdateByGroup" parameterType="VideoVO">
+		UPDATE ks_board_group_video SET
+			VIDEO_URL = #{videoUrl}
+			, THUMBNAIL_URL = #{thumbnailUrl}
+			, MOD_ID = #{modId}
+			, MOD_DTTM = NOW()
+		WHERE VIDEO_NO = #{videoNo}
+		AND BOARD_TYPE = #{boardType}
+	</update>
+	
+	<select id="selectVideoListByGroup" parameterType="VideoVO" resultType="VideoVO">
+		SELECT
+			*
+		FROM ks_board_group_video
+		WHERE BOARD_TYPE = #{boardType}
 	</select>
 	
 </mapper>

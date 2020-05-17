@@ -17,6 +17,8 @@ public interface FileMapper {
 	FileVO selectFile(FileVO fileVO);
 
 	void insertFileActivity(FileVO fileVO);
+	
+	void updateFileActivity(FileVO fileVO);
 
 	FileVO selectFileActivity(FileVO fileVO);
 
@@ -27,5 +29,17 @@ public interface FileMapper {
 	void videoUpdate(VideoVO videoVO);
 
 	void updateFile(FileVO fileVO);
+
+	FileVO selectFileGroup(FileVO fileVO);
+	
+	void insertFileGroup(FileVO fileVO);
+	
+	void updateFileGroup(FileVO fileVO);
+	
+	void videoUploadByGroup(VideoVO videoVO);
+	
+	void videoUpdateByGroup(VideoVO videoVO);
+	
+	List<VideoVO> selectVideoListByGroup(VideoVO videoVO);
 	
 }

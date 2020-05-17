@@ -50,10 +50,10 @@ public class ActivityServiceImpl implements ActivityService{
 		String resCode = ResponseCode.RESPONSE_OK;
 		String resMsg = ResponseCode.RESPONSE_OK_MSG;
 		
-//		if(ObjectUtils.isEmpty(activityMapper.selectActivityStock(activityVO))) {
 		if("C".equals(activityVO.getCrud())) {
 			log.debug("activityVO Insert : {} ", activityVO.toString());
 			activityVO.setBoardDate(DateUtil.currentDate());
+			activityVO.setBoardOrder(activityMapper.selectBoardOrder(activityVO));
 			activityMapper.insertActivity(activityVO);
 		}else {
 			log.debug("activityVO Update : {} ", activityVO.toString());
@@ -62,6 +62,7 @@ public class ActivityServiceImpl implements ActivityService{
 		}
 		
 		int boardNo = activityVO.getBoardNo();
+		int boardOrder = activityVO.getBoardOrder();
 		log.debug("boardNo : {}", boardNo);
 		if(!ObjectUtils.isEmpty(activityVO.getFile())) {
 			log.debug("file size : {}", activityVO.getFile().getSize());
@@ -69,6 +70,7 @@ public class ActivityServiceImpl implements ActivityService{
 				FileVO fileVO = new FileVO();
 				fileVO.setFile(activityVO.getFile());
 				fileVO.setBoardNo(boardNo);
+				fileVO.setBoardOrder(boardOrder);
 				fileVO.setBoardType(activityVO.getBoardType());
 				fileVO.setBoardSubType(activityVO.getBoardSubType());
 				fileVO.setRegId(activityVO.getRegId());

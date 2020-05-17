@@ -256,5 +256,57 @@ public class FileController {
 		
 		return result;
 	}
+	
+	@PostMapping(value =  "/group/video/upload")
+	@ResponseBody
+	public Map<String, String> videoUploadByGroup(HttpServletRequest request, HttpServletResponse response
+			, @RequestParam(value = "videoUrl", required = true) String url
+			, @RequestParam(value = "boardType", required = true) String boardType
+			) throws IOException {
+		Map<String, String> result = new HashMap<String, String>();
+		
+		String userId = (String) request.getSession().getAttribute("userId");
+		
+		VideoVO videoVO = new VideoVO();
+		videoVO.setBoardType(boardType);
+		videoVO.setVideoUrl(url);
+		videoVO.setRegId(userId);
+		try {
+			result = fileService.videoUploadByGroup(videoVO);
+		} catch (Exception e) {
+			log.error("video upload error : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		
+		return result;
+	}
+	
+	@PostMapping(value =  "/group/video/update")
+	@ResponseBody
+	public Map<String, String> videoUploadByGroup(HttpServletRequest request, HttpServletResponse response
+			, @RequestParam(value = "videoNo", required = true) int videoNo
+			, @RequestParam(value = "videoUrl", required = true) String url
+			, @RequestParam(value = "boardType", required = true) String boardType
+			) throws IOException {
+		Map<String, String> result = new HashMap<String, String>();
+		
+		String userId = (String) request.getSession().getAttribute("userId");
+		
+		VideoVO videoVO = new VideoVO();
+		videoVO.setVideoNo(videoNo);
+		videoVO.setBoardType(boardType);
+		videoVO.setVideoUrl(url);
+		videoVO.setModId(userId);
+		try {
+			result = fileService.videoUpdateByGroup(videoVO);
+		} catch (Exception e) {
+			log.error("video upload error : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		
+		return result;
+	}
 
 }

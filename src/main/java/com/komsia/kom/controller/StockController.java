@@ -277,8 +277,6 @@ public class StockController {
 		ActivityVO activityVO = new ActivityVO();
 		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
 		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_A);
-		activityVO = activityService.selectActivityStock(activityVO);
-		model.addAttribute("data", activityVO);
 		model.addAttribute("crud","C");
 		return "/content/activity/stock/analyst/analyst_regist";
 	}

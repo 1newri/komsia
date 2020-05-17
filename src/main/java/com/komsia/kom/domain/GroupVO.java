@@ -5,23 +5,31 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.Data;
 
 @Data
-public class FileVO {
+public class GroupVO {
 	
-	private int fileNo;
 	private int boardNo;
 	private int boardOrder;
-	private int fileSeq;
-	private String boardType;	
-	private String boardSubType;
-	private String fileNm;
-	private String fileExt;
-	private String fileDir;
+	private String boardDate;
+	private String boardType;
+	
+	private String title;
+	private String content;
+	
+	private int hit;
 	private String useYn;
 	
 	private String regId;
 	private String regDttm;
 	private String modId;
-	private String modDttm;
+	private String modeDttm;
+	
+	private String crud;
 
 	private MultipartFile file;
+	
+	private int fileNo;
+	private int fileSeq;
+	private String fileNm;
+	private String fileDir;
+
 }

@@ -23,5 +23,15 @@ public interface FileService {
 	Map<String, String> videoUpdate(VideoVO videoVO);
 
 	void updateFile(FileVO fileVO) throws Exception;
+	
+	void updateFileActivity(FileVO fileVO) throws Exception;
+	
+	void updateFileGroup(FileVO fileVO) throws Exception;
+
+	Map<String, String> videoUploadByGroup(VideoVO videoVO);
+
+	Map<String, String> videoUpdateByGroup(VideoVO videoVO);
+
+	void saveFileBoardGroup(FileVO fileVO) throws Exception;
 
 }
