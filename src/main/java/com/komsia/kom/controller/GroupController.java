@@ -84,7 +84,7 @@ public class GroupController {
 			VideoVO videoVO = new VideoVO();
 			videoVO.setBoardType(boardType);
 			
-			List<VideoVO> video = fileService.selectVideoList(videoVO);
+			List<VideoVO> video = fileService.selectVideoListByGroup(videoVO);
 			model.addAttribute("video", video);
 			
 		} catch (Exception e) {
@@ -133,7 +133,7 @@ public class GroupController {
 			VideoVO videoVO = new VideoVO();
 			videoVO.setBoardType(boardType);
 			
-			List<VideoVO> video = fileService.selectVideoList(videoVO);
+			List<VideoVO> video = fileService.selectVideoListByGroup(videoVO);
 			model.addAttribute("video", video);
 			
 		} catch (Exception e) {
@@ -181,7 +181,7 @@ public class GroupController {
 			VideoVO videoVO = new VideoVO();
 			videoVO.setBoardType(boardType);
 			
-			List<VideoVO> video = fileService.selectVideoList(videoVO);
+			List<VideoVO> video = fileService.selectVideoListByGroup(videoVO);
 			model.addAttribute("video", video);
 			
 		} catch (Exception e) {

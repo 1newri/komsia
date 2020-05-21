@@ -84,8 +84,10 @@
 			AND AR.ROLE_ID = #{roleId}
 		</if>
 		<if test="searchText != null and searchText != ''">
-			AND U.USER_ID LIKE CONCAT('%',#{searchText},'%')
+			AND ( 
+			U.USER_ID LIKE CONCAT('%',#{searchText},'%')
 			OR  U.USER_NAME LIKE CONCAT('%',#{searchText},'%')
+			)
 		</if>
 		GROUP BY U.USER_NO
 	</select>
@@ -124,8 +126,9 @@
 			AND A.ROLE_IDS NOT LIKE CONCAT('%',#{roleId},'%')
 		</if>
 		<if test="searchText != null and searchText != ''">
-			AND A.USER_ID LIKE CONCAT('%',#{searchText},'%')
+			AND (A.USER_ID LIKE CONCAT('%',#{searchText},'%')
 			OR  A.USER_NAME LIKE CONCAT('%',#{searchText},'%')
+			)
 		</if>
 		OR A.ROLE_IDS IS NULL
 	</select>

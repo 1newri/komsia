@@ -384,7 +384,7 @@ public class StockController {
 		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
 		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_T);
 		try {
-			result = activityService.recommandRegist(activityVO);
+			result = activityService.regist(activityVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
 			result.put("resCode", ResponseCode.RESPONSE_FAIL);
@@ -438,7 +438,7 @@ public class StockController {
 		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
 		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_D);
 		try {
-			result = activityService.recommandRegist(activityVO);
+			result = activityService.regist(activityVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
 			result.put("resCode", ResponseCode.RESPONSE_FAIL);
@@ -492,7 +492,7 @@ public class StockController {
 		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
 		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_F);
 		try {
-			result = activityService.recommandRegist(activityVO);
+			result = activityService.regist(activityVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
 			result.put("resCode", ResponseCode.RESPONSE_FAIL);
@@ -547,7 +547,7 @@ public class StockController {
 		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
 		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_S);
 		try {
-			result = activityService.recommandRegist(activityVO);
+			result = activityService.regist(activityVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
 			result.put("resCode", ResponseCode.RESPONSE_FAIL);
@@ -602,7 +602,7 @@ public class StockController {
 		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
 		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_I);
 		try {
-			result = activityService.recommandRegist(activityVO);
+			result = activityService.regist(activityVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
 			result.put("resCode", ResponseCode.RESPONSE_FAIL);
@@ -656,7 +656,7 @@ public class StockController {
 		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
 		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_B);
 		try {
-			result = activityService.recommandRegist(activityVO);
+			result = activityService.regist(activityVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
 			result.put("resCode", ResponseCode.RESPONSE_FAIL);
@@ -710,7 +710,7 @@ public class StockController {
 		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
 		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_H);
 		try {
-			result = activityService.recommandRegist(activityVO);
+			result = activityService.regist(activityVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
 			result.put("resCode", ResponseCode.RESPONSE_FAIL);
@@ -741,5 +741,35 @@ public class StockController {
 		}
 		
 		return "/content/activity/stock/recommend/study";
+	}
+	
+	@GetMapping(value = "/activity/stock/recommend/study/regist")
+	public String studyRegist(HttpServletRequest request
+			, ModelMap model) {
+		ActivityVO activityVO = new ActivityVO();
+		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
+		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_Y);
+		activityVO = activityService.selectActivityStock(activityVO);
+		model.addAttribute("data", activityVO);
+		return "/content/activity/stock/recommend/study_regist";
+	}
+	
+	@PostMapping(value = "/activity/stock/recommend/study/regist")
+	@ResponseBody
+	public Map<String, Object> studyRegist(HttpServletRequest request
+			, @ModelAttribute ActivityVO activityVO) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		String userId = (String) request.getSession().getAttribute("userId");
+		activityVO.setRegId(userId);
+		activityVO.setBoardType(CommonConstant.BOARD_TYPE_S);
+		activityVO.setBoardSubType(CommonConstant.BOARD_SUB_TYPE_Y);
+		try {
+			result = activityService.regist(activityVO);
+		} catch (Exception e) {
+			log.error("Exception : {}", e);
+			result.put("resCode", ResponseCode.RESPONSE_FAIL);
+			result.put("resMsg", ResponseCode.RESPONSE_FAIL_MSG);
+		}
+		return result;
 	}
 }

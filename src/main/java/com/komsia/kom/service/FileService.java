@@ -34,4 +34,6 @@ public interface FileService {
 
 	void saveFileBoardGroup(FileVO fileVO) throws Exception;
 
+	List<VideoVO> selectVideoListByGroup(VideoVO videoVO);
+
 }

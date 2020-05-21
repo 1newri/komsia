@@ -40,6 +40,52 @@ public class ActivityServiceImpl implements ActivityService{
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
+	public Map<String, Object> regist(ActivityVO activityVO) throws Exception {
+		
+		log.debug("board Type : {}", activityVO.getBoardType());
+		log.debug("board Sub Type : {}", activityVO.getBoardSubType());
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		String resCode = ResponseCode.RESPONSE_OK;
+		String resMsg = ResponseCode.RESPONSE_OK_MSG;
+		
+		activityVO.setBoardDate(DateUtil.currentDate());
+		if(ObjectUtils.isEmpty(activityMapper.selectActivityStock(activityVO))) {
+			log.debug("activityVO Insert : {} ", activityVO.toString());
+			activityVO.setBoardOrder(0);
+			activityMapper.insertActivity(activityVO);
+		}else {
+			log.debug("activityVO Update : {} ", activityVO.toString());
+			activityVO.setModId(activityVO.getRegId());
+			activityMapper.updateActivity(activityVO);
+		}
+		
+		int boardNo = activityVO.getBoardNo();
+		log.debug("boardNo : {}", boardNo);
+		if(!ObjectUtils.isEmpty(activityVO.getFile())) {
+			log.debug("file size : {}", activityVO.getFile().getSize());
+			if(activityVO.getFile().getSize() > 0) {
+				FileVO fileVO = new FileVO();
+				fileVO.setFile(activityVO.getFile());
+				fileVO.setBoardNo(boardNo);
+				fileVO.setBoardOrder(0);
+				fileVO.setBoardType(activityVO.getBoardType());
+				fileVO.setBoardSubType(activityVO.getBoardSubType());
+				fileVO.setRegId(activityVO.getRegId());
+				
+				fileSerivce.saveFileActivity(fileVO);	
+			}
+		}
+		
+		result.put("resCode", resCode);
+		result.put("resMsg", resMsg);
+		
+		return result;
+	}
+	
+	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public Map<String, Object> recommandRegist(ActivityVO activityVO) throws Exception {
 		
 		log.debug("board Type : {}", activityVO.getBoardType());

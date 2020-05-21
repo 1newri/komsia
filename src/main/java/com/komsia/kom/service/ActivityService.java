@@ -10,6 +10,8 @@ public interface ActivityService {
 
 	List<ActivityVO> selectActivityList(ActivityVO activityVO);
 
+	Map<String, Object> regist(ActivityVO activityVO) throws Exception;
+	
 	Map<String, Object> recommandRegist(ActivityVO activityVO) throws Exception;
 
 	ActivityVO selectActivityStock(ActivityVO activityVO);

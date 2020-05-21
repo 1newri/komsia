@@ -122,10 +122,15 @@ public class FileServiceImpl implements FileService{
 		
 		return result;
 	}
+	
+	@Override
+	public List<VideoVO> selectVideoListByGroup(VideoVO videoVO) {
+		return fileMapper.selectVideoListByGroup(videoVO);
+	}
 
 	@Override
 	public List<VideoVO> selectVideoList(VideoVO videoVO) {
-		return fileMapper.selectVideoListByGroup(videoVO);
+		return fileMapper.selectVideoList(videoVO);
 	}
 	
 	private String youtubeRegex(String videoUrl) {
