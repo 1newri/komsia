@@ -95,8 +95,8 @@ public class UserService implements UserDetailsService{
 		return userMapper.selectUserByUserId(userId);
 	}
 
-	public List<UserVO> getUserList() {
-		return userMapper.selectUserList();
+	public List<UserVO> getUserList(UserVO userVO) {
+		return userMapper.selectUserList(userVO);
 	}
 
 	public void insertAuthUser(String userNo, String auth) {
@@ -156,7 +156,9 @@ public class UserService implements UserDetailsService{
 	public List<UserVO> getAdminUserList() {
 		return userMapper.getAdminUserList();
 	}
-	
-	
+
+	public int getUserListTotal(UserVO userVO) {
+		return userMapper.getUserListTotal(userVO);
+	}
 	
 }

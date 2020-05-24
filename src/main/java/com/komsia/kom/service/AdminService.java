@@ -9,7 +9,7 @@ import com.komsia.kom.domain.UserVO;
 
 public interface AdminService {
 
-	Map<String, Object> getUserList();
+	Map<String, Object> getUserList(UserVO userVO);
 
 	Map<String, Object> authUserRegist(String auth, List<String> userArr);
 

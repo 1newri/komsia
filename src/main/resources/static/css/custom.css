@@ -539,7 +539,7 @@
 	padding-top: 20px;
 }
 
-.my-user .search-box {
+.my-user .search-div {
 	padding-bottom: 10px;
 	float: right;
 }
@@ -824,6 +824,19 @@
 
 .license-box {
 	padding-top: 20px;	
+}
+
+.search-box{
+	width: 100%;
+	height: 80px;
+	margin-top: 20px;
+	padding : 20px;
+	border-radius: 5px;
+	background-color: #eeeeee;	
+}
+.total-box{
+	padding-top: 10px;
+	font-weight: bold;
 }
 
 /*--------------------------------------------------------------

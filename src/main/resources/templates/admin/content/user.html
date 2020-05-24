@@ -12,6 +12,26 @@
 		</ol>
 		<h2>회원관리</h2>
 		<div>
+			<div class="search-box">
+				<form class="form-inline">
+				  <label for="userId" class="mr-sm-2">아이디 : </label>
+				  <input type="text" class="form-control mb-2 mr-sm-2" id="userId">
+				  <label for="userName" class="mr-sm-2">이름 : </label>
+				  <input type="text" class="form-control mb-2 mr-sm-2" id="userName">
+				  <label for="regDttm" class="mr-sm-2">가입일자 : </label>
+				  <input type="text" class="form-control mb-2 mr-sm-2 datepic" id="regDttm" readonly="readonly">
+				  <label for="role" class="mr-sm-2">권한 : </label>
+				  <select id="role" class="form-control mb-2 mr-sm-2">
+						<option value="">전체</option>
+						<option value="1">관리자</option>
+						<option value="2">정회원</option>
+						<option value="3">연구소장</option>
+						<option value="4">애널리스트</option>
+					</select>
+				  <button id="search" type="button" class="btn btn-primary mb-2">조회</button>
+				</form>
+			</div>
+			<div class="total-box">총 <span id="total"></span> 건</div>
 			<table id="userTable" class="table table-hover">
         		<thead>
         			<tr>
@@ -20,8 +40,9 @@
         				<th>이름</th>
         				<th>전화번호</th>
         				<th>이메일</th>
-        				<th>비밀번호초기화</th>
+        				<th>가입일자</th>
         				<th>사용여부</th>
+        				<th>비밀번호초기화</th>
         			</tr>
         		</thead>
         	</table>
@@ -54,17 +75,28 @@
       <!-- end content -->
 	<script>
 		$(function(){
-			
+			var total = 0;
 			var table = $("#userTable").DataTable({
 				searching : false
 				, pageLength : 10
 				, ordering : false
 				, serverSide : true
 				, language : lang_kor
-				, dom : ''
+				, dom: '<<t><p>'
 				, ajax : {
-					'url' : "/admin/user/list",
-					'type': 'POST'
+					'url' : "/admin/user/list"
+					, 'data' : function ( d ) {
+			         	d.userId = $("#userId").val();
+			         	d.userName = $("#userName").val();
+			         	d.regDttm = $("#regDttm").val();
+			         	d.role = $("#role option:selected").val();
+			         } 
+					, 'type': 'POST'
+					, 'dataSrc': function (data) {
+						total = data.recordsTotal;
+						$("#total").text(data.recordsTotal);
+			              return data.data;
+			         }
 				}, columns : [
 					{
 						data : "userNo", className: 'text-center'
@@ -76,16 +108,33 @@
 					,{ data : "userName" , className: 'text-center'}
 					,{ data : "tel" , className: 'text-center'}
 					,{ data : "email", className: 'text-center'}
+					,{ data : "regDttm", className: 'text-center'}
+					,{ data : "useYn", className: 'text-center'
+					   , render : function(data, type, row, meta){
+							var result = "";
+							if(row.useYn == 'Y'){
+								result = "사용중";
+							}else{
+								result = "탈퇴";
+							}
+							
+							return result;
+						}
+					}
 					,{	
+						data : "userId",
 						render : function(data, type, row, meta){
 							return '<button id="initPwd" name="initPwd" data-toggle="modal" data-target="#modal-init"'
 							+ 'class="btn btn-primary btn-sm" data-userno="' + row.userNo + '" data-userid="' +row.userId + '">초기화</button>';
 						}, className: 'text-center'
 					}
-					,{ data : "useYn", className: 'text-center'}
 					,{ data : "userNo", className: 'text-center', visible:false}
 				]
       		});
+			
+			$("#search").click(function(){
+				table.ajax.reload();
+			});
 			
 			$("#modal-init").on('show.bs.modal', function(e){
 				var button = $(e.relatedTarget);

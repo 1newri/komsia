@@ -170,9 +170,10 @@ public class AdminController {
 	
 	@GetMapping(value = "/admin/user")
 	public String user(HttpServletRequest request,
+			@ModelAttribute UserVO userVO,
 			ModelMap model) {
 		
-		Map<String, Object> result = adminService.getUserList();
+		Map<String, Object> result = adminService.getUserList(userVO);
 		model.put("data", result.get("data"));
 		return "/admin/content/user";
 	}
@@ -180,10 +181,11 @@ public class AdminController {
 
 	@PostMapping(value = "/admin/user/list")
 	@ResponseBody
-	public Map<String, Object> userList(HttpServletRequest request){
+	public Map<String, Object> userList(HttpServletRequest request,
+			@ModelAttribute UserVO userVO){
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
-			result = adminService.getUserList();
+			result = adminService.getUserList(userVO);
 		} catch (Exception e) {
 			log.error("Exception : {}", e);
 		}

@@ -7,9 +7,7 @@
 	<select id="selectSinmungoList" parameterType="SinmungoVO" resultType="SinmungoVO">
 		SELECT
 			*
-		FROM ks_board_sinmungo
-		WHERE BOARD_TYPE = #{boardType}
-		AND USE_YN = 'Y'
+		<include refid="sinmungoListFromQuery"/>
 		ORDER BY REG_DTTM DESC
 		limit #{length} offset #{start}
 	</select>
@@ -17,10 +15,23 @@
 	<select id="selectSinmungoListTotalCnt" parameterType="SinmungoVO" resultType="Integer">
 		SELECT
 			COUNT(*) CNT
+		<include refid="sinmungoListFromQuery"/>
+	</select>
+	
+	<sql id="sinmungoListFromQuery">
 		FROM ks_board_sinmungo
 		WHERE BOARD_TYPE = #{boardType}
 		AND USE_YN = 'Y'
-	</select>
+		<if test='searchType == "T"'>
+			AND TITLE LIKE CONCAT('%', #{searchKeyword},'%')
+		</if>
+		<if test='searchType == "R"'>
+			AND REG_ID LIKE CONCAT('%', #{searchKeyword},'%')
+		</if>
+		<if test='searchType == "C"'>
+			AND CONTENT LIKE CONCAT('%', #{searchKeyword},'%')
+		</if>
+	</sql>
 	
 	<select id="selectSinmungo" parameterType="SinmungoVO" resultType="SinmungoVO">
 		SELECT

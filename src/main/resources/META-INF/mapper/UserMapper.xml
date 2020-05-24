@@ -79,17 +79,52 @@
 		)
 	</insert>
 	
-	<select id="selectUserList" resultType="UserVO">
+	<select id="selectUserList" parameterType="UserVO" resultType="UserVO">
 		SELECT
-			USER_NO
-			, USER_ID
-			, USER_NAME
-			, TEL
-			, EMAIL
-			, REG_DTTM
-			, USE_YN
-		FROM ks_user
+			U.USER_NO
+			, U.USER_ID
+			, U.USER_NAME
+			, U.TEL
+			, U.EMAIL
+			, U.REG_DTTM
+			, U.USE_YN
+		    , REPLACE( GROUP_CONCAT( CONCAT(AR.ROLE_DEF) SEPARATOR ',' ), AR.ROLE_NAME,'' ) AS ROLE_DEF
+		<include refid="userListFromQuery"/>
+		ORDER BY U.REG_DTTM DESC
+		limit #{length} offset #{start}
 	</select>
+	
+	<select id="getUserListTotal" parameterType="UserVO" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM(  
+			SELECT
+				count(*)
+			<include refid="userListFromQuery"/>
+		) A
+	</select>
+	
+	<sql id="userListFromQuery">
+		FROM KS_USER U
+		LEFT OUTER JOIN KS_AUTH_AUTHORITIES AA
+			ON U.USER_NO = AA.USER_NO
+	    LEFT OUTER JOIN KS_AUTH_ROLE AR 
+			ON AA.ROLE_ID = AR.ROLE_ID 
+		WHERE 1=1
+		<if test="userId != null and userId != ''">
+			AND U.USER_ID LIKE CONCAT('%', #{userId},'%')
+		</if>
+		<if test="userName != null and userName != ''">
+			AND U.USER_NAME LIKE CONCAT('%', #{userName},'%')
+		</if>
+		<if test="regDttm != null and regDttm != ''">
+			AND #{regDttm} BETWEEN DATE_FORMAT(U.REG_DTTM, '%Y-%m-%d') AND DATE_FORMAT(U.END_DTTM, '%Y-%m-%d')
+		</if>
+		<if test="role != null and role != ''">
+			AND AA.ROLE_ID = #{role}
+		</if>
+		GROUP BY U.USER_NO
+	</sql>
 	
 	<delete id="deleteAuthUser" parameterType="String">
 		DELETE FROM ks_auth_authorities
@@ -134,3 +169,4 @@
 		WHERE AR.ROLE_ID = 1
 	</select>
 </mapper>
+	

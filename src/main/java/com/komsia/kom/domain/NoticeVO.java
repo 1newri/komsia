@@ -36,6 +36,9 @@ public class NoticeVO {
 	private String fileNm;
 	private String fileDir;
 	
+	private String searchType;
+	private String searchKeyword;
+	
 	@JsonIgnore
 	private int start;
 	@JsonIgnore

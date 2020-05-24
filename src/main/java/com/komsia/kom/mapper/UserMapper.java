@@ -18,7 +18,7 @@ public interface UserMapper {
 	
 	void insertAuthUser(@Param(value = "userNo")String userNo, @Param(value = "roleId") String roleId);
 
-	List<UserVO> selectUserList();
+	List<UserVO> selectUserList(UserVO userVO);
 
 	void deleteAuthUser(@Param(value = "userNo")String userNo, @Param(value = "roleId")String auth);
 
@@ -29,5 +29,7 @@ public interface UserMapper {
 	void updateUser(UserVO userVO);
 
 	List<UserVO> getAdminUserList();
+
+	int getUserListTotal(UserVO userVO);
 
 }

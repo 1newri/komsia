@@ -36,12 +36,15 @@ public class AdminServiceImpl implements AdminService{
 	private UserService userService;
 
 	@Override
-	public Map<String, Object> getUserList() {
+	public Map<String, Object> getUserList(UserVO userVO) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		
-		List<UserVO> list = userService.getUserList();
+		List<UserVO> list = userService.getUserList(userVO);
+		int total = userService.getUserListTotal(userVO);
 		
 		result.put("data", list);
+		result.put("recordsTotal",total);
+		result.put("recordsFiltered",total);
 		return result;
 	}
 

@@ -25,11 +25,14 @@ public class UserVO {
 	
 	private String regId;
 	private String regDttm;
+	private String endDttm;
 	private String modId;
 	private String modDttm;
 	private String useYn;
 	
 	private String newPassword;
+	private String role;
+	private String roleDef;
 	
 	private List<Authorities> userRoles = new ArrayList<>();
 	

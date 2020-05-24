@@ -7,8 +7,7 @@
 	<select id="selectNoticeList" parameterType="NoticeVO" resultType="NoticeVO">
 		SELECT
 			*
-		FROM ks_board_notice
-		WHERE USE_YN = 'Y'
+		<include refid="noticeListFromQuery"/>
 		ORDER BY REG_DTTM DESC
 		limit #{length} offset #{start}
 	</select>
@@ -16,9 +15,22 @@
 	<select id="selectNoticeListTotalCnt" parameterType="NoticeVO" resultType="Integer">
 		SELECT
 			COUNT(*) CNT
+		<include refid="noticeListFromQuery"/>
+	</select>
+	
+	<sql id="noticeListFromQuery">
 		FROM ks_board_notice
 		WHERE USE_YN = 'Y'
-	</select>
+		<if test='searchType == "T"'>
+			AND TITLE LIKE CONCAT('%', #{searchKeyword},'%')
+		</if>
+		<if test='searchType == "R"'>
+			AND REG_ID LIKE CONCAT('%', #{searchKeyword},'%')
+		</if>
+		<if test='searchType == "C"'>
+			AND CONTENT LIKE CONCAT('%', #{searchKeyword},'%')
+		</if>
+	</sql>
 	
 	<select id="selectNotice" parameterType="NoticeVO" resultType="NoticeVO">
 		SELECT
@@ -114,9 +126,7 @@
 	<select id="selectBoardList" parameterType="BoardVO" resultType="BoardVO">
 		SELECT
 			*
-		FROM ks_board_forum
-		WHERE BOARD_TYPE = #{boardType}
-		AND USE_YN = 'Y'
+		<include refid="boardListFromQuery"/>
 		ORDER BY REG_DTTM DESC
 		limit #{length} offset #{start}
 	</select>
@@ -124,10 +134,23 @@
 	<select id="selectBoardListTotalCnt" parameterType="BoardVO" resultType="Integer">
 		SELECT
 			COUNT(*) CNT
+		<include refid="boardListFromQuery"/>
+	</select>
+	
+	<sql id="boardListFromQuery">
 		FROM ks_board_forum
 		WHERE BOARD_TYPE = #{boardType}
 		AND USE_YN = 'Y'
-	</select>
+		<if test='searchType == "T"'>
+			AND TITLE LIKE CONCAT('%', #{searchKeyword},'%')
+		</if>
+		<if test='searchType == "R"'>
+			AND REG_ID LIKE CONCAT('%', #{searchKeyword},'%')
+		</if>
+		<if test='searchType == "C"'>
+			AND CONTENT LIKE CONCAT('%', #{searchKeyword},'%')
+		</if>
+	</sql>
 	
 	<select id="selectBoard" parameterType="BoardVO" resultType="BoardVO">
 		SELECT

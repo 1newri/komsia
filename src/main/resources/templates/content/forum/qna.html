@@ -11,14 +11,14 @@
 			<li class="breadcrumb-item active">QnA</li>
 		</ol>
 		<h2>QnA</h2>
-		<div id="search_div" class="form-inline">
-			<select class="custom-select">
-				<option value="1">제목</option>
-				<option value="2">작성자</option>
-				<option value="3">내용</option>
+		<div class="search-box form-inline">
+			<select class="custom-select" id="searchType">
+				<option value="T">제목</option>
+				<option value="R">작성자</option>
+				<option value="C">내용</option>
 			</select>
-			<input type="text" class="form-control" id="" >
-			<button class="btn btn-outline-secondary" type="submit">Search</button>
+			<input type="text" class="form-control" id="searchKeyword" >
+			<button class="btn btn-outline-secondary" id="search">조회</button>
 		</div>
 		<div>
 			<table id="qnaTable" class="table table-hover">
@@ -52,6 +52,10 @@
 				, ajax : {
 					url : "/forum/qna/list",
 					type: 'POST',
+					data : function ( d ) {
+			         	d.searchType = $("#searchType option:selected").val();
+			         	d.searchKeyword = $("#searchKeyword").val();
+			         }, 
 					dataSrc: function(data){
 						total = data.total;
 						return data.data;
@@ -74,6 +78,10 @@
 				var boardNo = table.row(click).data()['boardNo'];
 				
 				post(boardNo);
+			});
+			
+			$("#search").click(function(){
+				table.ajax.reload();
 			});
 			
 			$("#regist").on("click", function(){
